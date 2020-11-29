@@ -8,8 +8,22 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.2.9",
+    "@apollo/react-hooks": "^4.0.0",
+    "@spree/storefront-api-v2-sdk": "^4.4.2",
+    "apollo-boost": "^0.4.9",
+    "apollo-link-ws": "^1.0.20",
+    "apollo-server-micro": "^2.19.0",
+    "autoprefixer": "^10.0.4",
+    "deepmerge": "^4.2.2",
+    "graphql": "^15.4.0",
     "next": "10.0.3",
+    "next-apollo": "^5.0.4",
+    "nprogress": "^0.2.0",
+    "postcss": "^8.1.10",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "subscriptions-transport-ws": "^0.9.18",
+    "tailwindcss": "^2.0.1"
   }
 }
