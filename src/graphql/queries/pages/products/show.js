@@ -5,6 +5,7 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
     createdAt
     description
     masterVariant {
+    id
       images {
         pageInfo {
           hasPreviousPage

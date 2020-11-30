@@ -4,6 +4,8 @@ export const MAIN_QUERY = function (otherQuery = null) {
     return `
 {
   currentOrder {
+    itemCount
+    adjustmentTotal
     billingAddress {
       address1
       address1
@@ -22,6 +24,7 @@ export const MAIN_QUERY = function (otherQuery = null) {
       stateName
       zipcode
     }
+    includedTaxTotal
     canceledAt
     completedAt
     confirmationDelivered

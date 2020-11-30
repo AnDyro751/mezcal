@@ -12,20 +12,12 @@ function createApolloClient() {
         ssrMode: typeof window === 'undefined',
         link: new HttpLink({
             uri: 'http://localhost:3001/graphql', // Server URL (must be absolute)
-            credentials: 'credentials', // Additional fetch() options like `credentials` or `headers`
+            credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
             headers: {
                 "X-Spree-Order-Token": "zdp1IBCDVuyNO8kAofp9qw"
             }
         }),
-        cache: new InMemoryCache({
-            typePolicies: {
-                Query: {
-                    fields: {
-                        allPosts: concatPagination(),
-                    },
-                },
-            },
-        }),
+        cache: new InMemoryCache()
     })
 }
 

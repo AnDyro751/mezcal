@@ -1,10 +1,25 @@
 import LayoutApplication from "../../src/components/Layout/application";
-import {gql} from "@apollo/client";
+import {gql, useMutation} from "@apollo/client";
 import {addApolloState, initializeApollo} from "../../src/lib/apolloClient";
 import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
 
+const MUTATION = gql`mutation{
+  addToCart(input:{
+    variantId:"U3ByZWU6OlZhcmlhbnQtNg==",
+    quantity:1
+  }){
+    order{
+      itemTotal
+    }
+  }
+}`
+const apolloClient = initializeApollo()
+
 function ProductsShow({data}) {
     console.log(data);
+    const [addToCart, {data: newData, loading, error}] = useMutation(MUTATION, {
+        client: apolloClient
+    })
     if (!data) {
         return (
             <LayoutApplication seo={{title: "Producto"}}>
@@ -12,11 +27,13 @@ function ProductsShow({data}) {
             </LayoutApplication>
         )
     }
+    const {productBySlug} = data;
     return (
-        <LayoutApplication seo={{title: "Producto"}}>
+        <LayoutApplication
+            seo={{title: `${productBySlug.name}`}}>
             <div>
-                <h1>SSR funcionando</h1>
-                <button>Agregar al carrito</button>
+                <h1>{productBySlug.name}</h1>
+                <button onClick={addToCart}>Agregar al carrito</button>
             </div>
         </LayoutApplication>
     )
@@ -25,19 +42,20 @@ function ProductsShow({data}) {
 export default ProductsShow;
 
 export async function getServerSideProps() {
-    const apolloClient = initializeApollo()
     let data = null;
     try {
         data = await apolloClient.query({
             query: gql`${SHOW_PRODUCT_QUERY}`,
+            fetchPolicy: "cache-first"
         })
+        data = data.data
     } catch (e) {
         console.log(e)
     }
 
-    addApolloState(apolloClient, {
-        revalidate: 1,
-    })
+    // addApolloState(apolloClient, {
+    //     revalidate: 1,
+    // })
     return {
         props: {
             data: data
