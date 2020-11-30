@@ -1,42 +1,8 @@
 import LayoutApplication from "../../src/components/Layout/application";
 import {gql} from "@apollo/client";
 import {addApolloState, initializeApollo} from "../../src/lib/apolloClient";
+import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
 
-const ALL_PLAYERS_QUERY = gql`
-    query{
-  productBySlug(slug:"ruby-hoodie"){
-    name
-    createdAt
-    description
-    masterVariant{
-      images{
-        pageInfo{
-          hasPreviousPage
-        }
-        nodes{
-          filename
-          miniUrl
-          alt
-        }
-      }
-    }
-    variants{
-      nodes{
-        images{
-          pageInfo{
-            hasPreviousPage
-          }
-          nodes{
-            filename
-          }
-        }
-      }
-    }
-  }
-}
-  `;
-
-// const client = SpreeClient;
 function ProductsShow({data}) {
     console.log(data);
     if (!data) {
@@ -63,10 +29,10 @@ export async function getServerSideProps() {
     let data = null;
     try {
         data = await apolloClient.query({
-            query: ALL_PLAYERS_QUERY,
+            query: gql`${SHOW_PRODUCT_QUERY}`,
         })
     } catch (e) {
-
+        console.log(e)
     }
 
     addApolloState(apolloClient, {
