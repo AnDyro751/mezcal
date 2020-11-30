@@ -2,10 +2,9 @@
 // import SpreeClient from "../../src/utils/spreeClient";
 import LayoutApplication from "../../src/components/Layout/application";
 import {gql, useQuery} from "@apollo/client";
-// import {getStandaloneApolloClient} from "../../src/lib/apolloClient";
-import withApollo from '../../src/lib/apolloClient'
+import {addApolloState, initializeApollo} from "../../src/lib/apolloClient";
 
-export const ALL_PLAYERS_QUERY = gql`
+const ALL_PLAYERS_QUERY = gql`
     query{
   productBySlug(slug:"ruby-hoodie"){
     name
@@ -40,25 +39,44 @@ export const ALL_PLAYERS_QUERY = gql`
   `;
 
 // const client = SpreeClient;
-function ProductsShow({product}) {
-    const {loading, error, data} = useQuery(ALL_PLAYERS_QUERY);
-    if (error) {
+function ProductsShow({data}) {
+    console.log(data);
+    if (!data) {
         return (
-            <h2>ERROR</h2>
-        )
-    }
-    if (loading) {
-        return (
-            <h2>CARGANDO........</h2>
+            <LayoutApplication seo={{title: "Producto"}}>
+                <h1>Ha ocurrido un error</h1>
+            </LayoutApplication>
         )
     }
     return (
         <LayoutApplication seo={{title: "Producto"}}>
             <div>
                 <h1>SSR funcionando</h1>
+                <button>Agregar al carrito</button>
             </div>
         </LayoutApplication>
     )
 }
 
-export default withApollo({ssr: true})(ProductsShow);
+export default ProductsShow;
+
+export async function getServerSideProps() {
+    const apolloClient = initializeApollo()
+    let data = null;
+    try {
+        data = await apolloClient.query({
+            query: ALL_PLAYERS_QUERY,
+        })
+    } catch (e) {
+
+    }
+
+    addApolloState(apolloClient, {
+        revalidate: 1,
+    })
+    return {
+        props: {
+            data: data
+        }
+    }
+}
