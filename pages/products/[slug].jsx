@@ -1,7 +1,5 @@
-// import {useEffect} from 'react'
-// import SpreeClient from "../../src/utils/spreeClient";
 import LayoutApplication from "../../src/components/Layout/application";
-import {gql, useQuery} from "@apollo/client";
+import {gql} from "@apollo/client";
 import {addApolloState, initializeApollo} from "../../src/lib/apolloClient";
 
 const ALL_PLAYERS_QUERY = gql`
