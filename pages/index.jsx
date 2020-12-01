@@ -2,7 +2,7 @@ import Head from 'next/head'
 import LayoutApplication from "../src/components/Layout/application";
 
 const Home = () => (
-    <LayoutApplication>
+    <LayoutApplication currentCart={{quantity: 2}}>
         <div className="container">
             <main>
                 <h1 className="title">

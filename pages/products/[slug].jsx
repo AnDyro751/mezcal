@@ -22,7 +22,9 @@ function ProductsShow({data}) {
     })
     if (!data) {
         return (
-            <LayoutApplication seo={{title: "Producto"}}>
+            <LayoutApplication
+                currentCart={{quantity: 2}}
+                seo={{title: "Producto"}}>
                 <h1>Ha ocurrido un error</h1>
             </LayoutApplication>
         )
@@ -30,6 +32,7 @@ function ProductsShow({data}) {
     const {productBySlug} = data;
     return (
         <LayoutApplication
+            currentCart={{quantity: 3}}
             seo={{title: `${productBySlug.name}`}}>
             <div>
                 <h1>{productBySlug.name}</h1>
