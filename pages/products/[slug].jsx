@@ -1,9 +1,8 @@
 import LayoutApplication from "../../src/components/Layout/application";
 import {gql, useMutation} from "@apollo/client";
-import {addApolloState, initializeApollo} from "../../src/lib/apolloClient";
+import {initializeApollo} from "../../src/lib/apolloClient";
 import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
 import runQuery from "../../src/graphql/queries/runQuery";
-import {MAIN_QUERY} from "../../src/graphql/queries/main";
 
 const MUTATION = gql`mutation{
   addToCart(input:{
@@ -18,7 +17,6 @@ const MUTATION = gql`mutation{
 const apolloClient = initializeApollo()
 
 function ProductsShow({data}) {
-    console.log(data);
     const [addToCart, {data: newData, loading, error}] = useMutation(MUTATION, {
         client: apolloClient
     })

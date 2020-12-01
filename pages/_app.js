@@ -4,7 +4,7 @@ import NProgress from "nprogress";
 import 'nprogress/nprogress.css';
 import {ApolloProvider} from '@apollo/client'
 import {useApollo} from '../src/lib/apolloClient'
-import {OrderContext, useOrder} from "../src/stores/userOrder";
+import {OrderContext, OrderContextProvider} from "../src/stores/userOrder";
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -12,13 +12,13 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 function MyApp({Component, pageProps}) {
     const apolloClient = useApollo(pageProps)
-    const {order} = useOrder()
+    const data = pageProps.data;
     return (
-        <OrderContext.Provider value={order}>
-            <ApolloProvider client={apolloClient}>
+        <ApolloProvider client={apolloClient}>
+            <OrderContextProvider data={{order: data.currentOrder || {}}}>
                 <Component {...pageProps} />
-            </ApolloProvider>
-        </OrderContext.Provider>
+            </OrderContextProvider>
+        </ApolloProvider>
 
     )
 }

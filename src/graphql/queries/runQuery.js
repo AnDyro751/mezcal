@@ -12,7 +12,6 @@ const runQuery = (currentQuery) => {
                 fetchPolicy: "no-cache"
             })
             data = data.data
-            console.log(data)
             return data;
         } catch (e) {
             console.log(e, "ERROR")

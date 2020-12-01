@@ -1,6 +1,13 @@
 import Link from "next/link";
+import {useContext, useEffect} from 'react'
+import {OrderContext} from "../../../stores/userOrder";
 
 export default function HeadersPublic() {
+    const [state, dispatch] = useContext(OrderContext);
+    const {order} = state;
+    useEffect(() => {
+        console.log(order);
+    }, [state.order]);
     return (
         <header className="w-full">
             <div className="grid grid-cols-3">
@@ -15,6 +22,8 @@ export default function HeadersPublic() {
                     <Link href={"/products/125"}>
                         <a>Producto</a>
                     </Link>
+                    <h1>{order.itemCount || 0}</h1>
+
                 </div>
             </div>
         </header>

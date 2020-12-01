@@ -1,8 +1,4 @@
-import Head from 'next/head'
 import LayoutApplication from "../src/components/Layout/application";
-import {gql} from "@apollo/client";
-import {SHOW_PRODUCT_QUERY} from "../src/graphql/queries/pages/products/show";
-import {initializeApollo} from "../src/lib/apolloClient";
 import {MAIN_QUERY} from "../src/graphql/queries/main";
 import runQuery from "../src/graphql/queries/runQuery";
 
@@ -14,7 +10,6 @@ function Home({data}) {
         )
     }
     const {currentOrder} = data;
-    console.log(currentOrder)
     return (
         <LayoutApplication currentOrder={currentOrder}>
             <h1 className="text-4xl">Index</h1>
