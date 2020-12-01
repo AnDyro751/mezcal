@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {useContext, useEffect} from 'react'
 import {OrderContext} from "../../../stores/userOrder";
+import {SITE_TITLE} from "../../../site/info";
 
 export default function HeadersPublic() {
     const [state, dispatch] = useContext(OrderContext);
@@ -14,7 +15,7 @@ export default function HeadersPublic() {
                 <div className="col-span-2 grid grid-cols-2">
                     <div className="col-span-1">
                         <Link href={"/"}>
-                            <a>Mezcal</a>
+                            <a>{SITE_TITLE}</a>
                         </Link>
                     </div>
                 </div>

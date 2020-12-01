@@ -30,12 +30,14 @@ function ProductsShow({data}) {
         )
     }
     const {productBySlug, currentOrder} = data;
+    console.log(productBySlug)
     return (
         <LayoutApplication
             currentOrder={currentOrder}
             seo={{title: `${productBySlug.name}`}}>
             <div>
                 <h1>{productBySlug.name}</h1>
+                <h3>{atob(productBySlug.masterVariant.images.nodes[0].id)}</h3>
                 <button onClick={addToCart}>Agregar al carrito</button>
             </div>
         </LayoutApplication>

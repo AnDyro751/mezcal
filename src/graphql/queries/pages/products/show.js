@@ -12,7 +12,8 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
         }
         nodes {
           filename
-          miniUrl
+          largeUrl
+          id
           alt
         }
       }
