@@ -2,6 +2,8 @@ import LayoutApplication from "../../src/components/Layout/application";
 import {gql, useMutation} from "@apollo/client";
 import {addApolloState, initializeApollo} from "../../src/lib/apolloClient";
 import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
+import runQuery from "../../src/graphql/queries/runQuery";
+import {MAIN_QUERY} from "../../src/graphql/queries/main";
 
 const MUTATION = gql`mutation{
   addToCart(input:{
@@ -29,10 +31,10 @@ function ProductsShow({data}) {
             </LayoutApplication>
         )
     }
-    const {productBySlug} = data;
+    const {productBySlug, currentOrder} = data;
     return (
         <LayoutApplication
-            currentCart={{quantity: 3}}
+            currentOrder={currentOrder}
             seo={{title: `${productBySlug.name}`}}>
             <div>
                 <h1>{productBySlug.name}</h1>
@@ -45,20 +47,7 @@ function ProductsShow({data}) {
 export default ProductsShow;
 
 export async function getServerSideProps() {
-    let data = null;
-    try {
-        data = await apolloClient.query({
-            query: gql`${SHOW_PRODUCT_QUERY}`,
-            fetchPolicy: "cache-first"
-        })
-        data = data.data
-    } catch (e) {
-        console.log(e)
-    }
-
-    // addApolloState(apolloClient, {
-    //     revalidate: 1,
-    // })
+    const data = await runQuery(SHOW_PRODUCT_QUERY)
     return {
         props: {
             data: data

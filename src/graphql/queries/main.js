@@ -37,7 +37,7 @@ export const MAIN_QUERY = function (otherQuery = null) {
     promoTotal
     total
   }
-  ${otherQuery}
+  ${otherQuery ? otherQuery : ""}
 }
 `
 }

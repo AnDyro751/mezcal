@@ -1,29 +1,24 @@
 import HeadersPublic from "../Headers/Public";
 import Head from "next/head";
-import {useContext} from 'react'
-import {CartContext, useCart} from "../../stores/useCart";
-import {useEffect, useMemo} from 'react';
+import {useMemo} from 'react';
+import {useOrder} from "../../stores/userOrder";
 
-export default function LayoutApplication({children, seo = {}, currentCart = {}}) {
-    const {cart, setCurrentCart} = useCart();
-    // console.log(cart, setCurrentCart)
+export default function LayoutApplication({children, seo = {}, currentOrder = {}}) {
+    const {order, setCurrentOrder} = useOrder();
     useMemo(() => {
-        setCurrentCart(currentCart);
-        console.log(currentCart);
+        setCurrentOrder(currentOrder);
     }, [])
     return (
         <>
-            <CartContext.Provider value={currentCart}>
-                <Head>
-                    <title>{seo.title ? `${seo.title} | Mezcal Oaxaca` : `Mezcal Oaxaca`}</title>
-                    <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
-                </Head>
-                <HeadersPublic/>
-                <main>
-                    <h1>{cart.quantity || 0}</h1>
-                    {children}
-                </main>
-            </CartContext.Provider>
+            <Head>
+                <title>{seo.title ? `${seo.title} | Mezcal Cazador` : `Mezcal Cazador`}</title>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
+            </Head>
+            <HeadersPublic/>
+            <main>
+                <h1>{order.itemCount || 0}</h1>
+                {children}
+            </main>
         </>
     )
 }
