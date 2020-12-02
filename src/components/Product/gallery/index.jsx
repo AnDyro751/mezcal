@@ -64,30 +64,30 @@ export default function ProductGallery({product}) {
             <LazyLoadImage
                 placeholderSrc={`${GetImageUrl({
                     publicId: generateUrlPath({
-                        filename: product.masterVariant.images.nodes[0].filename,
-                        id: product.masterVariant.images.nodes[0].id
+                        filename: product.masterVariant.images.nodes[currentImage].filename,
+                        id: product.masterVariant.images.nodes[currentImage].id
                     }),
                     height: 40,
                     width: 40
                 })}`}
                 wrapperClassName="cursor-pointer"
                 onClick={() => {
-                    setCurrentImage(0);
-                    openLightbox(0);
+                    setCurrentImage(currentImage);
+                    openLightbox(currentImage);
                 }}
-                alt={`${product.masterVariant.images.nodes[0].alt || `Imagen de producto: ${product.masterVariant.images.nodes[0].filename} - ${product.name}`}`}
+                alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
                 src={`${GetImageUrl({
                     publicId: generateUrlPath({
-                        filename: product.masterVariant.images.nodes[0].filename,
-                        id: product.masterVariant.images.nodes[0].id
+                        filename: product.masterVariant.images.nodes[currentImage].filename,
+                        id: product.masterVariant.images.nodes[currentImage].id
                     })
                 })}`}
             />
             <SRLWrapper images={getImages(product.masterVariant.images.nodes)} options={options}/>
             <div className="flex space-x-4">
-                {product.masterVariant.images.nodes.slice(1).map((image, i) => (
+                {product.masterVariant.images.nodes.map((image, i) => (
                     <div key={i}
-                         className="w-24">
+                         className="w-36">
                         <LazyLoadImage
                             placeholderSrc={`${GetImageUrl({
                                 publicId: generateUrlPath({
@@ -99,8 +99,8 @@ export default function ProductGallery({product}) {
                             })}`}
                             wrapperClassName="cursor-pointer"
                             onClick={() => {
-                                setCurrentImage(i + 1);
-                                openLightbox(i + 1);
+                                setCurrentImage(i);
+                                // openLightbox(i + 1);
                             }}
                             alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}
                             src={`${GetImageUrl({
