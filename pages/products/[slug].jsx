@@ -3,23 +3,12 @@ import {gql, useMutation} from "@apollo/client";
 import {initializeApollo} from "../../src/lib/apolloClient";
 import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
 import runQuery from "../../src/graphql/queries/runQuery";
+import decryptId from "../../src/lib/decryptId";
+import ComponentsProductShow from "../../src/components/Product/Show";
 
-const MUTATION = gql`mutation{
-  addToCart(input:{
-    variantId:"U3ByZWU6OlZhcmlhbnQtNg==",
-    quantity:1
-  }){
-    order{
-      itemTotal
-    }
-  }
-}`
-const apolloClient = initializeApollo()
 
 function ProductsShow({data}) {
-    const [addToCart, {data: newData, loading, error}] = useMutation(MUTATION, {
-        client: apolloClient
-    })
+
     if (!data) {
         return (
             <LayoutApplication
@@ -30,16 +19,11 @@ function ProductsShow({data}) {
         )
     }
     const {productBySlug, currentOrder} = data;
-    console.log(productBySlug)
     return (
         <LayoutApplication
             currentOrder={currentOrder}
             seo={{title: `${productBySlug.name}`}}>
-            <div>
-                <h1>{productBySlug.name}</h1>
-                <h3>{atob(productBySlug.masterVariant.images.nodes[0].id)}</h3>
-                <button onClick={addToCart}>Agregar al carrito</button>
-            </div>
+            <ComponentsProductShow product={productBySlug}/>
         </LayoutApplication>
     )
 }
