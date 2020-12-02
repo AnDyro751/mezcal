@@ -56,11 +56,6 @@ export default function ProductGallery({product}) {
     }, [])
     return (
         <div className="w-full">
-            <h1>Nombre: {product.name}</h1>
-            <h3 className="text-lg font-black">
-                Imágenes
-            </h3>
-
             <LazyLoadImage
                 placeholderSrc={`${GetImageUrl({
                     publicId: generateUrlPath({
