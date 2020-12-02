@@ -16,19 +16,6 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
               isoCode
             }
           }
-          prices {
-            nodes {
-              id
-              displayAmount
-              displayAmount
-              amount
-              displayCountry
-              currency {
-                name
-                isoCode
-              }
-            }
-          }
         id
       images {
         pageInfo {
@@ -44,6 +31,17 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
     }
     variants {
       nodes {
+        defaultPrice {
+            id
+            displayAmount
+            displayAmount
+            amount
+            displayCountry
+            currency {
+              name
+              isoCode
+            }
+          }
         images {
           pageInfo {
             hasPreviousPage
