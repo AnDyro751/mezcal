@@ -84,7 +84,7 @@ export default function ProductGallery({product}) {
                 })}`}
             />
             <SRLWrapper images={getImages(product.masterVariant.images.nodes)} options={options}/>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mt-4">
                 {product.masterVariant.images.nodes.map((image, i) => (
                     <div key={i}
                          className="w-36">
