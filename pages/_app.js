@@ -5,6 +5,7 @@ import 'nprogress/nprogress.css';
 import {ApolloProvider} from '@apollo/client'
 import {useApollo} from '../src/lib/apolloClient'
 import {OrderContext, OrderContextProvider} from "../src/stores/userOrder";
+import SimpleReactLightbox from "simple-react-lightbox";
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -16,7 +17,9 @@ function MyApp({Component, pageProps}) {
     return (
         <ApolloProvider client={apolloClient}>
             <OrderContextProvider data={{order: data.currentOrder || {}}}>
-                <Component {...pageProps} />
+                <SimpleReactLightbox>
+                    <Component {...pageProps} />
+                </SimpleReactLightbox>
             </OrderContextProvider>
         </ApolloProvider>
 
