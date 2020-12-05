@@ -2,7 +2,7 @@ import {useMutation} from "@apollo/client";
 import {ADD_PRODUCT_TO_CART_MUTATION} from "../../../graphql/mutations/products/addProductToCart";
 import {initializeApollo} from "../../../lib/apolloClient";
 import ButtonsPrimary from "../../Buttons/primary";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 
 const apolloClient = initializeApollo()
 
@@ -14,39 +14,48 @@ function createVariantObject(optionTypes, inArray = false) {
     return newObject
 }
 
-function createCurrentVariants(product) {
-    let variantsObject = createVariantObject(product.optionTypes, true);
-    product.depthVariants.nodes.map((variant) => {
-        variant.displayOptionValues.nodes.map((optionValue) => {
-            console.log(optionValue.id, "DOV");
+function createCurrentVariants(optionTypesParam) {
+    let newArray = [];
+    optionTypesParam.map((variant) => {
+        variant.optionValues.nodes.map((optionValue) => {
+            optionValue["isActive"] = true
         })
+        newArray.push(variant);
     })
-    return []
+    console.log("SELEEE")
+    return newArray
 }
+
 
 export default function ProductData({product}) {
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
         client: apolloClient
     })
+
     const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
     const [currentVariant, setCurrentVariant] = useState(product.masterVariant || {});
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
-    const [currentVariants, setCurrentVariants] = useState(createCurrentVariants(product));
+    // const [currentVariants, setCurrentVariants] = useState(createCurrentVariants(product));
+    const [optionTypes, setOptionTypes] = useState([]);
+    useMemo(() => {
+        setOptionTypes(createCurrentVariants(product.optionTypes.nodes))
+    }, [])
 
-    // console.log(currentVariants, currentVariants["tshirt-size"], "MASTERVARIANT");
-    // console.log(product, "ALL VARIANTS");
     const handleChange = (e) => {
         if (e.name) {
-            // selectedVariants[e.target.name]
-            // setSelectedVariants({...selectedVariants, [e.name]: e.value});
-            // console.log(selectedVariants);
-            depthVariants.map((variant) => {
-                variant.displayOptionValues.nodes.map((optionValue, i) => {
-                    if (optionValue.id === e.value) {
-                        console.log(optionValue.id, "VARIANT", variant.sku, depthVariants[i])
-                    }
+            let newArray = [];
+            product.optionTypes.nodes.map((variant) => {
+                variant.optionValues.nodes.map((optionValue) => {
+                    optionValue["isActive"] = optionValue.id === e.value ? true : false;
+                    // optionValue.isActive =
+                    // console.log(optionValue)
                 })
+                // variant.name = "DEMOOOO"
+                console.log(variant)
+                newArray.push(variant);
             })
+            setOptionTypes(newArray);
+            // console.log(currentProduct);
             // let currentElement = getCurrentElement(e.target.value, depthVariants);
             // console.log(currentElement, "NEW CU");
         } else {
@@ -84,7 +93,7 @@ export default function ProductData({product}) {
                         </h3>
                         <div className="w-full">
                             {
-                                product.optionTypes.nodes.map((optionType, i) => (
+                                optionTypes.map((optionType, i) => (
                                     <div key={i} className="w-full flex flex-wrap">
                                         <span
                                             className="w-full">{optionType.presentation}--- {optionType.optionValues.nodes.length}</span>
@@ -96,16 +105,16 @@ export default function ProductData({product}) {
                                         {/*            key={j}*/}
                                         {/*            value={optionValue.id}>{optionValue.presentation}</option>*/}
                                         {/*    ))}*/}
-                                        {/*</select>*/}
                                         <div className="w-full flex space-x-4">
                                             {optionType.optionValues.nodes.map((optionValue, j) => (
                                                 <div
                                                     onClick={() => {
                                                         handleChange({name: optionType.name, value: optionValue.id})
                                                     }}
-                                                    className="w-auto p-1 px-6 mb-3 border" key={j}
+                                                    className={`w-auto p-1 px-6 mb-3 border ${optionValue.isActive ? "" : "opacity-50"}`}
+                                                    key={j}
                                                     id={`option_value_${optionValue.id}`}>
-                                                    {optionValue.presentation}
+                                                    {optionValue.presentation}---{optionValue.isActive ? "DEE" : "NO"}
                                                 </div>
                                             ))}
                                         </div>
