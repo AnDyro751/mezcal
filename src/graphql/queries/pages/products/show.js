@@ -1,10 +1,33 @@
 import {MAIN_QUERY} from "../../main";
 
-const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
+const DEFAULT_QUERY = `productBySlug(slug: "demo-1") {
     name
     createdAt
     description
+    optionTypes{
+      nodes{
+        name
+        position
+        presentation
+        optionValues{
+          nodes{
+            id
+            name
+            presentation
+          }
+        }
+      }
+    }
     masterVariant {
+        sku
+        optionValues {
+            nodes {
+                id
+              name
+              position
+              presentation
+            }
+          }
         defaultPrice {
             id
             displayAmount
@@ -18,9 +41,6 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
           }
         id
       images {
-        pageInfo {
-          hasPreviousPage
-        }
         nodes {
           filename
           largeUrl
@@ -29,8 +49,18 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
         }
       }
     }
-    variants {
+    depthVariants {
       nodes {
+        id
+        sku
+          displayOptionValues {
+            nodes {
+                id
+              name
+              position
+              presentation
+            }
+          }
         defaultPrice {
             id
             displayAmount
@@ -43,11 +73,11 @@ const DEFAULT_QUERY = `productBySlug(slug: "ruby-hoodie") {
             }
           }
         images {
-          pageInfo {
-            hasPreviousPage
-          }
           nodes {
-            filename
+              filename
+              largeUrl
+              id
+              alt
           }
         }
       }

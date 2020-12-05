@@ -56,28 +56,31 @@ export default function ProductGallery({product}) {
     }, [])
     return (
         <div className="w-full">
-            <LazyLoadImage
-                placeholderSrc={`${GetImageUrl({
-                    publicId: generateUrlPath({
-                        filename: product.masterVariant.images.nodes[currentImage].filename,
-                        id: product.masterVariant.images.nodes[currentImage].id
-                    }),
-                    height: 40,
-                    width: 40
-                })}`}
-                wrapperClassName="cursor-pointer"
-                onClick={() => {
-                    setCurrentImage(currentImage);
-                    openLightbox(currentImage);
-                }}
-                alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
-                src={`${GetImageUrl({
-                    publicId: generateUrlPath({
-                        filename: product.masterVariant.images.nodes[currentImage].filename,
-                        id: product.masterVariant.images.nodes[currentImage].id
-                    })
-                })}`}
-            />
+            {
+                product.masterVariant.images.nodes.length > 0 &&
+                <LazyLoadImage
+                    placeholderSrc={`${GetImageUrl({
+                        publicId: generateUrlPath({
+                            filename: product.masterVariant.images.nodes[currentImage].filename,
+                            id: product.masterVariant.images.nodes[currentImage].id
+                        }),
+                        height: 40,
+                        width: 40
+                    })}`}
+                    wrapperClassName="cursor-pointer"
+                    onClick={() => {
+                        setCurrentImage(currentImage);
+                        openLightbox(currentImage);
+                    }}
+                    alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
+                    src={`${GetImageUrl({
+                        publicId: generateUrlPath({
+                            filename: product.masterVariant.images.nodes[currentImage].filename,
+                            id: product.masterVariant.images.nodes[currentImage].id
+                        })
+                    })}`}
+                />
+            }
             <SRLWrapper images={getImages(product.masterVariant.images.nodes)} options={options}/>
             <div className="flex space-x-4 mt-4">
                 {product.masterVariant.images.nodes.map((image, i) => (

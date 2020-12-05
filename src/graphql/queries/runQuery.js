@@ -15,7 +15,7 @@ const runQuery = (currentQuery) => {
             return data;
         } catch (e) {
             console.log(e, "ERROR")
-            return {}
+            return null
         }
     }
     return getQuery()

@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {},
     },
-    variants: {
+    depthVariants: {
         extend: {},
     },
     plugins: [],

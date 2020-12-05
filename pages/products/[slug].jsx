@@ -19,13 +19,18 @@ function ProductsShow({data}) {
         )
     }
     const {productBySlug, currentOrder} = data;
-    return (
-        <LayoutApplication
-            currentOrder={currentOrder}
-            seo={{title: `${productBySlug.name}`}}>
-            <ComponentsProductShow product={productBySlug}/>
-        </LayoutApplication>
-    )
+    if (productBySlug) {
+        return (
+            <LayoutApplication
+                currentOrder={currentOrder}
+                seo={{title: `${productBySlug.name}`}}>
+                <ComponentsProductShow product={productBySlug}/>
+            </LayoutApplication>
+        )
+    } else {
+        console.log(data)
+        return (<h1>ERROR</h1>)
+    }
 }
 
 export default ProductsShow;
