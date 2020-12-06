@@ -16,7 +16,7 @@ function MyApp({Component, pageProps}) {
     const data = pageProps.data;
     return (
         <ApolloProvider client={apolloClient}>
-            <OrderContextProvider data={{order: data.currentOrder || {}}}>
+            <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
                 <SimpleReactLightbox>
                     <Component {...pageProps} />
                 </SimpleReactLightbox>

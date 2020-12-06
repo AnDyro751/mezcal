@@ -14,18 +14,6 @@ function createVariantObject(optionTypes, inArray = false) {
     return newObject
 }
 
-function createCurrentVariants(optionTypesParam) {
-    let newArray = [];
-    optionTypesParam.map((variant) => {
-        variant.optionValues.nodes.map((optionValue) => {
-            optionValue["isActive"] = true
-        })
-        newArray.push(variant);
-    })
-    console.log("SELEEE")
-    return newArray
-}
-
 
 function isItemInArray(array, item) {
     let itemArray;
@@ -57,10 +45,14 @@ export default function ProductData({product}) {
         variables: {
             variantId: currentVariant.id,
             quantity: 1
+        },
+        onError: (e) => {
+            console.log("ERROR", e.message)
         }
     })
 
     useMemo(() => {
+        console.log(product)
         if (product.depthVariants.nodes.length > 0) {
             currentVariant.displayOptionValues.nodes.map((optionValue, i) => {
                 optionTypes.map((optionType) => {
@@ -89,6 +81,14 @@ export default function ProductData({product}) {
             console.log(newVariant, "IS")
         } else {
             console.error("Input name is invalid");
+        }
+    }
+
+    const handleAddToCart = () => {
+        try {
+            addToCart()
+        } catch (e) {
+            console.log("ERROR->", e)
         }
     }
 
@@ -174,7 +174,7 @@ export default function ProductData({product}) {
             <ButtonsPrimary
                 customClass="w-full text-center justify-center"
                 loading={loading} text={"Agregar al carrito"}
-                onClick={addToCart}
+                onClick={handleAddToCart}
             />
         </div>
     )
