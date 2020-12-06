@@ -35,8 +35,9 @@ export default function ProductData({product}) {
     const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
     const [currentVariant, setCurrentVariant] = useState(product.masterVariant || {});
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
-    // const [currentVariants, setCurrentVariants] = useState(createCurrentVariants(product));
+    const [currentVariants, setCurrentVariants] = useState([]);
     const [optionTypes, setOptionTypes] = useState([]);
+    // console.log(depthVariants)
     useMemo(() => {
         setOptionTypes(createCurrentVariants(product.optionTypes.nodes))
     }, [])
@@ -44,21 +45,26 @@ export default function ProductData({product}) {
     const handleChange = (e) => {
         if (e.name) {
             setSelectedVariants({...selectedVariants, [e.name]: e.value});
-            // let newArray = [];
-            // product.optionTypes.nodes.map((variant) => {
-            //     variant.optionValues.nodes.map((optionValue) => {
-            //         optionValue["isActive"] = optionValue.id === e.value ? true : false;
-            //         // optionValue.isActive =
-            //         // console.log(optionValue)
-            //     })
-            //     // variant.name = "DEMOOOO"
-            //     console.log(variant)
-            //     newArray.push(variant);
-            // })
-            // setOptionTypes(newArray);
-            // console.log(currentProduct);
-            // let currentElement = getCurrentElement(e.target.value, depthVariants);
-            // console.log(currentElement, "NEW CU");
+            let newAllElements = []
+            depthVariants.map((variant, i) => {
+                variant.displayOptionValues.nodes.map((depV) => {
+                    if (depV.id === e.value) {
+                        newAllElements.push(variant);
+                        // console.log(variant);
+                    }
+                });
+            })
+            let newCurrentVariants = []
+            newAllElements.map((newElement) => {
+                newElement.displayOptionValues.nodes.map((optionValue) => {
+                    if (!newCurrentVariants.includes(optionValue.id)) {
+                        newCurrentVariants.push(optionValue.id)
+                    }
+                })
+            })
+            setCurrentVariants(newCurrentVariants);
+            let newSelectedVariants = Object.values(selectedVariants);
+            console.log(newSelectedVariants);
         } else {
             console.error("Input name is invalid");
         }
@@ -79,7 +85,7 @@ export default function ProductData({product}) {
 
     return (
         <div className="w-full">
-            <h1 className="font-medium text-4xl">{product.name}</h1>
+            <h1 className="font-medium text-4xl">{product.name}-{currentVariants.length}</h1>
             {currentVariant.defaultPrice ?
                 <h2 className="font-medium text-gray-900 text-xl my-4">{currentVariant.defaultPrice.displayAmount} {currentVariant.defaultPrice.currency.isoCode}</h2>
                 :
@@ -118,10 +124,14 @@ export default function ProductData({product}) {
                                                     onClick={() => {
                                                         handleChange({name: optionType.name, value: optionValue.id})
                                                     }}
-                                                    className={`w-auto p-1 px-6 mb-3 border ${selectedVariants[optionType.name] === optionValue.id ? "" : "opacity-50"}`}
+                                                    className={`
+                                                        w-auto p-1 px-6 mb-3 border 
+                                                        ${selectedVariants[optionType.name] === optionValue.id ? "border-black" : "opacity-50"}
+                                                    `}
                                                     key={j}
                                                     id={`option_value_${optionValue.id}`}>
                                                     {optionValue.presentation}
+                                                    {/*{currentVariants.includes(optionValue.id) ? optionValue.presentation : "-"}*/}
                                                 </div>
                                             ))}
                                         </div>
