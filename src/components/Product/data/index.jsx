@@ -38,7 +38,7 @@ function isItemInArray(array, item) {
         thisA.map((el, kk) => {
             newRespo.push(item[kk] === thisA[kk])
         })
-        if (!newRespo.includes(false)) {
+        if (!newRespo.includes(false) && item.length === newRespo.length) {
             itemArray = element;
         }
     })
@@ -62,11 +62,15 @@ export default function ProductData({product}) {
         setOptionTypes(createCurrentVariants(product.optionTypes.nodes));
     }, [])
 
+    // var filtered = array.filter(function (el) {
+    //     return el != null;
+    // });
+
     const handleChange = (e) => {
         if (e.name) {
             let newSelectedVariants = {...selectedVariants, [e.name]: e.value}
             setSelectedVariants(newSelectedVariants);
-            let newVariant = isItemInArray(depthVariants, Object.values(newSelectedVariants));
+            let newVariant = isItemInArray(depthVariants, Object.values(newSelectedVariants).filter(n => n));
             if (newVariant) {
                 setCurrentVariant(newVariant)
             } else {
@@ -162,8 +166,6 @@ export default function ProductData({product}) {
                 loading={loading} text={"Agregar al carrito"}
                 onClick={addToCart}
             />
-            {/*<button onClick={addToCart}>Agregar al carrito</button>*/}
-
         </div>
     )
 }
