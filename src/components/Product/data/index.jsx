@@ -85,7 +85,7 @@ export default function ProductData({product}) {
 
     return (
         <div className="w-full">
-            <h1 className="font-medium text-4xl">{product.name}-{currentVariants.length}</h1>
+            <h1 className="font-medium text-4xl">{product.name}</h1>
             {currentVariant.defaultPrice ?
                 <h2 className="font-medium text-gray-900 text-xl my-4">{currentVariant.defaultPrice.displayAmount} {currentVariant.defaultPrice.currency.isoCode}</h2>
                 :
