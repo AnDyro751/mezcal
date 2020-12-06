@@ -27,59 +27,55 @@ function createCurrentVariants(optionTypesParam) {
 }
 
 
+function isItemInArray(array, item) {
+    let itemArray;
+    array.map((element, i) => {
+        let thisA = []
+        array[i].displayOptionValues.nodes.map((el, j) => {
+            thisA.push(array[i].displayOptionValues.nodes[j].id);
+        })
+        let newRespo = []
+        thisA.map((el, kk) => {
+            newRespo.push(item[kk] === thisA[kk])
+        })
+        if (!newRespo.includes(false)) {
+            itemArray = element;
+        }
+    })
+    return itemArray
+}
+
+
 export default function ProductData({product}) {
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
         client: apolloClient
     })
-
     const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
     const [currentVariant, setCurrentVariant] = useState(product.masterVariant || {});
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
     const [currentVariants, setCurrentVariants] = useState([]);
     const [optionTypes, setOptionTypes] = useState([]);
-    // console.log(depthVariants)
+    const [validVariant, setValidVariant] = useState(false);
+
+
     useMemo(() => {
-        setOptionTypes(createCurrentVariants(product.optionTypes.nodes))
+        setOptionTypes(createCurrentVariants(product.optionTypes.nodes));
     }, [])
 
     const handleChange = (e) => {
         if (e.name) {
-            setSelectedVariants({...selectedVariants, [e.name]: e.value});
-            let newAllElements = []
-            depthVariants.map((variant, i) => {
-                variant.displayOptionValues.nodes.map((depV) => {
-                    if (depV.id === e.value) {
-                        newAllElements.push(variant);
-                        // console.log(variant);
-                    }
-                });
-            })
-            let newCurrentVariants = []
-            newAllElements.map((newElement) => {
-                newElement.displayOptionValues.nodes.map((optionValue) => {
-                    if (!newCurrentVariants.includes(optionValue.id)) {
-                        newCurrentVariants.push(optionValue.id)
-                    }
-                })
-            })
-            setCurrentVariants(newCurrentVariants);
-            let newSelectedVariants = Object.values(selectedVariants);
-            console.log(newSelectedVariants);
+            let newSelectedVariants = {...selectedVariants, [e.name]: e.value}
+            setSelectedVariants(newSelectedVariants);
+            let newVariant = isItemInArray(depthVariants, Object.values(newSelectedVariants));
+            if (newVariant) {
+                setCurrentVariant(newVariant)
+            } else {
+                setCurrentVariant({})
+            }
+            console.log(newVariant, "IS")
         } else {
             console.error("Input name is invalid");
         }
-    }
-
-    function getCurrentElement(id, thisVariants) {
-        let currentElement;
-        thisVariants.forEach((el) => {
-            // el.displayOptionValues
-            // let newCurrentElement = el.displayOptionValues.nodes.find((depel) => depel.id === id)
-            // if (newCurrentElement) {
-            //     currentElement = newCurrentElement
-            // }
-        });
-        return currentElement;
     }
 
 
@@ -109,20 +105,16 @@ export default function ProductData({product}) {
                                 optionTypes.map((optionType, i) => (
                                     <div key={i} className="w-full flex flex-wrap">
                                         <span
-                                            className="w-full">{optionType.presentation}--- {optionType.optionValues.nodes.length}</span>
-                                        {/*<select*/}
-                                        {/*    onChange={handleChange}*/}
-                                        {/*    name={`${optionType.name}`} id="">*/}
-                                        {/*    {optionType.optionValues.nodes.map((optionValue, j) => (*/}
-                                        {/*        <option*/}
-                                        {/*            key={j}*/}
-                                        {/*            value={optionValue.id}>{optionValue.presentation}</option>*/}
-                                        {/*    ))}*/}
+                                            className="w-full">{optionType.presentation}</span>
                                         <div className="w-full flex space-x-4">
                                             {optionType.optionValues.nodes.map((optionValue, j) => (
                                                 <div
                                                     onClick={() => {
-                                                        handleChange({name: optionType.name, value: optionValue.id})
+                                                        if (selectedVariants[optionType.name] === optionValue.id) {
+                                                            handleChange({name: optionType.name, value: null})
+                                                        } else {
+                                                            handleChange({name: optionType.name, value: optionValue.id})
+                                                        }
                                                     }}
                                                     className={`
                                                         w-auto p-1 px-6 mb-3 border 
@@ -141,22 +133,22 @@ export default function ProductData({product}) {
                             }
                         </div>
                     </div>
-                    <h3>Variantes:</h3>
-                    <div className="w-full flex space-x-4">
-                        {depthVariants.map((variant, i) => {
-                            return (
-                                <div
-                                    key={i}
-                                    className="w-auto px-5 py-1 border cursor-pointer hover:border-black transition duration-150 text-sm">
-                                    <span>{
-                                        variant.displayOptionValues.nodes.map((ov) => {
-                                            return ov.presentation
-                                        }).join("-")
-                                    }</span>
-                                </div>
-                            )
-                        })}
-                    </div>
+                    {/*<h3>Variantes:</h3>*/}
+                    {/*<div className="w-full flex space-x-4">*/}
+                    {/*    {depthVariants.map((variant, i) => {*/}
+                    {/*        return (*/}
+                    {/*            <div*/}
+                    {/*                key={i}*/}
+                    {/*                className="w-auto px-5 py-1 border cursor-pointer hover:border-black transition duration-150 text-sm">*/}
+                    {/*                <span>{*/}
+                    {/*                    variant.displayOptionValues.nodes.map((ov) => {*/}
+                    {/*                        return ov.presentation*/}
+                    {/*                    }).join("-")*/}
+                    {/*                }</span>*/}
+                    {/*            </div>*/}
+                    {/*        )*/}
+                    {/*    })}*/}
+                    {/*</div>*/}
                 </div>
             }
             {product.description &&
