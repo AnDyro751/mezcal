@@ -43,18 +43,19 @@ export default function ProductData({product}) {
 
     const handleChange = (e) => {
         if (e.name) {
-            let newArray = [];
-            product.optionTypes.nodes.map((variant) => {
-                variant.optionValues.nodes.map((optionValue) => {
-                    optionValue["isActive"] = optionValue.id === e.value ? true : false;
-                    // optionValue.isActive =
-                    // console.log(optionValue)
-                })
-                // variant.name = "DEMOOOO"
-                console.log(variant)
-                newArray.push(variant);
-            })
-            setOptionTypes(newArray);
+            setSelectedVariants({...selectedVariants, [e.name]: e.value});
+            // let newArray = [];
+            // product.optionTypes.nodes.map((variant) => {
+            //     variant.optionValues.nodes.map((optionValue) => {
+            //         optionValue["isActive"] = optionValue.id === e.value ? true : false;
+            //         // optionValue.isActive =
+            //         // console.log(optionValue)
+            //     })
+            //     // variant.name = "DEMOOOO"
+            //     console.log(variant)
+            //     newArray.push(variant);
+            // })
+            // setOptionTypes(newArray);
             // console.log(currentProduct);
             // let currentElement = getCurrentElement(e.target.value, depthVariants);
             // console.log(currentElement, "NEW CU");
@@ -92,6 +93,12 @@ export default function ProductData({product}) {
                             OptionTypes
                         </h3>
                         <div className="w-full">
+                            <h3>
+                                TSIZE: {selectedVariants["tshirt-size"]}
+                            </h3>
+                            <h3>
+                                TCOLOR: {selectedVariants["tshirt-color"]}
+                            </h3>
                             {
                                 optionTypes.map((optionType, i) => (
                                     <div key={i} className="w-full flex flex-wrap">
@@ -111,10 +118,10 @@ export default function ProductData({product}) {
                                                     onClick={() => {
                                                         handleChange({name: optionType.name, value: optionValue.id})
                                                     }}
-                                                    className={`w-auto p-1 px-6 mb-3 border ${optionValue.isActive ? "" : "opacity-50"}`}
+                                                    className={`w-auto p-1 px-6 mb-3 border ${selectedVariants[optionType.name] === optionValue.id ? "" : "opacity-50"}`}
                                                     key={j}
                                                     id={`option_value_${optionValue.id}`}>
-                                                    {optionValue.presentation}---{optionValue.isActive ? "DEE" : "NO"}
+                                                    {optionValue.presentation}
                                                 </div>
                                             ))}
                                         </div>
