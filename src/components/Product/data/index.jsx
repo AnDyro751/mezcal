@@ -47,24 +47,34 @@ function isItemInArray(array, item) {
 
 
 export default function ProductData({product}) {
-    const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
-        client: apolloClient
-    })
-    const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
-    const [currentVariant, setCurrentVariant] = useState(product.masterVariant || {});
-    const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
-    const [currentVariants, setCurrentVariants] = useState([]);
-    const [optionTypes, setOptionTypes] = useState([]);
-    const [validVariant, setValidVariant] = useState(false);
 
+    const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
+    const [currentVariant, setCurrentVariant] = useState(product.depthVariants.nodes.length > 0 ? product.depthVariants.nodes[0] : product.masterVariant || {});
+    const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
+    const [optionTypes, setOptionTypes] = useState(product.optionTypes.nodes);
+    const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
+        client: apolloClient,
+        variables: {
+            variantId: currentVariant.id,
+            quantity: 1
+        }
+    })
 
     useMemo(() => {
-        setOptionTypes(createCurrentVariants(product.optionTypes.nodes));
+        if (product.depthVariants.nodes.length > 0) {
+            currentVariant.displayOptionValues.nodes.map((optionValue, i) => {
+                optionTypes.map((optionType) => {
+                    optionType.optionValues.nodes.map((depel) => {
+                        let newSelected = {...selectedVariants, [optionType.name]: optionValue.id}
+                        if (depel.id === optionValue.id) {
+                            setSelectedVariants(oldState => ({...oldState, [optionType.name]: optionValue.id}))
+                        }
+                    })
+                })
+            })
+        }
     }, [])
 
-    // var filtered = array.filter(function (el) {
-    //     return el != null;
-    // });
 
     const handleChange = (e) => {
         if (e.name) {

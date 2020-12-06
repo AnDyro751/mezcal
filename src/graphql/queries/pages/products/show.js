@@ -20,6 +20,7 @@ const DEFAULT_QUERY = `productBySlug(slug: "demo-1") {
     }
     masterVariant {
         sku
+        id
         optionValues {
             nodes {
                 id
@@ -39,7 +40,7 @@ const DEFAULT_QUERY = `productBySlug(slug: "demo-1") {
               isoCode
             }
           }
-        id
+        
       images {
         nodes {
           filename
