@@ -1,9 +1,6 @@
 import LayoutApplication from "../../src/components/Layout/application";
-import {gql, useMutation} from "@apollo/client";
-import {initializeApollo} from "../../src/lib/apolloClient";
 import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
 import runQuery from "../../src/graphql/queries/runQuery";
-import decryptId from "../../src/lib/decryptId";
 import ComponentsProductShow from "../../src/components/Product/Show";
 
 

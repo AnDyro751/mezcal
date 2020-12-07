@@ -6,6 +6,7 @@ import {ApolloProvider} from '@apollo/client'
 import {useApollo} from '../src/lib/apolloClient'
 import {OrderContext, OrderContextProvider} from "../src/stores/userOrder";
 import SimpleReactLightbox from "simple-react-lightbox";
+import {ToastProvider} from 'react-toast-notifications';
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -18,7 +19,11 @@ function MyApp({Component, pageProps}) {
         <ApolloProvider client={apolloClient}>
             <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
                 <SimpleReactLightbox>
-                    <Component {...pageProps} />
+                    <ToastProvider
+                        autoDismiss={true}
+                    >
+                        <Component {...pageProps} />
+                    </ToastProvider>
                 </SimpleReactLightbox>
             </OrderContextProvider>
         </ApolloProvider>

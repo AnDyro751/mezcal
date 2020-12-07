@@ -27,6 +27,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-lazy-load-image-component": "^1.5.1",
+    "react-toast-notifications": "^2.4.0",
     "simple-react-lightbox": "^3.3.4-2",
     "subscriptions-transport-ws": "^0.9.18",
     "tailwindcss": "^2.0.1"

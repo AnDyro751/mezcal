@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.react-toast-notifications__toast__content {
+    display: flex !important;
+    align-items: center !important;
+}

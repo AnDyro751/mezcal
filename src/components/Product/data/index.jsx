@@ -3,6 +3,8 @@ import {ADD_PRODUCT_TO_CART_MUTATION} from "../../../graphql/mutations/products/
 import {initializeApollo} from "../../../lib/apolloClient";
 import ButtonsPrimary from "../../Buttons/primary";
 import {useState, useEffect, useMemo} from 'react';
+import emptyObject from "../../../lib/emptyObject";
+import {useToasts} from 'react-toast-notifications';
 
 const apolloClient = initializeApollo()
 
@@ -35,7 +37,7 @@ function isItemInArray(array, item) {
 
 
 export default function ProductData({product}) {
-
+    const {addToast} = useToasts()
     const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
     const [currentVariant, setCurrentVariant] = useState(product.depthVariants.nodes.length > 0 ? product.depthVariants.nodes[0] : product.masterVariant || {});
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
@@ -46,7 +48,11 @@ export default function ProductData({product}) {
             variantId: currentVariant.id,
             quantity: 1
         },
+        onCompleted: () => {
+            addToast('Producto agregado al carrito', {appearance: 'success'})
+        },
         onError: (e) => {
+            addToast(e.message, {appearance: 'error'})
             console.log("ERROR", e.message)
         }
     })
@@ -54,16 +60,18 @@ export default function ProductData({product}) {
     useMemo(() => {
         console.log(product)
         if (product.depthVariants.nodes.length > 0) {
-            currentVariant.displayOptionValues.nodes.map((optionValue, i) => {
-                optionTypes.map((optionType) => {
-                    optionType.optionValues.nodes.map((depel) => {
-                        let newSelected = {...selectedVariants, [optionType.name]: optionValue.id}
-                        if (depel.id === optionValue.id) {
-                            setSelectedVariants(oldState => ({...oldState, [optionType.name]: optionValue.id}))
-                        }
+            if (!emptyObject(currentVariant)) {
+                currentVariant.displayOptionValues.nodes.map((optionValue, i) => {
+                    optionTypes.map((optionType) => {
+                        optionType.optionValues.nodes.map((depel) => {
+                            let newSelected = {...selectedVariants, [optionType.name]: optionValue.id}
+                            if (depel.id === optionValue.id) {
+                                setSelectedVariants(oldState => ({...oldState, [optionType.name]: optionValue.id}))
+                            }
+                        })
                     })
                 })
-            })
+            }
         }
     }, [])
 
@@ -80,13 +88,19 @@ export default function ProductData({product}) {
             }
             console.log(newVariant, "IS")
         } else {
-            console.error("Input name is invalid");
+            addToast('Input name is invalid', {appearance: 'error'})
+            // console.error("Input name is invalid");
         }
     }
 
     const handleAddToCart = () => {
         try {
-            addToCart()
+            if (emptyObject(currentVariant)) {
+                addToast('La variante seleccionada no está disponible', {appearance: 'error'})
+                console.info("No hay variante seleccionada")
+            } else {
+                addToCart()
+            }
         } catch (e) {
             console.log("ERROR->", e)
         }
