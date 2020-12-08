@@ -5,6 +5,7 @@ import ButtonsPrimary from "../../Buttons/primary";
 import {useState, useEffect, useMemo} from 'react';
 import emptyObject from "../../../lib/emptyObject";
 import {useToasts} from 'react-toast-notifications';
+import {CounterSelector} from "../../Buttons/CounterSelector";
 
 const apolloClient = initializeApollo()
 
@@ -42,11 +43,12 @@ export default function ProductData({product}) {
     const [currentVariant, setCurrentVariant] = useState(product.depthVariants.nodes.length > 0 ? product.depthVariants.nodes[0] : product.masterVariant || {});
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
     const [optionTypes, setOptionTypes] = useState(product.optionTypes.nodes);
+    const [addQuantity, setAddQuantity] = useState(1);
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
         client: apolloClient,
         variables: {
             variantId: currentVariant.id,
-            quantity: 1
+            quantity: addQuantity
         },
         onCompleted: () => {
             addToast('Producto agregado al carrito', {appearance: 'success'})
@@ -161,22 +163,6 @@ export default function ProductData({product}) {
                             }
                         </div>
                     </div>
-                    {/*<h3>Variantes:</h3>*/}
-                    {/*<div className="w-full flex space-x-4">*/}
-                    {/*    {depthVariants.map((variant, i) => {*/}
-                    {/*        return (*/}
-                    {/*            <div*/}
-                    {/*                key={i}*/}
-                    {/*                className="w-auto px-5 py-1 border cursor-pointer hover:border-black transition duration-150 text-sm">*/}
-                    {/*                <span>{*/}
-                    {/*                    variant.displayOptionValues.nodes.map((ov) => {*/}
-                    {/*                        return ov.presentation*/}
-                    {/*                    }).join("-")*/}
-                    {/*                }</span>*/}
-                    {/*            </div>*/}
-                    {/*        )*/}
-                    {/*    })}*/}
-                    {/*</div>*/}
                 </div>
             }
             {product.description &&
@@ -185,6 +171,11 @@ export default function ProductData({product}) {
                 <h4 className="font-light text-sm text-gray-600 mb-4">{product.description}</h4>
             </>
             }
+            <CounterSelector
+                handleChange={(e) => {
+                    setAddQuantity(parseInt(e.target.value));
+                }} defaultValue={1}
+            />
             <ButtonsPrimary
                 customClass="w-full text-center justify-center"
                 loading={loading} text={"Agregar al carrito"}
