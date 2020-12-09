@@ -77,7 +77,9 @@ export default function ProductGallery({product}) {
                         publicId: generateUrlPath({
                             filename: product.masterVariant.images.nodes[currentImage].filename,
                             id: product.masterVariant.images.nodes[currentImage].id
-                        })
+                        }),
+                        height: 1000,
+                        width: 1000
                     })}`}
                 />
             }

@@ -23,8 +23,10 @@ export default function HeadersPublic() {
                     <Link href={"/products/125"}>
                         <a>Producto</a>
                     </Link>
-                    <h1>{order.itemCount || 0}</h1>
-
+                    |
+                    <Link href={"/cart"}>
+                        <a>{order.itemCount || 0}</a>
+                    </Link>
                 </div>
             </div>
         </header>
