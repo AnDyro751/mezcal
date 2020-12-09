@@ -1,6 +1,6 @@
 import {MAIN_QUERY} from "../../main";
 
-const DEFAULT_QUERY = `productBySlug(slug: "demo-1") {
+const DEFAULT_QUERY = `productBySlug(slug: "demo-2") {
     name
     createdAt
     description

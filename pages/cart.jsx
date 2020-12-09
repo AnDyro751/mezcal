@@ -2,6 +2,8 @@ import runQuery from "../src/graphql/queries/runQuery";
 import {MAIN_QUERY} from "../src/graphql/queries/main";
 import PagesError from "../src/pages/error";
 import LayoutApplication from "../src/components/Layout/application";
+import SHOW_CART_QUERY from "../src/graphql/queries/pages/cart";
+import CartShow from "../src/components/Cart/Show";
 
 const PagesCart = ({data}) => {
     if (!data) {
@@ -12,15 +14,13 @@ const PagesCart = ({data}) => {
     const {currentOrder} = data;
     return (
         <LayoutApplication currentOrder={currentOrder}>
-            <div className="w-full">
-                <h1>Carrito</h1>
-            </div>
+            <CartShow currentOrder={currentOrder}/>
         </LayoutApplication>
     )
 }
 
 export async function getServerSideProps() {
-    const data = await runQuery(MAIN_QUERY())
+    const data = await runQuery(MAIN_QUERY(null, SHOW_CART_QUERY))
     return {
         props: {
             data: data
