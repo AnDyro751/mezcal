@@ -2,10 +2,11 @@ import {useMutation} from "@apollo/client";
 import {ADD_PRODUCT_TO_CART_MUTATION} from "../../../graphql/mutations/products/addProductToCart";
 import {initializeApollo} from "../../../lib/apolloClient";
 import ButtonsPrimary from "../../Buttons/primary";
-import {useState, useEffect, useMemo} from 'react';
+import {useState, useContext, useMemo} from 'react';
 import emptyObject from "../../../lib/emptyObject";
 import {useToasts} from 'react-toast-notifications';
 import {CounterSelector} from "../../Buttons/CounterSelector";
+import {OrderContext} from "../../../stores/userOrder";
 
 const apolloClient = initializeApollo()
 
@@ -44,27 +45,30 @@ export default function ProductData({product}) {
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
     const [optionTypes, setOptionTypes] = useState(product.optionTypes.nodes);
     const [addQuantity, setAddQuantity] = useState(1);
+    const [state, dispatch] = useContext(OrderContext);
+
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
         client: apolloClient,
         variables: {
             variantId: currentVariant.id,
             quantity: addQuantity
         },
-        onCompleted: () => {
+        onCompleted: (data) => {
             addToast('Producto agregado al carrito', {
                 appearance: 'success',
                 withlink: "/cart",
                 withtext: "Ver carrito"
             })
+            console.log(data)
+            dispatch({type: "UPDATE_ORDER", payload: data.addToCart.order})
+
         },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})
-            console.log("ERROR", e.message)
         }
     })
 
     useMemo(() => {
-        console.log(product)
         if (product.depthVariants.nodes.length > 0) {
             if (!emptyObject(currentVariant)) {
                 currentVariant.displayOptionValues.nodes.map((optionValue, i) => {
@@ -95,7 +99,6 @@ export default function ProductData({product}) {
             console.log(newVariant, "IS")
         } else {
             addToast('Input name is invalid', {appearance: 'error'})
-            // console.error("Input name is invalid");
         }
     }
 

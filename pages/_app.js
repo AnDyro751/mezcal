@@ -16,7 +16,6 @@ Router.events.on('routeChangeError', () => NProgress.done());
 import {DefaultToast} from 'react-toast-notifications';
 
 const MyCustomToast = ({children, ...props}) => {
-    console.log(props)
     return (
         <DefaultToast {...props}>
             <div className="w-full flex flex-wrap">

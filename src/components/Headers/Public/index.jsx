@@ -1,14 +1,14 @@
 import Link from "next/link";
-import {useContext, useEffect} from 'react'
+import {useContext, useEffect, useMemo} from 'react'
 import {OrderContext} from "../../../stores/userOrder";
 import {SITE_TITLE} from "../../../site/info";
 
 export default function HeadersPublic() {
     const [state, dispatch] = useContext(OrderContext);
     const {order} = state;
-    useEffect(() => {
-        console.log(order);
-    }, [state.order]);
+    // useEffect(() => {
+    //     console.log(order);
+    // }, [state.order]);
     return (
         <header className="w-full">
             <div className="grid grid-cols-3">
