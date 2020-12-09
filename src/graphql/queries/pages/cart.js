@@ -1,23 +1,32 @@
 const SHOW_CART_QUERY = `
 lineItems{
       nodes{
-      product{
-          name
-        }
+          product{
+              name
+              description
+              slug
+              masterVariant {
+                images {
+                  nodes {
+                    id
+                    alt
+                    filename
+                    largeUrl
+                  }
+                }
+              }
+            }
         amount
+        displayAmount
         additionalTaxTotal
         currency
-        hasSufficientStock
         id
         price
+        displayPriceAmount
         quantity
         promoTotal
         variant{
-          isMaster
-          defaultPrice{
-            displayAmount
-          }
-          sku
+            sku
         }
       }
 }

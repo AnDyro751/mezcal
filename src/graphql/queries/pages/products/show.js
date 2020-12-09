@@ -73,13 +73,8 @@ const DEFAULT_QUERY = `productBySlug(slug: "demo-2") {
         defaultPrice {
             id
             displayAmount
-            displayAmount
             amount
             displayCountry
-            currency {
-              name
-              isoCode
-            }
           }
         images {
           nodes {
