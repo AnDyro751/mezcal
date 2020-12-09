@@ -59,7 +59,6 @@ export default function ProductData({product}) {
                 withlink: "/cart",
                 withtext: "Ver carrito"
             })
-            console.log(data)
             dispatch({type: "UPDATE_ORDER", payload: data.addToCart.order})
 
         },
