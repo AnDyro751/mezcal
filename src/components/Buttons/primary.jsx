@@ -1,7 +1,7 @@
 export default function ButtonsPrimary({onClick = null, text = "", disabled = false, loading = false, children = null, customClass = null}) {
     return (
         <button disabled={disabled || loading} onClick={onClick}
-                className={`${disabled || loading ? "cursor-not-allowed" : ""} ${customClass} hover:opacity-75 h-12 disabled:cursor-not-allowed bg-black flex items-center text-white px-5 py-3 rounded font-normal`}
+                className={`${disabled || loading ? "cursor-not-allowed opacity-75" : ""} ${customClass} hover:opacity-75 h-12 disabled:cursor-not-allowed bg-black flex items-center text-white px-5 py-3 rounded font-normal`}
         >
             {loading ?
                 <svg className="inline animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"

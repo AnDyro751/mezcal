@@ -15,3 +15,13 @@
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
 }
+
+.react-toast-notifications__container {
+    overflow: hidden !important;
+}
+
+.react-toast-notifications__toast__icon-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

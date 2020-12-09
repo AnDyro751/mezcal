@@ -51,7 +51,11 @@ export default function ProductData({product}) {
             quantity: addQuantity
         },
         onCompleted: () => {
-            addToast('Producto agregado al carrito', {appearance: 'success'})
+            addToast('Producto agregado al carrito', {
+                appearance: 'success',
+                withlink: "/cart",
+                withtext: "Ver carrito"
+            })
         },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})
@@ -121,21 +125,14 @@ export default function ProductData({product}) {
                 depthVariants.length > 0 &&
                 <div className="w-full mb-4">
                     <div className="w-full">
-                        <h3>
-                            OptionTypes
-                        </h3>
                         <div className="w-full">
-                            <h3>
-                                TSIZE: {selectedVariants["tshirt-size"]}
-                            </h3>
-                            <h3>
-                                TCOLOR: {selectedVariants["tshirt-color"]}
-                            </h3>
                             {
                                 optionTypes.map((optionType, i) => (
                                     <div key={i} className="w-full flex flex-wrap">
-                                        <span
-                                            className="w-full">{optionType.presentation}</span>
+                                        <p className="mb-2">
+                                            <span
+                                                className="w-full">{optionType.presentation}</span>
+                                        </p>
                                         <div className="w-full flex space-x-4">
                                             {optionType.optionValues.nodes.map((optionValue, j) => (
                                                 <div
@@ -177,6 +174,7 @@ export default function ProductData({product}) {
                 }} defaultValue={1}
             />
             <ButtonsPrimary
+                disabled={emptyObject(currentVariant)}
                 customClass="w-full text-center justify-center"
                 loading={loading} text={"Agregar al carrito"}
                 onClick={handleAddToCart}
