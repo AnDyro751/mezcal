@@ -7,6 +7,7 @@ import emptyObject from "../../../lib/emptyObject";
 import {useToasts} from 'react-toast-notifications';
 import {CounterSelector} from "../../Buttons/CounterSelector";
 import {OrderContext} from "../../../stores/userOrder";
+import ProductProperties from "../properties";
 
 const apolloClient = initializeApollo()
 
@@ -117,15 +118,15 @@ export default function ProductData({product}) {
 
     return (
         <div className="w-full">
-            <h1 className="font-medium text-4xl">{product.name}</h1>
+            <h1 className="font-medium text-5xl">{product.name}</h1>
             {currentVariant.defaultPrice ?
-                <h2 className="font-medium text-gray-900 text-xl my-4">{currentVariant.defaultPrice.displayAmount} {currentVariant.defaultPrice.currency.isoCode}</h2>
+                <h2 className="font-medium text-gray-900 text-xl mt-4 mb-6">{currentVariant.defaultPrice.displayAmount} {currentVariant.defaultPrice.currency.isoCode}</h2>
                 :
                 <h2 className="text-gray-500 text-sm my-2">El artículo seleccionado no se encuentra disponible</h2>
             }
             {
                 depthVariants.length > 0 &&
-                <div className="w-full mb-4">
+                <div className="w-full mb-6">
                     <div className="w-full">
                         <div className="w-full">
                             {
@@ -164,12 +165,7 @@ export default function ProductData({product}) {
                     </div>
                 </div>
             }
-            {product.description &&
-            <>
-                <h3 className="mb-2 font-medium">Descripción:</h3>
-                <h4 className="font-light text-sm text-gray-600 mb-4">{product.description}</h4>
-            </>
-            }
+
             <CounterSelector
                 handleChange={(e) => {
                     setAddQuantity(parseInt(e.target.value));
@@ -178,9 +174,17 @@ export default function ProductData({product}) {
             <ButtonsPrimary
                 disabled={emptyObject(currentVariant)}
                 customClass="w-full text-center justify-center"
-                loading={loading} text={"Agregar al carrito"}
+                loading={loading}
+                text={"Agregar al carrito"}
                 onClick={handleAddToCart}
             />
+            {product.description &&
+            <>
+                <h3 className="mt-6 mb-2 font-bold text-3xl">Descripción:</h3>
+                <h4 className="font-light text-sm text-gray-600 mb-4">{product.description}</h4>
+            </>
+            }
+            <ProductProperties product={product}/>
         </div>
     )
 }

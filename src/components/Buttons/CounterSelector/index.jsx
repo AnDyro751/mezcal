@@ -1,6 +1,6 @@
 export const CounterSelector = ({handleChange, defaultValue}) => {
     return (
-        <div className="w-full flex items-center">
+        <div className="w-full flex items-center mb-6">
             <div className="w-4/12">
                 <label htmlFor="add_to_cart[select_quantity]">Cantidad</label>
             </div>

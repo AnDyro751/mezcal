@@ -4,6 +4,14 @@ const DEFAULT_QUERY = `productBySlug(slug: "demo-1") {
     name
     createdAt
     description
+    productProperties{
+      nodes{
+        value
+        property{
+          name
+        }
+      }
+    }
     optionTypes{
       nodes{
         name
