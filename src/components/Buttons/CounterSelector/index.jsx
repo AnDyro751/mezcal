@@ -1,7 +1,63 @@
-import {useState} from 'react';
+import {useState, useContext} from 'react';
+import {useMutation} from "@apollo/client";
+import UPDATE_CART_QUANTITY_MUTATION from "../../../graphql/mutations/cart/updateCartQuantity";
+import {initializeApollo} from "../../../lib/apolloClient";
+import {OrderContext} from "../../../stores/userOrder";
+import REMOVE_FROM_CART_MUTATION from "../../../graphql/mutations/cart/removeFromCart";
 
-export const CounterSelector = ({handleChange, defaultValue = 1, big = true, handleBlur = null}) => {
+const apolloClient = initializeApollo()
+
+export const CounterSelector = ({handleChange, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
     const [defaultCounter, setDefaultCounter] = useState(defaultValue);
+    const [state, dispatch] = useContext(OrderContext);
+
+    const [updateCartQuantity, {data, error, loading}] = useMutation(UPDATE_CART_QUANTITY_MUTATION, {
+        client: apolloClient,
+        onCompleted: (data) => {
+            console.log("DATA", data);
+            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.updateCartQuantity.order}})
+        }
+    });
+
+    const [removeFromCart, {data: dataRemove, error: errorRemove, loading: loadingRemove}] = useMutation(REMOVE_FROM_CART_MUTATION, {
+        client: apolloClient,
+        onCompleted: (data) => {
+            // console.log("DATA", data);
+            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.removeFromCart.order}})
+        }
+    });
+
+    const handleAddQuantity = () => {
+        setDefaultCounter(prevState => ((prevState || 0) + 1));
+        updateCartQuantity({
+            variables: {
+                quantity: (defaultCounter || 0) + 1,
+                lineItemId: lineItem.id
+            }
+        })
+    }
+
+    const handleDeductQuantity = () => {
+        if (defaultCounter <= 1) {
+            removeFromCart({
+                variables: {
+                    lineItemId: lineItem.id
+                }
+            })
+            setDefaultCounter(0);
+        } else {
+            updateCartQuantity({
+                variables: {
+                    quantity: (defaultCounter || 0) - 1,
+                    lineItemId: lineItem.id
+                }
+            })
+
+            setDefaultCounter(prevState => ((prevState || 0) - 1));
+        }
+
+    }
+
     if (big) {
         return (
             <div className="w-full flex items-center mb-6">
@@ -26,21 +82,23 @@ export const CounterSelector = ({handleChange, defaultValue = 1, big = true, han
             <div className="w-full bg-gray-100 flex items-center">
                 <div
                     onClick={() => {
-                        if (defaultCounter <= 0) {
-                            setDefaultCounter(0);
-                        } else {
-                            setDefaultCounter(prevState => ((prevState || 0) - 1));
-                        }
+                        handleDeductQuantity()
+
                     }}
                     className="w-3/12 py-3 flex justify-center font-medium text-gray-700 text-lg cursor-pointer">
-                    -
+                    {
+                        defaultCounter <= 1 ?
+                            <img alt="svgImg"
+                                 className="h-4 w-4"
+                                 src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMjQiIGhlaWdodD0iMjQiCnZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij48cGF0aCBkPSJNIDEwLjMxMjUgLTAuMDMxMjUgQyA4LjU4OTg0NCAtMC4wMzEyNSA3LjE2NDA2MyAxLjMxNjQwNiA3IDMgTCAyIDMgTCAyIDUgTCA2Ljk2ODc1IDUgTCA2Ljk2ODc1IDUuMDMxMjUgTCAxNy4wMzEyNSA1LjAzMTI1IEwgMTcuMDMxMjUgNSBMIDIyIDUgTCAyMiAzIEwgMTcgMyBDIDE2Ljg0Mzc1IDEuMzE2NDA2IDE1LjQ4NDM3NSAtMC4wMzEyNSAxMy44MTI1IC0wLjAzMTI1IFogTSAxMC4zMTI1IDIuMDMxMjUgTCAxMy44MTI1IDIuMDMxMjUgQyAxNC4zMjAzMTMgMi4wMzEyNSAxNC42OTUzMTMgMi40Mjk2ODggMTQuODQzNzUgMi45Njg3NSBMIDkuMTU2MjUgMi45Njg3NSBDIDkuMjk2ODc1IDIuNDI5Njg4IDkuNjg3NSAyLjAzMTI1IDEwLjMxMjUgMi4wMzEyNSBaIE0gNCA2IEwgNCAyMi41IEMgNCAyMy4zMDA3ODEgNC42OTkyMTkgMjQgNS41IDI0IEwgMTguNTkzNzUgMjQgQyAxOS4zOTQ1MzEgMjQgMjAuMDkzNzUgMjMuMzAwNzgxIDIwLjA5Mzc1IDIyLjUgTCAyMC4wOTM3NSA2IFogTSA3IDkgTCA4IDkgTCA4IDIyIEwgNyAyMiBaIE0gMTAgOSBMIDExIDkgTCAxMSAyMiBMIDEwIDIyIFogTSAxMyA5IEwgMTQgOSBMIDE0IDIyIEwgMTMgMjIgWiBNIDE2IDkgTCAxNyA5IEwgMTcgMjIgTCAxNiAyMiBaIj48L3BhdGg+PC9zdmc+"/>
+                            :
+                            <span>-</span>
+                    }
+
                 </div>
                 <input
                     className="py-3 bg-gray-100 text-center w-full rounded appearance-none w-6/12"
                     type="number"
-                    // defaultValue={defaultValue}
-                    // onChangeCapture={}
-                    // onChangeCapture={}
                     value={parseInt(defaultCounter) || 0}
                     onBlur={(e) => {
                         if (defaultValue !== parseInt(e.target.value)) {
@@ -60,13 +118,11 @@ export const CounterSelector = ({handleChange, defaultValue = 1, big = true, han
                         }
                     }}
                 />
-                <div
-                    onClick={() => {
-                        setDefaultCounter(prevState => ((prevState || 0) + 1))
-                    }}
+                <button
+                    onClick={handleAddQuantity}
                     className="w-3/12 py-3 cursor-pointer flex justify-center font-medium text-gray-700 text-lg">
                     +
-                </div>
+                </button>
             </div>
 
         )

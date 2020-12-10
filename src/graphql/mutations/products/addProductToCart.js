@@ -6,28 +6,8 @@ mutation addProductToCart($variantId: ID!, $quantity: Int!) {
     order{
         itemCount
     adjustmentTotal
-    billingAddress {
-      address1
-      address1
-      alternativePhone
-      city
-      country {
-        iso
-        isoName
-      }
-      firstname
-      lastname
-      phone
-      state {
-        name
-      }
-      stateName
-      zipcode
-    }
-    includedTaxTotal
     canceledAt
     completedAt
-    confirmationDelivered
     currency
     email
     guestToken

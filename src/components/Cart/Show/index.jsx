@@ -76,6 +76,7 @@ const CartShow = ({currentOrder = {}}) => {
                             </div>
                             <div className="w-3/12">
                                 <CounterSelector
+                                    lineItem={lineItem}
                                     big={false}
                                     defaultValue={lineItem.quantity}
                                     handleChange={() => {
