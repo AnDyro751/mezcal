@@ -24,6 +24,12 @@ products(first: 20) {
         }
       }
     }
+    pageInfo{
+      hasNextPage
+      startCursor
+      hasPreviousPage
+      endCursor
+    }
   }
 `
 export default SHOW_PRODUCTS_QUERY

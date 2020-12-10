@@ -3,6 +3,7 @@ import {SHOW_PRODUCT_QUERY} from "../src/graphql/queries/pages/products/show";
 import LayoutApplication from "../src/components/Layout/application";
 import {MAIN_QUERY} from "../src/graphql/queries/main";
 import SHOW_PRODUCTS_QUERY from "../src/graphql/queries/pages/products";
+import ProductsListProducts from "../src/components/Products/ListProducts";
 
 const PageProducts = ({data}) => {
     if (!data) {
@@ -18,9 +19,7 @@ const PageProducts = ({data}) => {
             currentOrder={data.currentOrder}
             seo={{title: "Producto"}}
         >
-            <div className="w-full">
-                <h2>Hola</h2>
-            </div>
+            <ProductsListProducts products={data.products.nodes}/>
         </LayoutApplication>
     )
 
