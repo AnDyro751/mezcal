@@ -4,26 +4,47 @@ import UPDATE_CART_QUANTITY_MUTATION from "../../../graphql/mutations/cart/updat
 import {initializeApollo} from "../../../lib/apolloClient";
 import {OrderContext} from "../../../stores/userOrder";
 import REMOVE_FROM_CART_MUTATION from "../../../graphql/mutations/cart/removeFromCart";
+import {useToasts} from "react-toast-notifications";
 
 const apolloClient = initializeApollo()
 
-export const CounterSelector = ({handleChange, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
+export const CounterSelector = ({handleChange, handleUpdateLineItems = null, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
     const [defaultCounter, setDefaultCounter] = useState(defaultValue);
     const [state, dispatch] = useContext(OrderContext);
+    const [currentLineItem, setCurrentLineItem] = useState(lineItem);
+    const {addToast} = useToasts()
 
     const [updateCartQuantity, {data, error, loading}] = useMutation(UPDATE_CART_QUANTITY_MUTATION, {
         client: apolloClient,
         onCompleted: (data) => {
-            console.log("DATA", data);
-            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.updateCartQuantity.order}})
+            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.updateCartQuantity.order}});
+            addToast('Carrito actualizado', {
+                appearance: 'success',
+                withlink: "/cart",
+                withtext: "Ver carrito"
+            })
+            handleUpdateLineItems(data.updateCartQuantity.order.lineItems)
+            let thisLineItem = data.updateCartQuantity.order.lineItems.nodes.find((el) => el.id === lineItem.id);
+            if (thisLineItem) {
+                setCurrentLineItem(thisLineItem);
+            }
         }
     });
 
     const [removeFromCart, {data: dataRemove, error: errorRemove, loading: loadingRemove}] = useMutation(REMOVE_FROM_CART_MUTATION, {
         client: apolloClient,
         onCompleted: (data) => {
-            // console.log("DATA", data);
+            addToast('Carrito actualizado', {
+                appearance: 'success',
+                withlink: "/cart",
+                withtext: "Ver carrito"
+            })
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.removeFromCart.order}})
+            handleUpdateLineItems(data.removeFromCart.order.lineItems)
+            let thisLineItem = data.removeFromCart.order.lineItems.nodes.find((el) => el.id === lineItem.id);
+            if (thisLineItem) {
+                setCurrentLineItem(thisLineItem);
+            }
         }
     });
 
@@ -55,7 +76,21 @@ export const CounterSelector = ({handleChange, defaultValue = 1, big = true, han
 
             setDefaultCounter(prevState => ((prevState || 0) - 1));
         }
+    }
 
+    const handleChangeQuantity = (e) => {
+        let newValue = parseInt(e.target.value || 0);
+        if (newValue !== currentLineItem.quantity) {
+            updateCartQuantity({
+                variables: {
+                    quantity: newValue,
+                    lineItemId: lineItem.id
+                }
+            })
+        }
+        if (handleBlur) {
+            handleBlur(e);
+        }
     }
 
     if (big) {
@@ -101,12 +136,7 @@ export const CounterSelector = ({handleChange, defaultValue = 1, big = true, han
                     type="number"
                     value={parseInt(defaultCounter) || 0}
                     onBlur={(e) => {
-                        if (defaultValue !== parseInt(e.target.value)) {
-                            // console.log("BLUR");
-                            if (handleBlur) {
-                                handleBlur(e);
-                            }
-                        }
+                        handleChangeQuantity(e);
                     }}
                     onChange={(e) => {
                         let newValue = parseInt(e.target.value)

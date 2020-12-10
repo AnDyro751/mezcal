@@ -5,6 +5,10 @@ import {OrderContext} from "../../stores/userOrder";
 import {SITE_TITLE} from "../../site/info";
 
 export default function LayoutApplication({children, seo = {}, currentOrder = {}}) {
+    const [state, dispatch] = useContext(OrderContext);
+    useEffect(() => {
+        dispatch({type: "UPDATE_ORDER", payload: currentOrder})
+    }, [currentOrder])
     return (
         <>
             <Head>

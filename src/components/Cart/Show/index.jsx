@@ -1,13 +1,11 @@
-import {useEffect} from 'react';
 import Link from 'next/link'
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import {CounterSelector} from "../../Buttons/CounterSelector";
+import {useState} from 'react';
 
 const CartShow = ({currentOrder = {}}) => {
-    useEffect(() => {
-        console.log(currentOrder);
-    }, [])
+    const [lineItems, setLineItems] = useState(currentOrder.lineItems);
     return (
         <div className="w-full">
             <div className="flex justify-center py-8">
@@ -25,10 +23,9 @@ const CartShow = ({currentOrder = {}}) => {
                 </div>
             </div>
             <div className="w-full flex flex-wrap">
-                {/*<div className="w-6/12 flex flex-wrap">*/}
                 {
-                    currentOrder.lineItems.nodes.map((lineItem, i) => (
-                        <div className="w-full flex mb-5" key={i}>
+                    lineItems.nodes.map((lineItem, i) => (
+                        <div className="w-full flex mb-5 items-center" key={i}>
                             <div className="w-6/12 flex">
                                 <div className="w-4/12">
                                     {
@@ -61,17 +58,19 @@ const CartShow = ({currentOrder = {}}) => {
                                         </Link>
                                     }
                                 </div>
-                                <div className="w-8/12">
-                                    <Link href={`/products/${lineItem.product.slug}`}>
-                                        <a className="mb-2">
-                                            <span className="uppercase">{lineItem.product.name}</span>
-                                        </a>
-                                    </Link>
-                                    <p className="mt-2">
+                                <div className="w-8/12 flex items-center">
+                                    <div className="w-full">
+                                        <Link href={`/products/${lineItem.product.slug}`}>
+                                            <a className="mb-2 w-full">
+                                                <span className="uppercase">{lineItem.product.name}</span>
+                                            </a>
+                                        </Link>
+                                        <p className="mt-2 w-full">
                                     <span className="text-xs text-gray-500">
                                         {lineItem.displayPriceAmount} {lineItem.currency}
                                     </span>
-                                    </p>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                             <div className="w-3/12">
@@ -79,6 +78,9 @@ const CartShow = ({currentOrder = {}}) => {
                                     lineItem={lineItem}
                                     big={false}
                                     defaultValue={lineItem.quantity}
+                                    handleUpdateLineItems={(e) => {
+                                        setLineItems(e)
+                                    }}
                                     handleChange={() => {
                                     }}
                                 />

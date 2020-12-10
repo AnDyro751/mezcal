@@ -15,7 +15,7 @@ const PagesCart = ({data}) => {
     return (
         <LayoutApplication currentOrder={currentOrder}>
             <div className="w-full flex justify-center">
-                <div className="w-10/12" >
+                <div className="w-10/12">
                     <CartShow currentOrder={currentOrder}/>
                 </div>
             </div>
