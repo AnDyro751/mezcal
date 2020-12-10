@@ -3,13 +3,14 @@ import {initializeApollo} from "../../lib/apolloClient";
 
 const apolloClient = initializeApollo()
 
-const runQuery = (currentQuery) => {
+const runQuery = (currentQuery, variables = {}) => {
     const getQuery = async () => {
         let data = {};
         try {
             data = await apolloClient.query({
                 query: gql`${currentQuery}`,
-                fetchPolicy: "no-cache"
+                fetchPolicy: "no-cache",
+                variables: variables
             })
             data = data.data
             console.log(data)

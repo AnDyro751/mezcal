@@ -64,8 +64,9 @@ export default function ProductGallery({product}) {
                             filename: product.masterVariant.images.nodes[currentImage].filename,
                             id: product.masterVariant.images.nodes[currentImage].id
                         }),
-                        height: 40,
-                        width: 40
+                        height: 10,
+                        width: 10,
+                        fit: "cover"
                     })}`}
                     wrapperClassName="cursor-pointer"
                     onClick={() => {
@@ -79,7 +80,8 @@ export default function ProductGallery({product}) {
                             id: product.masterVariant.images.nodes[currentImage].id
                         }),
                         height: 1000,
-                        width: 1000
+                        width: 1000,
+                        fit: "cover"
                     })}`}
                 />
             }

@@ -19,14 +19,16 @@ const PageProducts = ({data}) => {
             currentOrder={data.currentOrder}
             seo={{title: "Producto"}}
         >
-            <ProductsListProducts products={data.products.nodes}/>
+            <ProductsListProducts products={data.products.edges}/>
         </LayoutApplication>
     )
 
 }
 
 export async function getServerSideProps() {
-    const data = await runQuery(MAIN_QUERY(SHOW_PRODUCTS_QUERY, null));
+    const data = await runQuery(SHOW_PRODUCTS_QUERY, {
+        first: 20,
+    });
     return {
         props: {
             data: data
