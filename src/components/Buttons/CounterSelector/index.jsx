@@ -34,10 +34,8 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     const [removeFromCart, {data: dataRemove, error: errorRemove, loading: loadingRemove}] = useMutation(REMOVE_FROM_CART_MUTATION, {
         client: apolloClient,
         onCompleted: (data) => {
-            addToast('Carrito actualizado', {
-                appearance: 'success',
-                withlink: "/cart",
-                withtext: "Ver carrito"
+            addToast('Producto eliminado de tu carrito', {
+                appearance: 'info',
             })
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.removeFromCart.order}})
             handleUpdateLineItems(data.removeFromCart.order.lineItems)
