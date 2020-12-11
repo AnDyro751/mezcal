@@ -55,13 +55,11 @@ export default function ProductData({product}) {
             quantity: addQuantity
         },
         onCompleted: (data) => {
-            addToast('Producto agregado al carrito', {
+            addToast('Producto agregado al carrito 22', {
                 appearance: 'success',
                 withlink: "/cart",
                 withtext: "Ver carrito"
             })
-            dispatch({type: "UPDATE_ORDER", payload: data.addToCart.order})
-
         },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})
@@ -105,10 +103,10 @@ export default function ProductData({product}) {
     const handleAddToCart = () => {
         try {
             if (emptyObject(currentVariant)) {
-                addToast('La variante seleccionada no está disponible', {appearance: 'error'})
+                addToast('La variante seleccionada no está disponible', {appearance: 'error'});
                 console.info("No hay variante seleccionada")
             } else {
-                addToCart()
+                addToCart();
             }
         } catch (e) {
             console.log("ERROR->", e)

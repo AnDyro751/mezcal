@@ -1,6 +1,7 @@
 import {MAIN_QUERY} from "../../main";
 
-const DEFAULT_QUERY = `productBySlug(slug: "demo-2") {
+const DEFAULT_QUERY = (slug = "") => {
+    return `productBySlug(slug: "${slug}") {
     name
     createdAt
     description
@@ -75,6 +76,9 @@ const DEFAULT_QUERY = `productBySlug(slug: "demo-2") {
             displayAmount
             amount
             displayCountry
+            currency{
+                isoCode
+            }
           }
         images {
           nodes {
@@ -87,4 +91,7 @@ const DEFAULT_QUERY = `productBySlug(slug: "demo-2") {
       }
     }
   }`
-export const SHOW_PRODUCT_QUERY = MAIN_QUERY(DEFAULT_QUERY);
+}
+export const SHOW_PRODUCT_QUERY = (slug = "") => {
+    return MAIN_QUERY(DEFAULT_QUERY(slug));
+};

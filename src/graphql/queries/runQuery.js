@@ -13,10 +13,8 @@ const runQuery = (currentQuery, variables = {}) => {
                 variables: variables
             })
             data = data.data
-            console.log(data)
             return data;
         } catch (e) {
-            console.log(e, "ERROR")
             return null
         }
     }

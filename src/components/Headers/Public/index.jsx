@@ -20,12 +20,16 @@ export default function HeadersPublic() {
                     </div>
                 </div>
                 <div className="col-span-1">
-                    <Link href={"/products/125"}>
+                    <Link href={"/products"}>
+                        <a>Productos</a>
+                    </Link>
+                    |
+                    <Link href={"/products/demo-1"}>
                         <a>Producto</a>
                     </Link>
                     |
                     <Link href={"/cart"}>
-                        <a>{order.itemCount || 0}</a>
+                        <a>Carrito({order.itemCount || 0})</a>
                     </Link>
                 </div>
             </div>
