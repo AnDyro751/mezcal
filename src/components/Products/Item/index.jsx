@@ -1,6 +1,7 @@
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import Link from 'next/link'
+import AddProductToCart from "../../Buttons/AddProductToCart";
 
 export default function ProductsItem({product = {}}) {
     const {masterVariant} = product
@@ -52,6 +53,9 @@ export default function ProductsItem({product = {}}) {
                         </Link>
                     </h4>
                 }
+            </div>
+            <div className="w-full mt-4">
+                <AddProductToCart product={product}/>
             </div>
         </div>
     )

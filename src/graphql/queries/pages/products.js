@@ -46,6 +46,7 @@ query getProductsQuery($first: Int!, $after: String, $before: String, $last: Int
         name
         slug
         masterVariant {
+          id
           defaultPrice {
             amount
             displayAmount
