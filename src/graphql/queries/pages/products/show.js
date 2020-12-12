@@ -5,6 +5,15 @@ const DEFAULT_QUERY = (slug = "") => {
     name
     createdAt
     description
+    taxons{
+      nodes{
+        name
+        description
+        id
+        permalink
+      }
+    }
+    
     productProperties{
       nodes{
         value
