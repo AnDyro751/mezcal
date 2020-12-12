@@ -7,26 +7,17 @@ import {initializeApollo} from "../../src/lib/apolloClient";
 
 
 function ProductsShow({data}) {
-
-    if (!data) {
-        return (
-            <LayoutApplication
-                seo={{title: "Producto"}}>
-                <PagesError message={"Ha ocurrido un error"}/>
-            </LayoutApplication>
-        )
-    }
     const {productBySlug, currentOrder} = data;
     if (productBySlug) {
         return (
             <LayoutApplication
+                data={data}
                 currentOrder={currentOrder}
                 seo={{title: `${productBySlug.name}`}}>
                 <ComponentsProductShow product={productBySlug}/>
             </LayoutApplication>
         )
     } else {
-        console.log(data)
         return (
             <LayoutApplication
                 currentOrder={data.currentOrder}

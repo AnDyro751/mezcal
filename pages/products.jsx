@@ -6,16 +6,9 @@ import SHOW_PRODUCTS_QUERY from "../src/graphql/queries/pages/products";
 import ProductsListProducts from "../src/components/Products/ListProducts";
 
 const PageProducts = ({data}) => {
-    if (!data) {
-        return (
-            <LayoutApplication
-                seo={{title: "Producto"}}>
-                <h1>Ha ocurrido un error</h1>
-            </LayoutApplication>
-        )
-    }
     return (
         <LayoutApplication
+            data={data}
             currentOrder={data.currentOrder}
             seo={{title: "Producto"}}
         >

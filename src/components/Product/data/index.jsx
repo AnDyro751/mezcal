@@ -55,11 +55,12 @@ export default function ProductData({product}) {
             quantity: addQuantity
         },
         onCompleted: (data) => {
-            addToast('Producto agregado al carrito 22', {
+            addToast('Producto agregado al carrito', {
                 appearance: 'success',
                 withlink: "/cart",
                 withtext: "Ver carrito"
             })
+            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.addToCart.order}});
         },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})

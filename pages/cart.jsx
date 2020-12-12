@@ -6,14 +6,11 @@ import SHOW_CART_QUERY from "../src/graphql/queries/pages/cart";
 import CartShow from "../src/components/Cart/Show";
 
 const PagesCart = ({data}) => {
-    if (!data) {
-        return (
-            <PagesError big={false} message={"Ha ocurrido un error"}/>
-        )
-    }
     const {currentOrder} = data;
     return (
-        <LayoutApplication currentOrder={currentOrder}>
+        <LayoutApplication currentOrder={currentOrder}
+                           data={data}
+        >
             <div className="w-full flex justify-center">
                 <div className="w-10/12">
                     <CartShow currentOrder={currentOrder}/>
