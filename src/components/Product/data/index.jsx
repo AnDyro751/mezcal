@@ -140,6 +140,10 @@ export default function ProductData({product}) {
                 <h2 className="text-gray-500 text-sm my-2">El artículo seleccionado no se encuentra disponible</h2>
             }
             {
+                currentVariant.sku &&
+                <h2 className="text-gray-500 text-sm mt-2 mb-6">SKU: {currentVariant.sku}</h2>
+            }
+            {
                 depthVariants.length > 0 &&
                 <div className="w-full mb-6">
                     <div className="w-full">

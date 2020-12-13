@@ -7,38 +7,29 @@ import CartShow from "../src/components/Cart/Show";
 import {gql, useQuery} from '@apollo/client'
 import withApollo from '../src/lib/apollo'
 
-const PagesCart = () => {
-    const {data, loading, error} = useQuery(gql`${MAIN_QUERY(null, SHOW_CART_QUERY)}`, {
-        ssr: true,
-    });
-    // const {currentOrder} = data;
-    if (loading) {
-        return (
-            <h2>CARGANDO</h2>
-        )
-    }
-    const {currentOrder} = data
+const PagesCart = ({data}) => {
 
     return (
-        <LayoutApplication currentOrder={currentOrder}
-                           data={data}
+        <LayoutApplication
+            currentOrder={data.currentOrder}
+            data={data}
         >
             <div className="w-full flex justify-center">
                 <div className="w-10/12">
-                    <CartShow currentOrder={currentOrder}/>
+                    <CartShow/>
                 </div>
             </div>
         </LayoutApplication>
     )
 }
 
-// export async function getServerSideProps() {
-//     const data = await runQuery(MAIN_QUERY(null, SHOW_CART_QUERY))
-//     return {
-//         props: {
-//             data: data
-//         }
-//     }
-// }
+export async function getServerSideProps() {
+    const data = await runQuery(MAIN_QUERY())
+    return {
+        props: {
+            data: data
+        }
+    }
+}
 
 export default withApollo({ssrc: true})(PagesCart)

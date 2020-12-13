@@ -5,6 +5,15 @@ import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import {CounterSelector} from "../../Buttons/CounterSelector";
 import EmptyObjects from "../../EmptyObjects";
 
+function getSku(lineItem) {
+    if (lineItem) {
+        if (lineItem.variant) {
+            return lineItem.variant.sku || null
+        }
+    }
+    return null
+}
+
 const CartListLineItems = ({currentOrder = {}}) => {
     const [lineItems, setLineItems] = useState(currentOrder.lineItems.nodes || []);
     useEffect(() => {
@@ -40,7 +49,8 @@ const CartListLineItems = ({currentOrder = {}}) => {
                                 <div className="w-4/12">
                                     {
                                         lineItem.product.masterVariant.images.nodes.length > 0 &&
-                                        <Link href={`/products/${lineItem.product.slug}`}>
+                                        <Link
+                                            href={`/products/${lineItem.product.slug}${getSku(lineItem) ? `?variant=${getSku(lineItem)}` : ""}`}>
                                             <a>
                                                 <LazyLoadImage
                                                     placeholderSrc={`${GetImageUrl({
@@ -70,7 +80,8 @@ const CartListLineItems = ({currentOrder = {}}) => {
                                 </div>
                                 <div className="w-8/12 flex items-center">
                                     <div className="w-full">
-                                        <Link href={`/products/${lineItem.product.slug}`}>
+                                        <Link
+                                            href={`/products/${lineItem.product.slug}${getSku(lineItem) ? `?variant=${getSku(lineItem)}` : ""}`}>
                                             <a className="mb-2 w-full">
                                                 <span className="uppercase">{lineItem.product.name}</span>
                                             </a>
@@ -80,6 +91,11 @@ const CartListLineItems = ({currentOrder = {}}) => {
                                         {lineItem.displayPriceAmount} {lineItem.currency}
                                     </span>
                                         </p>
+                                        {
+                                            lineItem.variant &&
+                                            lineItem.variant.sku &&
+                                            <p className="text-xs mt-3 text-gray-600 uppercase">SKU: {lineItem.variant.sku}</p>
+                                        }
                                     </div>
                                 </div>
                             </div>
