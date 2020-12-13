@@ -62,6 +62,22 @@ export default function ProductData({product}) {
             })
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.addToCart.order}});
         },
+        update(cache, {data: {addToCart}}) {
+            console.log("OO", addToCart)
+            cache.modify({
+                fields: {
+                    data: {
+                        order(oldOrder = {}) {
+                            console.log(oldOrder, "OLD", cache)
+                            // const newTodoRef = cache.writeFragment({
+                            //     data: addToCart.order,
+                            // });
+                            return {...oldOrder};
+                        }
+                    }
+                }
+            });
+        },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})
         }
@@ -105,7 +121,7 @@ export default function ProductData({product}) {
         try {
             if (emptyObject(currentVariant)) {
                 addToast('La variante seleccionada no está disponible', {appearance: 'error'});
-                console.info("No hay variante seleccionada")
+                console.info("No hay variante seleccionada");
             } else {
                 addToCart();
             }

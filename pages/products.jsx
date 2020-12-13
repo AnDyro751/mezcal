@@ -1,27 +1,24 @@
-import runQuery from "../src/graphql/queries/runQuery";
-import {SHOW_PRODUCT_QUERY} from "../src/graphql/queries/pages/products/show";
 import LayoutApplication from "../src/components/Layout/application";
-import {MAIN_QUERY} from "../src/graphql/queries/main";
-import SHOW_PRODUCTS_QUERY from "../src/graphql/queries/pages/products";
 import ProductsListProducts from "../src/components/Products/ListProducts";
+import runQuery from "../src/graphql/queries/runQuery";
+import {MAIN_QUERY} from "../src/graphql/queries/main";
 
 const PageProducts = ({data}) => {
+
+    const {currentOrder} = data;
     return (
         <LayoutApplication
-            data={data}
-            currentOrder={data.currentOrder}
+            currentOrder={currentOrder}
             seo={{title: "Producto"}}
         >
-            <ProductsListProducts products={data.products.edges}/>
+            <ProductsListProducts/>
         </LayoutApplication>
     )
 
 }
 
-export async function getServerSideProps() {
-    const data = await runQuery(SHOW_PRODUCTS_QUERY, {
-        first: 20,
-    });
+export async function getServerSideProps({query, res}) {
+    const data = await runQuery(MAIN_QUERY());
     return {
         props: {
             data: data

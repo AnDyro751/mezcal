@@ -10,7 +10,7 @@ const apolloClient = initializeApollo()
 
 export default function AddProductToCart({product}) {
     const currentVariant = product.masterVariant;
-    console.log(currentVariant)
+    // console.log(currentVariant)
     const {addToast} = useToasts()
     const [state, dispatch] = useContext(OrderContext);
 
@@ -28,6 +28,26 @@ export default function AddProductToCart({product}) {
             })
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.addToCart.order}});
         },
+        update(cache, {data: {addToCart}}) {
+            cache.modify({
+                fields: {
+                    order(oldOrder = {}) {
+                        console.log(oldOrder, "OLD", cache)
+                        // const newOrder = cache
+                        //               const newTodoRef = cache.writeFragment({
+                        //                   data: addTodo,
+                        //                   fragment: gql`
+                        //       fragment NewTodo on DEMO {
+                        //         id
+                        //         type
+                        //       }
+                        //     `
+                        // });
+                        // return [...oldOrder, newTodoRef];
+                    }
+                }
+            });
+        },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})
         }
@@ -37,6 +57,7 @@ export default function AddProductToCart({product}) {
         addToCart();
     }
     return (
-        <ButtonsPrimary customClass="w-full flex justify-center" onClick={handleClick} disabled={loading} loading={loading} text={"Agregar al carrito"}/>
+        <ButtonsPrimary customClass="w-full flex justify-center" onClick={handleClick} disabled={loading}
+                        loading={loading} text={"Agregar al carrito"}/>
     )
 }

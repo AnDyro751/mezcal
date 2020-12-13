@@ -1,10 +1,24 @@
 import ProductsItem from "../Item";
+import {gql, useQuery} from "@apollo/client";
+import SHOW_PRODUCTS_QUERY from "../../../graphql/queries/pages/products";
+import withApollo from "../../../lib/apollo";
 
-export default function ProductsListProducts({products = {}}) {
+function ProductsListProducts({}) {
+    const {data, loading, error} = useQuery(gql`${SHOW_PRODUCTS_QUERY}`, {
+        variables: {
+            first: 20,
+        },
+        ssr: true
+    });
+    if (loading) {
+        return (
+            <h2>Cargando productos</h2>
+        )
+    }
     return (
         <div className="w-full flex justify-center">
             <div className="w-10/12 flex space-x-4">
-                {products.map((product, i) => (
+                {data.products.edges.map((product, i) => (
                     <div className="w-3/12"
                          key={i}
                     >
@@ -17,3 +31,5 @@ export default function ProductsListProducts({products = {}}) {
         </div>
     )
 }
+
+export default withApollo({ssrc: true})(ProductsListProducts)

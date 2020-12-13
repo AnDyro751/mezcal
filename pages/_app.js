@@ -41,21 +41,21 @@ const MyCustomToast = ({children, ...props}) => {
 };
 
 function MyApp({Component, pageProps}) {
-    const apolloClient = useApollo(pageProps)
+    // const apolloClient = useApollo(pageProps)
     const data = pageProps.data;
     return (
-        <ApolloProvider client={apolloClient}>
-            <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
-                <SimpleReactLightbox>
-                    <ToastProvider
-                        components={{Toast: MyCustomToast}}
-                        autoDismiss={true}
-                    >
-                        <Component {...pageProps} />
-                    </ToastProvider>
-                </SimpleReactLightbox>
-            </OrderContextProvider>
-        </ApolloProvider>
+        // <ApolloProvider client={apolloClient}>
+        <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
+            <SimpleReactLightbox>
+                <ToastProvider
+                    components={{Toast: MyCustomToast}}
+                    autoDismiss={true}
+                >
+                    <Component {...pageProps} />
+                </ToastProvider>
+            </SimpleReactLightbox>
+        </OrderContextProvider>
+        // </ApolloProvider>
 
     )
 }
