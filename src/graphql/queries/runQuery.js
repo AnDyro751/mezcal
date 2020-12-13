@@ -9,7 +9,7 @@ const runQuery = (currentQuery, variables = {}) => {
         try {
             data = await apolloClient.query({
                 query: gql`${currentQuery}`,
-                fetchPolicy: "no-cache",
+                fetchPolicy: "cache-first",
                 variables: variables
             })
             data = data.data
