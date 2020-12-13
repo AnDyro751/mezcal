@@ -7,6 +7,7 @@ import withApollo from "../../../lib/apollo";
 const CartShow = ({}) => {
     const {data, loading, error} = useQuery(gql`${MAIN_QUERY(null, SHOW_CART_QUERY)}`, {
         ssr: true,
+        fetchPolicy: "no-cache"
     });
     if (loading) {
         return (

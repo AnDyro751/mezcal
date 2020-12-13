@@ -8,7 +8,7 @@ import PagesError from "../../../pages/error";
 import ProductLoadingGallery from "../Loading/ProductLoadingGallery";
 import ProductLoadingData from "../Loading/ProductLoadingData";
 
-function ComponentsProductShow({slug = ""}) {
+function ComponentsProductShow({slug = "", variant = null}) {
     const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`, {})
 
     if (!loading) {
@@ -38,7 +38,7 @@ function ComponentsProductShow({slug = ""}) {
                 {loading ?
                     <ProductLoadingData/>
                     :
-                    <ProductData product={mainData.productBySlug}/>
+                    <ProductData product={mainData.productBySlug} variant={variant}/>
                 }
             </div>
         </div>

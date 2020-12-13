@@ -40,9 +40,10 @@ export const SHOW_PRODUCT_QUERY = (slug = "") => {
       }
     }
     masterVariant {
+        isMaster
         sku
         id
-        optionValues {
+        displayOptionValues {
             nodes {
                 id
               name
@@ -52,7 +53,6 @@ export const SHOW_PRODUCT_QUERY = (slug = "") => {
           }
         defaultPrice {
             id
-            displayAmount
             displayAmount
             amount
             displayCountry
@@ -74,6 +74,7 @@ export const SHOW_PRODUCT_QUERY = (slug = "") => {
     depthVariants {
       nodes {
         id
+        isMaster
         sku
           displayOptionValues {
             nodes {

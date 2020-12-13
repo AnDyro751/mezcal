@@ -6,6 +6,7 @@ lineItems{
               description
               slug
               masterVariant {
+                isMaster
                 images {
                   nodes {
                     id
@@ -27,6 +28,7 @@ lineItems{
         promoTotal
         variant{
             sku
+            isMaster
         }
       }
 }

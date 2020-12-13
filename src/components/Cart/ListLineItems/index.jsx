@@ -6,9 +6,14 @@ import {CounterSelector} from "../../Buttons/CounterSelector";
 import EmptyObjects from "../../EmptyObjects";
 
 function getSku(lineItem) {
+    // if(lineItem){}
     if (lineItem) {
         if (lineItem.variant) {
-            return lineItem.variant.sku || null
+            if (lineItem.variant.isMaster) {
+                return null;
+            } else {
+                return lineItem.variant.sku || null
+            }
         }
     }
     return null

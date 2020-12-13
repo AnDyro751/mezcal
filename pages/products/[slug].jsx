@@ -3,12 +3,12 @@ import runQuery from "../../src/graphql/queries/runQuery";
 import ComponentsProductShow from "../../src/components/Product/Show";
 import {MAIN_QUERY} from "../../src/graphql/queries/main";
 
-function ProductsShow({data, slug}) {
+function ProductsShow({data, slug, variant}) {
     return (
         <LayoutApplication
             currentOrder={data.currentOrder}
         >
-            <ComponentsProductShow slug={slug}/>
+            <ComponentsProductShow slug={slug} variant={variant}/>
         </LayoutApplication>
     )
 }
@@ -22,7 +22,8 @@ export async function getServerSideProps({query, res}) {
     return {
         props: {
             data: data,
-            slug: query.slug
+            slug: query.slug,
+            variant: query.variant || null
         }
     }
 }

@@ -39,14 +39,31 @@ function isItemInArray(array, item) {
 }
 
 
-export default function ProductData({product}) {
+export default function ProductData({product, variant = null}) {
     const {addToast} = useToasts()
     const [depthVariants, setVariants] = useState(product.depthVariants.nodes || []);
-    const [currentVariant, setCurrentVariant] = useState(product.depthVariants.nodes.length > 0 ? product.depthVariants.nodes[0] : product.masterVariant || {});
+    const [currentVariant, setCurrentVariant] = useState({});
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
     const [optionTypes, setOptionTypes] = useState(product.optionTypes.nodes);
     const [addQuantity, setAddQuantity] = useState(1);
     const [state, dispatch] = useContext(OrderContext);
+    // console.log(variant, "VA")
+// );
+
+    function findVariantBySku(variants = [], sku = null) {
+        let newVariant;
+        if (sku) {
+            newVariant = variants.find((el) => el.sku === sku);
+        } else {
+            newVariant = variants.find((el) => el.isMaster === true);
+        }
+        console.log(newVariant, "VARIANTE", sku ? "SI" : "NO", sku);
+        if (!newVariant) {
+            newVariant = variants.find((el) => el.isMaster === true);
+        }
+        return newVariant;
+    }
+
 
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
         client: apolloClient,
@@ -84,9 +101,18 @@ export default function ProductData({product}) {
     })
 
     useMemo(() => {
+        let newCurrentVariant;
+        if (variant) {
+            newCurrentVariant = findVariantBySku(product.depthVariants.nodes.concat(product.masterVariant), variant)
+            setCurrentVariant(newCurrentVariant);
+        } else {
+            newCurrentVariant = product.depthVariants.nodes.length > 0 ? product.depthVariants.nodes[0] : product.masterVariant || {}
+            setCurrentVariant(newCurrentVariant);
+        }
         if (product.depthVariants.nodes.length > 0) {
-            if (!emptyObject(currentVariant)) {
-                currentVariant.displayOptionValues.nodes.map((optionValue, i) => {
+            console.log(newCurrentVariant, "CURR")
+            if (!emptyObject(newCurrentVariant)) {
+                newCurrentVariant.displayOptionValues.nodes.map((optionValue, i) => {
                     optionTypes.map((optionType) => {
                         optionType.optionValues.nodes.map((depel) => {
                             let newSelected = {...selectedVariants, [optionType.name]: optionValue.id}
@@ -105,16 +131,33 @@ export default function ProductData({product}) {
         if (e.name) {
             let newSelectedVariants = {...selectedVariants, [e.name]: e.value}
             setSelectedVariants(newSelectedVariants);
-            let newVariant = isItemInArray(depthVariants, Object.values(newSelectedVariants).filter(n => n));
+            let arrayFormated = Object.values(newSelectedVariants).filter(n => n);
+            let newVariant = isItemInArray(depthVariants, arrayFormated);
             if (newVariant) {
                 setCurrentVariant(newVariant)
             } else {
-                setCurrentVariant({})
+                setCurrentVariant({});
+                if (arrayFormated.length <= 0) {
+                    setDefaultVariantAndOptions()
+                }
             }
-            console.log(newVariant, "IS")
         } else {
             addToast('Input name is invalid', {appearance: 'error'})
         }
+    }
+
+    const setDefaultVariantAndOptions = () => {
+        setCurrentVariant(product.masterVariant);
+        product.masterVariant.displayOptionValues.nodes.map((optionValue, i) => {
+            optionTypes.map((optionType) => {
+                optionType.optionValues.nodes.map((depel) => {
+                    let newSelected = {...selectedVariants, [optionType.name]: optionValue.id}
+                    if (depel.id === optionValue.id) {
+                        setSelectedVariants(oldState => ({...oldState, [optionType.name]: optionValue.id}))
+                    }
+                })
+            })
+        })
     }
 
     const handleAddToCart = () => {
