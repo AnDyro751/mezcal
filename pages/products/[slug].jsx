@@ -1,18 +1,14 @@
 import LayoutApplication from "../../src/components/Layout/application";
-import {SHOW_PRODUCT_QUERY} from "../../src/graphql/queries/pages/products/show";
 import runQuery from "../../src/graphql/queries/runQuery";
 import ComponentsProductShow from "../../src/components/Product/Show";
-import PagesError from "../../src/pages/error";
-import {gql, useQuery} from '@apollo/client'
-import {useRouter} from 'next/router'
 import {MAIN_QUERY} from "../../src/graphql/queries/main";
 
-function ProductsShow({data}) {
+function ProductsShow({data, slug}) {
     return (
         <LayoutApplication
             currentOrder={data.currentOrder}
         >
-            <ComponentsProductShow/>
+            <ComponentsProductShow slug={slug}/>
         </LayoutApplication>
     )
 }
@@ -25,7 +21,8 @@ export async function getServerSideProps({query, res}) {
     const data = await runQuery(MAIN_QUERY());
     return {
         props: {
-            data: data
+            data: data,
+            slug: query.slug
         }
     }
 }

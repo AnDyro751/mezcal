@@ -196,7 +196,9 @@ export default function ProductData({product}) {
             {product.description &&
             <>
                 <h3 className="mt-6 mb-2 font-bold text-3xl">Descripción:</h3>
-                <h4 className="font-light text-sm text-gray-600 mb-4">{product.description}</h4>
+                <h4 className="font-light text-sm text-gray-600 mb-4 whitespace-pre">
+                    {product.description}
+                </h4>
             </>
             }
             <ProductProperties product={product}/>

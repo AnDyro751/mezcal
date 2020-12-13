@@ -111,7 +111,8 @@ export default function ProductGallery({product}) {
                                     id: image.id
                                 }),
                                 width: 100,
-                                height: 100
+                                height: 100,
+                                fit: "cover"
                             })}`}
                         />
                     </div>
