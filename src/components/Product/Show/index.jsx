@@ -24,8 +24,6 @@ function ComponentsProductShow({slug = "", variant = null}) {
         }
 
     }
-    console.log(mainData)
-
     return (
         <div className="w-10/12 mx-auto flex space-x-6 mt-10">
             <div className="w-7/12">

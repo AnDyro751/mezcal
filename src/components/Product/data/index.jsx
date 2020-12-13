@@ -8,6 +8,7 @@ import {useToasts} from 'react-toast-notifications';
 import {CounterSelector} from "../../Buttons/CounterSelector";
 import {OrderContext} from "../../../stores/userOrder";
 import ProductProperties from "../properties";
+import ProductTaxons from "../Taxons";
 
 const apolloClient = initializeApollo()
 
@@ -249,6 +250,7 @@ export default function ProductData({product, variant = null}) {
             </>
             }
             <ProductProperties product={product}/>
+            <ProductTaxons product={product} />
         </div>
     )
 }
