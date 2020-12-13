@@ -143,7 +143,7 @@ export default function ProductData({product}) {
                 depthVariants.length > 0 &&
                 <div className="w-full mb-6">
                     <div className="w-full">
-                        <div className="w-full">
+                        <div className="w-full space-y-4">
                             {
                                 optionTypes.map((optionType, i) => (
                                     <div key={i} className="w-full flex flex-wrap">

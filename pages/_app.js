@@ -1,9 +1,6 @@
 import "../src/css/base.css";
 import Router from "next/router";
 import NProgress from "nprogress";
-import 'nprogress/nprogress.css';
-import {ApolloProvider} from '@apollo/client'
-import {useApollo} from '../src/lib/apolloClient'
 import {OrderContext, OrderContextProvider} from "../src/stores/userOrder";
 import SimpleReactLightbox from "simple-react-lightbox";
 import {ToastProvider} from 'react-toast-notifications';

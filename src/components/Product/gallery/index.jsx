@@ -3,6 +3,7 @@ import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import {SRLWrapper} from 'simple-react-lightbox'
 import {useLightbox} from 'simple-react-lightbox'
+import NProgress from "nprogress";
 
 const options = {
     settings: {
@@ -102,6 +103,10 @@ export default function ProductGallery({product}) {
                             wrapperClassName="cursor-pointer"
                             onClick={() => {
                                 setCurrentImage(i);
+                                NProgress.start()
+                                setTimeout(() => {
+                                    NProgress.done()
+                                }, 500)
                                 // openLightbox(i + 1);
                             }}
                             alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}

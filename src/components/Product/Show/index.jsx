@@ -6,11 +6,17 @@ import {SHOW_PRODUCT_QUERY} from "../../../graphql/queries/pages/products/show";
 import {useRouter} from "next/router";
 import PagesError from "../../../pages/error";
 import ProductLoadingGallery from "../Loading/ProductLoadingGallery";
+import ProductLoadingData from "../Loading/ProductLoadingData";
 
 function ComponentsProductShow({slug = ""}) {
     const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`, {})
 
     if (!loading) {
+        if (error) {
+            return (
+                <PagesError message={"Ha ocurrido un error"}/>
+            )
+        }
         if (!mainData.productBySlug) {
             return (
                 <PagesError message={"Ha ocurrido un error"}/>
@@ -29,8 +35,10 @@ function ComponentsProductShow({slug = ""}) {
                 }
             </div>
             <div className="w-5/12">
-                {!loading &&
-                <ProductData product={mainData.productBySlug}/>
+                {loading ?
+                    <ProductLoadingData/>
+                    :
+                    <ProductData product={mainData.productBySlug}/>
                 }
             </div>
         </div>
