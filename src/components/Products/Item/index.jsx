@@ -5,28 +5,29 @@ import AddProductToCart from "../../Buttons/AddProductToCart";
 
 export default function ProductsItem({product = {}}) {
     const {masterVariant} = product
-    const images = masterVariant.images.nodes.slice(1);
+    const image = masterVariant.images.nodes[0];
     return (
         <div className="w-full">
-            {images.length > 0 &&
+            {image &&
             <Link href={`/products/${product.slug}`}>
                 <a>
                     <LazyLoadImage
                         placeholderSrc={`${GetImageUrl({
                             publicId: generateUrlPath({
-                                filename: product.masterVariant.images.nodes[0].filename,
-                                id: product.masterVariant.images.nodes[0].id
+                                filename: image.filename,
+                                id: image.id
                             }),
                             height: 10,
                             width: 10,
                             fit: "cover"
                         })}`}
-                        wrapperClassName="cursor-pointer w-full h-64 border"
-                        alt={`${product.masterVariant.images.nodes[0].alt || `Imagen de producto: ${product.masterVariant.images.nodes[0].filename} - ${product.name}`}`}
+                        wrapperClassName="cursor-pointer w-full border"
+                        className={"h-64 w-full"}
+                        alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}
                         src={`${GetImageUrl({
                             publicId: generateUrlPath({
-                                filename: product.masterVariant.images.nodes[0].filename,
-                                id: product.masterVariant.images.nodes[0].id
+                                filename: image.filename,
+                                id: image.id
                             }),
                             height: 200,
                             width: 200,

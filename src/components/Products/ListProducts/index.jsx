@@ -16,7 +16,7 @@ function ProductsListProducts({}) {
         )
     }
     return (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mt-10">
             <div className="w-10/12 flex space-x-4">
                 {data.products.edges.map((product, i) => (
                     <div className="w-3/12"
