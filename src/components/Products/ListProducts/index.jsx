@@ -15,6 +15,11 @@ function ProductsListProducts({}) {
             <h2>Cargando productos</h2>
         )
     }
+    if (error) {
+        return (
+            <h2>Error{error.toLocaleString()}</h2>
+        )
+    }
     return (
         <div className="w-full flex justify-center mt-10">
             <div className="w-10/12 flex space-x-4">

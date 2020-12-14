@@ -5,6 +5,9 @@ const DEFAULT_QUERY = (slug = "") => {
 export const SHOW_PRODUCT_QUERY = (slug = "") => {
     return `query getProductBySlug{
         productBySlug(slug: "${slug}") {
+        reviewsCount
+        slug
+        avgRating
     name
     createdAt
     description
