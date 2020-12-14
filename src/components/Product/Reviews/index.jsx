@@ -19,7 +19,7 @@ export default function ProductReviews({product = {}}) {
                 try {
                     const data = await runQuery(GET_PRODUCT_REVIEWS, {
                         slug: product.slug
-                    });
+                    }, "cache-first");
                     setLoaded(true);
                     console.log(data, "DATA")
                     setAllReviews(data.productBySlug.reviews.nodes || []);
@@ -61,7 +61,7 @@ export default function ProductReviews({product = {}}) {
                                         <p className="uppercase truncate font-bold">{review.title}</p>
                                     </div>
                                     <div className="w-4/12 text-right">
-                                        <span className="text-sm text-gray-500" >
+                                        <span className="text-sm text-gray-500">
                                             {new Date(review.createdAt).toLocaleDateString()}
                                         </span>
                                     </div>
