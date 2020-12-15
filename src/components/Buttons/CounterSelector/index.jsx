@@ -1,12 +1,11 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {useMutation} from "@apollo/client";
 import UPDATE_CART_QUANTITY_MUTATION from "../../../graphql/mutations/cart/updateCartQuantity";
-import {initializeApollo} from "../../../lib/apolloClient";
+// import {initializeApollo} from "../../../lib/apolloClient";
 import {OrderContext} from "../../../stores/userOrder";
 import REMOVE_FROM_CART_MUTATION from "../../../graphql/mutations/cart/removeFromCart";
 import {useToasts} from "react-toast-notifications";
 
-const apolloClient = initializeApollo()
 
 export const CounterSelector = ({handleChange, handleUpdateLineItems = null, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
     const [defaultCounter, setDefaultCounter] = useState(defaultValue);
@@ -14,8 +13,12 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     const [currentLineItem, setCurrentLineItem] = useState(lineItem);
     const {addToast} = useToasts()
 
+    useEffect(() => {
+        setDefaultCounter(defaultValue);
+    }, [defaultValue, lineItem])
+
     const [updateCartQuantity, {data, error, loading}] = useMutation(UPDATE_CART_QUANTITY_MUTATION, {
-        client: apolloClient,
+        // client: apolloClient,
         onCompleted: (data) => {
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.updateCartQuantity.order}});
             addToast('Carrito actualizado', {
@@ -32,7 +35,7 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     });
 
     const [removeFromCart, {data: dataRemove, error: errorRemove, loading: loadingRemove}] = useMutation(REMOVE_FROM_CART_MUTATION, {
-        client: apolloClient,
+        // client: apolloClient,
         onCompleted: (data) => {
             addToast('Producto eliminado de tu carrito', {
                 appearance: 'info',
@@ -47,6 +50,7 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     });
 
     const handleAddQuantity = () => {
+        console.log("ADD", lineItem.product.name)
         setDefaultCounter(prevState => ((prevState || 0) + 1));
         updateCartQuantity({
             variables: {
@@ -57,6 +61,7 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     }
 
     const handleDeductQuantity = () => {
+        console.log("DEDUDCT", lineItem.product.name)
         if (defaultCounter <= 1) {
             removeFromCart({
                 variables: {
@@ -132,11 +137,13 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
                 <input
                     className="py-3 bg-gray-100 text-center w-full rounded appearance-none w-6/12"
                     type="number"
-                    value={parseInt(defaultCounter) || 0}
+                    value={defaultCounter}
                     onBlur={(e) => {
+                        console.log("BLUR", defaultCounter)
                         handleChangeQuantity(e);
                     }}
                     onChange={(e) => {
+                        console.log("CHANGE", defaultCounter)
                         let newValue = parseInt(e.target.value)
                         if (newValue <= 0) {
                             setDefaultCounter(0);
