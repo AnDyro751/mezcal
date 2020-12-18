@@ -11,8 +11,13 @@ export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
     itemTotal
     number
     total
+    promoTotal
+    paymentTotal
+    shipmentTotal
   }
   ${otherQuery ? otherQuery : ""}
 }
 `
 }
+
+export const COMPLETE_CART_QUERY = ``

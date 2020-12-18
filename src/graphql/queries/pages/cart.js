@@ -1,4 +1,16 @@
 const SHOW_CART_QUERY = `
+adjustmentTotal
+        adjustments{
+          nodes{
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode{
+              value
+            }
+          }
+        }
 lineItems{
       nodes{
           product{
