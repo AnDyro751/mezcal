@@ -1,3 +1,5 @@
+import ApplyCoupon from "../ApplyCoupon";
+
 export default function CartCouponsInfo({currentOrder = {}}) {
     return (
         <div className="w-full">
@@ -9,10 +11,12 @@ export default function CartCouponsInfo({currentOrder = {}}) {
                         adjustment.promotionCode &&
                         <div className="">
                             <span>Cupón: {adjustment.promotionCode.value}</span>
+                            &#160;&#160;<span>-Eliminar-</span>
                         </div>
                     }
                 </div>
             ))}
+            <ApplyCoupon currentOrder={currentOrder}/>
         </div>
     )
 }
