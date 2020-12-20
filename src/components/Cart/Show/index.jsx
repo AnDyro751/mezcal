@@ -7,6 +7,7 @@ import CartTotalInfo from "../TotalInfo";
 import CartCouponsInfo from "../CouponsInfo";
 import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
+import Link from 'next/link'
 
 const CartShow = ({}) => {
     const [state, dispatch] = useContext(OrderContext);
@@ -33,6 +34,7 @@ const CartShow = ({}) => {
             <CartListLineItems currentOrder={data.currentOrder}/>
             <CartTotalInfo currentOrder={data.currentOrder}/>
             <CartCouponsInfo currentOrder={data.currentOrder}/>
+            <Link href={"/checkout"}>Continuar</Link>
         </div>
     )
 }
