@@ -4,7 +4,7 @@ export default function CartTotalInfo({currentOrder = {}}) {
             <p className="font-medium">Subtotal: <span className="font-normal">{currentOrder.total}</span></p>
             {
                 currentOrder.adjustments &&
-                currentOrder.adjustments.nodes.filter((el) => el.eligible === true).length > 0 &&
+                currentOrder.adjustments.nodes.length > 0 &&
                 <p className="font-medium">
                     Descuentos: <span className="font-normal">&#160;{currentOrder.adjustmentTotal}</span>
                 </p>

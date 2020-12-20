@@ -44,14 +44,17 @@ export default function CartCouponsInfo({currentOrder = {}}) {
         <div className="w-full">
             {
                 order.adjustments &&
-                order.adjustments.nodes.filter((el) => el.eligible === true).map((adjustment, i) => (
+                order.adjustments.nodes.map((adjustment, i) => (
                     <div
                         key={i}
-                        className="w-full"><strong>{adjustment.label}:</strong>&#160;&#160;
+
+                        className={`${adjustment.eligible ? "" : "opacity-25"} w-full cursor-not-allowed my-2`}
+                        title={`${adjustment.eligible ? "" : "No disponible"}`}>
+                        <strong>{adjustment.label}:</strong>&#160;&#160;
                         <span>{adjustment.amount}</span>
                         {
                             adjustment.promotionCode &&
-                            <div className="">
+                            <div>
                                 <span>Cupón: {adjustment.promotionCode.value}</span>
                                 &#160;&#160;<span
                                 onClick={() => handleRemoveCoupon(adjustment.promotionCode.value)}>-Eliminar-</span>
