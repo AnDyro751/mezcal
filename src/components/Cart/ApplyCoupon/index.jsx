@@ -18,6 +18,7 @@ export default function ApplyCoupon({currentOrder = {}}) {
                     appearance: 'error'
                 });
             } else {
+                setCustomCoupon("");
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.applyCouponCode.order}});
                 console.log(data.applyCouponCode.order)
                 addToast('Se ha aplicado el cupón', {

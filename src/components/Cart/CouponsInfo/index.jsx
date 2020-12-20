@@ -48,7 +48,7 @@ export default function CartCouponsInfo({currentOrder = {}}) {
                     <div
                         key={i}
 
-                        className={`${adjustment.eligible ? "" : "opacity-25"} w-full cursor-not-allowed my-2`}
+                        className={`${adjustment.eligible ? "" : "opacity-25"} w-full hover:opacity-100  my-2`}
                         title={`${adjustment.eligible ? "" : "No disponible"}`}>
                         <strong>{adjustment.label}:</strong>&#160;&#160;
                         <span>{adjustment.amount}</span>
@@ -57,6 +57,7 @@ export default function CartCouponsInfo({currentOrder = {}}) {
                             <div>
                                 <span>Cupón: {adjustment.promotionCode.value}</span>
                                 &#160;&#160;<span
+                                className="cursor-pointer"
                                 onClick={() => handleRemoveCoupon(adjustment.promotionCode.value)}>-Eliminar-</span>
                             </div>
                         }
