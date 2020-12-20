@@ -1,7 +1,6 @@
 import {useState, useContext, useEffect} from 'react';
 import {useMutation} from "@apollo/client";
 import UPDATE_CART_QUANTITY_MUTATION from "../../../graphql/mutations/cart/updateCartQuantity";
-// import {initializeApollo} from "../../../lib/apolloClient";
 import {OrderContext} from "../../../stores/userOrder";
 import REMOVE_FROM_CART_MUTATION from "../../../graphql/mutations/cart/removeFromCart";
 import {useToasts} from "react-toast-notifications";

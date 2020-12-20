@@ -1,11 +1,14 @@
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {useMutation} from "@apollo/client";
 import APPLY_COUPON_CODE_MUTATION from "../../../graphql/mutations/cart/applyCouponCode";
 import {useToasts} from "react-toast-notifications";
+import {OrderContext} from "../../../stores/userOrder";
 
 export default function ApplyCoupon({currentOrder = {}}) {
     const {addToast} = useToasts();
     const [currentCoupon, setCustomCoupon] = useState("")
+    const [state, dispatch] = useContext(OrderContext);
+
 
     const [applyCouponCode, {data, loading, error}] = useMutation(APPLY_COUPON_CODE_MUTATION, {
         onCompleted: (data) => {
@@ -15,6 +18,8 @@ export default function ApplyCoupon({currentOrder = {}}) {
                     appearance: 'error'
                 });
             } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.applyCouponCode.order}});
+                console.log(data.applyCouponCode.order)
                 addToast('Se ha aplicado el cupón', {
                     appearance: 'success'
                 });

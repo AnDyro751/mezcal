@@ -7,6 +7,17 @@ mutation ApplyCouponCode($coupon_code:String!){
       total
       itemTotal
       adjustmentTotal
+      adjustments{
+          nodes{
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode{
+              value
+            }
+          }
+      }
     }
     errors{
       path
@@ -16,4 +27,32 @@ mutation ApplyCouponCode($coupon_code:String!){
 }
 `
 
+
+const REMOVE_COUPON_CODE_MUTATION = gql`
+mutation ApplyCouponCode($coupon_code:String!){
+  removeCouponCode(input:{couponCode:$coupon_code}){
+    order{
+      total
+      itemTotal
+      adjustmentTotal
+      adjustments{
+          nodes{
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode{
+              value
+            }
+          }
+      }
+    }
+    errors{
+      path
+      message
+    }
+  }
+}
+`
+export {REMOVE_COUPON_CODE_MUTATION}
 export default APPLY_COUPON_CODE_MUTATION;
