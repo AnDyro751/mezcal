@@ -16,7 +16,7 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                 }
                 setChecked(!checkedInput);
             }}
-            className="w-full p-3 space-x-4 rounded border cursor-pointer border-gray-300 flex"
+            className="w-full select-none p-3 space-x-4 rounded border cursor-pointer border-gray-300 flex"
         >
             <div className="w-4">
                 <input type="radio"

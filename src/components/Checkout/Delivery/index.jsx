@@ -5,10 +5,21 @@ import ButtonsPrimary from "../../Buttons/primary";
 import {useMutation} from "@apollo/client";
 import SELECT_SHIPPING_RATE from "../../../graphql/mutations/cart/selectShippingRate";
 import {useToasts} from "react-toast-notifications";
+import {useMemo} from 'react';
 
 function ComponentCheckoutDelivery({currentOrder = {}}) {
     const [shippingRateSelected, setShippingRate] = useState("");
     const {addToast} = useToasts()
+
+    useMemo(() => {
+        currentOrder.shipments.nodes.map((shipment) => {
+            let currentSelected = shipment.shippingRates.nodes.find((el) => el.selected === true);
+            if (currentSelected) {
+                setShippingRate(currentSelected.id);
+                return;
+            }
+        })
+    }, [])
 
     const [selectShippingRate, {data, loading, error}] = useMutation(SELECT_SHIPPING_RATE, {
         variables: {
@@ -50,6 +61,7 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                     <ButtonsPrimary
                         onClick={handleClick}
                         disabled={shippingRateSelected.length <= 1}
+                        loading={loading}
                         text={"Continuar con el pago"} customClass="w-full text-center flex justify-center"/>
                 </div>
             </div>
