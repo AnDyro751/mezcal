@@ -3,8 +3,14 @@ import {useState, useMemo} from 'react';
 import ButtonsPrimary from "../../Buttons/primary";
 import {useMutation} from "@apollo/client";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
+import InputBaseSelect from "../../Inputs/Select";
+import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
+import {useToasts} from 'react-toast-notifications';
+import Router from 'next/router'
 
 export default function SetAddressData({currentCountry = {}, currentOrder = {}}) {
+    const {addToast} = useToasts()
+
     const [fields, setFields] = useState({
         name: "",
         lastName: "",
@@ -32,6 +38,32 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
     }, [])
 
     const {name, lastName, address, address2, phone, cp, city} = fields;
+    const [toNextState, {data: nextData, loading: nextLoading, error: nextError}] = useMutation(NEXT_STATE_MUTATION, {
+        onError: (e) => {
+            console.log(e, "ERROR")
+        },
+        onCompleted: (completedData) => {
+            if (completedData.nextCheckoutState.errors.length <= 0) {
+                addToast('Redirigiendo a los envíos', {
+                    appearance: 'success'
+                });
+                Router.push("/delivery")
+            } else {
+                addToast(completedData.nextCheckoutState.errors[0].message, {
+                    appearance: 'error'
+                });
+            }
+
+            console.log("DATA", completedData);
+
+        },
+        variables: {
+            input: {
+                clientMutationId: "demo1"
+            }
+        }
+    });
+
     const [addAddress, {data, loading, error}] = useMutation(ADD_ADDRESS_TO_CHECKOUT_MUTATION, {
         variables: {
             "input": {
@@ -58,6 +90,9 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                     "stateId": "U3ByZWU6OlN0YXRlLTIxMzE="
                 }
             }
+        },
+        onCompleted: () => {
+            toNextState()
         }
 
     });
@@ -135,9 +170,27 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                     id={"order[phone]"} value={fields.phone}
                     placeholder={"Teléfono"}/>
             </div>
+            <div className="w-full flex space-x-4">
+                <div className="w-6/12">
+                    <InputBaseSelect
+                        id={"order[country]"}
+                        handleChange={() => {
+                        }}
+                        label={"Demo"}
+                        name={"order[state]"} options={currentCountry.states.nodes}/>
+                </div>
+                <div className="w-6/12">
+                    <InputBaseSelect
+                        handleChange={() => {
+                        }}
+                        id={"order[country]"}
+                        label={"País"}
+                        name={"order[country]"} options={[{id: "mx", name: "México"}]}/>
+                </div>
+            </div>
             <div className="w-full">
                 <ButtonsPrimary onClick={handleClick} text={"Guardar y continuar"}
-                                loading={loading}
+                                loading={loading || nextLoading}
                 />
             </div>
 
