@@ -1,10 +1,13 @@
-export default function InputBase({label = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = ""}) {
+export default function InputBase({label = null, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = ""}) {
     return (
         <div className="w-full">
             {label &&
             <label className="mb-2 w-full block text-sm text-gray-500" htmlFor={id}>{label}</label>
             }
             <input
+                onBlur={(e) => {
+                    onBlur ? onBlur(e) : null
+                }}
                 name={name}
                 value={value}
                 onChange={(e) => {

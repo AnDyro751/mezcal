@@ -27,17 +27,13 @@ function ComponentsCheckoutAddress() {
                         <SetEmailInput/>
                     </div>
                     <h3 className="text-lg text-gray-800">Dirección de envío</h3>
-                    <div className="w-full">
-                        {loading &&
-                        <span>Cargando...</span>
-                        }
-                        {!loading && !error &&
-                        <SetAddressData currentCountry={data.countryByIso}/>
-                        }
-                        {error &&
-                        <span>Ha ocurrido un error</span>
-                        }
-                    </div>
+                    {
+                        !loading && !error &&
+                        <div className="w-full">
+                            <SetAddressData currentCountry={data.countryByIso}/>
+                        </div>
+                    }
+
                 </div>
             </div>
         </div>
