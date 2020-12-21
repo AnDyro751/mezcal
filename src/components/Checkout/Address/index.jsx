@@ -11,11 +11,14 @@ function ComponentsCheckoutAddress({currentOrder}) {
 
     const {data, loading, error} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
-            isoCode: "MEX"
+            isoCode: "MX"
         },
-        // onError: () => {
-        //     addToast("Ha ocurrido un error al recuperar la información", {appearance: 'error'})
-        // }
+        onCompleted: (dd) => {
+            console.log("DD", dd);
+        },
+        onError: () => {
+            addToast("Ha ocurrido un error al recuperar la información", {appearance: 'error'})
+        }
     });
     if (loading) {
         return (

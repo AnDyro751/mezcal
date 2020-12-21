@@ -44,7 +44,7 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                     "firstname": name,
                     "lastname": lastName,
                     "zipcode": cp,
-                    // "stateId": "1"
+                    "stateId": "U3ByZWU6OlN0YXRlLTIxMzE="
                 },
                 "shippingAddress": {
                     "address1": address,
@@ -55,7 +55,7 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                     "firstname": name,
                     "lastname": lastName,
                     "zipcode": cp,
-                    // "stateId": "1"
+                    "stateId": "U3ByZWU6OlN0YXRlLTIxMzE="
                 }
             }
         }

@@ -9,6 +9,7 @@ query getCountryByISO($isoCode:String!){
     id
     states{
       nodes{
+        id
         name
       }
     }
