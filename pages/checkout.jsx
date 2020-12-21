@@ -8,16 +8,40 @@ export default function CheckoutPage({data}) {
         <LayoutApplication
             currentOrder={data.currentOrder}
         >
-            <ComponentsCheckoutAddress/>
+            <ComponentsCheckoutAddress currentOrder={data.currentOrder}/>
         </LayoutApplication>
     )
 }
 
 
 export async function getServerSideProps({query, res}) {
-    const data = await runQuery(MAIN_QUERY());
+    const data = await runQuery(MAIN_QUERY(null, `shippingAddress {
+      address2
+      address1
+      phone
+      city
+      country {
+        id
+      }
+      lastname
+      firstname
+      zipcode
+      stateName
+    }
+    billingAddress {
+      address2
+      address1
+      phone
+      city
+      country {
+        id
+      }
+      lastname
+      firstname
+      zipcode
+      stateName
+    }`));
     if (!data) {
-        console.log(data, "DATA")
         res.statusCode = 400;
     }
     return {

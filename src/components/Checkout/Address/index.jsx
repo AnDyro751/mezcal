@@ -3,20 +3,25 @@ import SetEmailInput from "../SetEmailInput";
 import SetAddressData from "../SetAddressData";
 import {useQuery} from "@apollo/client";
 import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
-import {useToasts} from "react-toast-notifications";
+// import {useToasts} from "react-toast-notifications";
 import withApollo from "../../../lib/apollo";
 
-function ComponentsCheckoutAddress() {
-    const {addToast} = useToasts()
+function ComponentsCheckoutAddress({currentOrder}) {
+    // const {addToast} = useToasts()
 
     const {data, loading, error} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
             isoCode: "MEX"
         },
-        onError: () => {
-            addToast("Ha ocurrido un error al recuperar la información", {appearance: 'error'})
-        }
+        // onError: () => {
+        //     addToast("Ha ocurrido un error al recuperar la información", {appearance: 'error'})
+        // }
     });
+    if (loading) {
+        return (
+            <h2>Cargando...</h2>
+        )
+    }
     return (
         <div className="w-10/12 mx-auto mt-10">
             <h1 className="text-4xl font-medium mb-10 uppercase">Checkout</h1>
@@ -27,13 +32,9 @@ function ComponentsCheckoutAddress() {
                         <SetEmailInput/>
                     </div>
                     <h3 className="text-lg text-gray-800">Dirección de envío</h3>
-                    {
-                        !loading && !error &&
-                        <div className="w-full">
-                            <SetAddressData currentCountry={data.countryByIso}/>
-                        </div>
-                    }
-
+                    <div className="w-full">
+                        <SetAddressData currentOrder={currentOrder} currentCountry={data.countryByIso}/>
+                    </div>
                 </div>
             </div>
         </div>
