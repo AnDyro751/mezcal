@@ -9,8 +9,12 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
     return (
         <div
             onClick={() => {
+                if (checkedInput) {
+                    handleSelect("");
+                } else {
+                    handleSelect(shippingRate.id);
+                }
                 setChecked(!checkedInput);
-                handleSelect(shippingRate.id)
             }}
             className="w-full p-3 space-x-4 rounded border cursor-pointer border-gray-300 flex"
         >
@@ -19,12 +23,15 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                        checked={checkedInput}
                        onChange={(e) => {
                            setChecked(e.target.checked);
-                           handleSelect(shippingRate.id)
-                           console.log(e.target);
+                           if (e.target.checked) {
+                               handleSelect(shippingRate.id);
+                           } else {
+                               handleSelect("");
+                           }
                        }}
                 />
             </div>
-            <div className="w-11/12 flex">
+            <div className="w-11/12 flex items-center">
                 <div className="w-8/12">
                                             <span className="text-gray-700 font-normal">
                                                 {shippingRate.shippingMethod.name}

@@ -2,9 +2,30 @@ import withApollo from "../../../lib/apollo";
 import ComponentsCheckoutShippingRate from "../ShippingRate";
 import {useState} from 'react';
 import ButtonsPrimary from "../../Buttons/primary";
+import {useMutation} from "@apollo/client";
+import SELECT_SHIPPING_RATE from "../../../graphql/mutations/cart/selectShippingRate";
+import {useToasts} from "react-toast-notifications";
 
 function ComponentCheckoutDelivery({currentOrder = {}}) {
     const [shippingRateSelected, setShippingRate] = useState("");
+    const {addToast} = useToasts()
+
+    const [selectShippingRate, {data, loading, error}] = useMutation(SELECT_SHIPPING_RATE, {
+        variables: {
+            input: {
+                shippingRateId: shippingRateSelected
+            }
+        }
+    });
+    const handleClick = () => {
+        if (shippingRateSelected.length > 0) {
+            selectShippingRate()
+        } else {
+            addToast('Selecciona un envío', {
+                appearance: 'error'
+            })
+        }
+    }
     return (
         <div className="w-10/12 mx-auto">
             <div className="w-full space-y-4">
@@ -26,7 +47,10 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                     }
                 </div>
                 <div className="w-full">
-                    <ButtonsPrimary text={"Continuar con el pago"} customClass="w-full text-center flex justify-center"/>
+                    <ButtonsPrimary
+                        onClick={handleClick}
+                        disabled={shippingRateSelected.length <= 1}
+                        text={"Continuar con el pago"} customClass="w-full text-center flex justify-center"/>
                 </div>
             </div>
         </div>
