@@ -3,7 +3,7 @@ import {initializeApollo} from "../../lib/apolloClient";
 
 const apolloClient = initializeApollo()
 
-const runQuery = (currentQuery, variables = {},fetchPolicy="no-cache") => {
+const runQuery = (currentQuery, variables = {}, fetchPolicy = "no-cache") => {
     const getQuery = async () => {
         let data = {};
         try {
@@ -15,6 +15,7 @@ const runQuery = (currentQuery, variables = {},fetchPolicy="no-cache") => {
             data = data.data
             return data;
         } catch (e) {
+            console.log("ERROR", e)
             return null
         }
     }

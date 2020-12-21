@@ -13,8 +13,13 @@ export default function CheckoutPage({data}) {
     )
 }
 
+
 export async function getServerSideProps({query, res}) {
     const data = await runQuery(MAIN_QUERY());
+    if (!data) {
+        console.log(data, "DATA")
+        res.statusCode = 400;
+    }
     return {
         props: {
             data: data,

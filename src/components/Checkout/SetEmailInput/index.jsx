@@ -11,8 +11,11 @@ export default function SetEmailInput({}) {
     return (
         <div className="w-full">
             <InputBase
+                onChange={(e) => {
+                    setCurrentEmail(e.target.value)
+                }}
                 placeholder={"Correo electrónico"}
-                value={currentEmail}
+                value={currentEmail || ""}
                 id={"order[mail]"}
                 label={"Correo Electrónico"}
                 type={"text"}

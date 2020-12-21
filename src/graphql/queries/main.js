@@ -11,6 +11,7 @@ export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
     itemTotal
     number
     total
+    email
     promoTotal
     paymentTotal
     shipmentTotal
