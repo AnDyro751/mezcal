@@ -6,7 +6,6 @@ import PagesError from "../src/pages/error";
 import ComponentCheckoutDelivery from "../src/components/Checkout/Delivery";
 
 export default function PagesDelivery({data}) {
-    console.log(data, "DATA")
     if (!data) {
         return (
             <PagesError message={"Ha ocurrido un error"}/>
