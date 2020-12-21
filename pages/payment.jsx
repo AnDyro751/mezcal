@@ -1,12 +1,11 @@
-import LayoutApplication from "../src/components/Layout/application";
-import ComponentsCheckoutAddress from "../src/components/Checkout/Address";
-import runQuery from "../src/graphql/queries/runQuery";
-import {MAIN_QUERY} from "../src/graphql/queries/main";
 import PagesError from "../src/pages/error";
 import ComponentCheckoutDelivery from "../src/components/Checkout/Delivery";
+import LayoutApplication from "../src/components/Layout/application";
+import runQuery from "../src/graphql/queries/runQuery";
+import {MAIN_QUERY} from "../src/graphql/queries/main";
 import PAGE_DELIVERY_QUERY from "../src/graphql/queries/pages/delivery";
 
-export default function PagesDelivery({data}) {
+export default function PagesPayment({data}) {
     if (!data) {
         return (
             <PagesError message={"Ha ocurrido un error"}/>
@@ -16,12 +15,13 @@ export default function PagesDelivery({data}) {
         <LayoutApplication
             currentOrder={data.currentOrder}
         >
-            <ComponentCheckoutDelivery currentOrder={data.currentOrder}/>
+            <h2>Pagar</h2>
         </LayoutApplication>
     )
 }
 
-export async function getServerSideProps({query, res}) {
+
+export async function getServerSideProps({res}) {
     const data = await runQuery(MAIN_QUERY(null, PAGE_DELIVERY_QUERY));
     if (!data) {
         res.statusCode = 400;
