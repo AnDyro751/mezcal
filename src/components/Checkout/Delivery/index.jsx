@@ -6,6 +6,7 @@ import {useMutation} from "@apollo/client";
 import SELECT_SHIPPING_RATE from "../../../graphql/mutations/cart/selectShippingRate";
 import {useToasts} from "react-toast-notifications";
 import {useMemo} from 'react';
+import Router from 'next/router';
 
 function ComponentCheckoutDelivery({currentOrder = {}}) {
     const [shippingRateSelected, setShippingRate] = useState("");
@@ -25,6 +26,15 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
         variables: {
             input: {
                 shippingRateId: shippingRateSelected
+            }
+        },
+        onCompleted: (dataCompleted) => {
+            if (dataCompleted.selectShippingRate.errors.length > 0) {
+                addToast(dataCompleted.selectShippingRate.errors[0].message, {
+                    appearance: 'error'
+                })
+            } else {
+                Router.push("/payment")
             }
         }
     });
