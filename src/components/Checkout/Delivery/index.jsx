@@ -4,7 +4,7 @@ import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 
 
 function ComponentCheckoutDelivery({currentOrder = {}}) {
-    console.info(currentOrder);
+    // console.info(currentOrder);
     return (
         <div className="w-full">
             <button>Siguiente</button>

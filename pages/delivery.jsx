@@ -6,6 +6,7 @@ import PagesError from "../src/pages/error";
 import ComponentCheckoutDelivery from "../src/components/Checkout/Delivery";
 
 export default function PagesDelivery({data}) {
+    console.log(data, "DATA")
     if (!data) {
         return (
             <PagesError message={"Ha ocurrido un error"}/>
@@ -68,6 +69,29 @@ export async function getServerSideProps({query, res}) {
     }`));
     if (!data) {
         res.statusCode = 400;
+    } else {
+        if (data.currentOrder) {
+            if (data.currentOrder.shipments.nodes.length > 0) {
+                if (data.currentOrder.shipments.nodes[0].shippingRates.nodes.length > 0) {
+
+                } else {
+                    res.writeHead(307, {
+                        Location: "/checkout"
+                    })
+                    res.end();
+                }
+            } else {
+                res.writeHead(307, {
+                    Location: "/checkout"
+                })
+                res.end();
+            }
+        } else {
+            res.writeHead(307, {
+                Location: "/products"
+            })
+            res.end();
+        }
     }
     return {
         props: {
