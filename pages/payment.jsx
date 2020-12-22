@@ -4,6 +4,7 @@ import LayoutApplication from "../src/components/Layout/application";
 import runQuery from "../src/graphql/queries/runQuery";
 import {MAIN_QUERY} from "../src/graphql/queries/main";
 import PAGE_DELIVERY_QUERY from "../src/graphql/queries/pages/delivery";
+import ComponentsCheckoutPayment from "../src/components/Checkout/Payment";
 
 export default function PagesPayment({data}) {
     if (!data) {
@@ -15,7 +16,7 @@ export default function PagesPayment({data}) {
         <LayoutApplication
             currentOrder={data.currentOrder}
         >
-            <h2>Pagar</h2>
+            <ComponentsCheckoutPayment />
         </LayoutApplication>
     )
 }
