@@ -9,14 +9,14 @@ import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
 import Link from 'next/link'
 
-const CartShow = ({}) => {
-    const [state, dispatch] = useContext(OrderContext);
+function CartShow() {
+    const {state, dispatch} = useContext(OrderContext);
 
     const {data, loading, error} = useQuery(gql`${MAIN_QUERY(null, SHOW_CART_QUERY)}`, {
-        fetchPolicy: "no-cache",
-        onCompleted: (data) => {
-            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.currentOrder}});
-        }
+        fetchPolicy: "network-only",
+        // onCompleted: (data) => {
+        // dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.currentOrder}});
+        // }
     });
     if (loading) {
         return (

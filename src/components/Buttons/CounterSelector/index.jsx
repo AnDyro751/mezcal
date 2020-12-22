@@ -8,7 +8,7 @@ import {useToasts} from "react-toast-notifications";
 
 export const CounterSelector = ({handleChange, handleUpdateLineItems = null, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
     const [defaultCounter, setDefaultCounter] = useState(defaultValue);
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
     const [currentLineItem, setCurrentLineItem] = useState(lineItem);
     const {addToast} = useToasts()
 

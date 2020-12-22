@@ -17,7 +17,7 @@ const ProductReviews = dynamic(() => import('../Reviews'), {
 })
 
 function ComponentsProductShow({slug = "", variant = null}) {
-    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`)
+    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`,     )
     useEffect(() => {
         if (mainData) {
             updateLazyLoad();

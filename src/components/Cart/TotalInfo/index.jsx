@@ -2,7 +2,7 @@ import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
 
 export default function CartTotalInfo({currentOrder = {}}) {
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
     const {order} = state;
     return (
         <div className="w-full px-3 py-4 bg-green-100 rounded">

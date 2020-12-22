@@ -63,6 +63,11 @@ export default function ProductGallery({product}) {
                 product.masterVariant.images.nodes.length > 0 &&
                 <img
                     key={"1"}
+                    onClick={() => {
+                        setCurrentImage(currentImage);
+                        // openLightbox(currentImage);
+                        setOpenImages(true);
+                    }}
                     alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
                     className="lazy cursor-pointer w-full"
                     src={`${GetImageUrl({

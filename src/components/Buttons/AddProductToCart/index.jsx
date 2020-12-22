@@ -10,7 +10,7 @@ export default function AddProductToCart({product}) {
     const currentVariant = product.masterVariant;
     // console.log(currentVariant)
     const {addToast} = useToasts()
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
 
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
         variables: {

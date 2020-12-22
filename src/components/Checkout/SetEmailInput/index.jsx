@@ -6,7 +6,7 @@ import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder"
 import {useToasts} from "react-toast-notifications";
 
 export default function SetEmailInput({}) {
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
     const [currentEmail, setCurrentEmail] = useState("");
     const {addToast} = useToasts();
 

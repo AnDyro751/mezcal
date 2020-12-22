@@ -4,7 +4,7 @@ import {OrderContext} from "../../../stores/userOrder";
 import {SITE_TITLE} from "../../../site/info";
 
 export default function HeadersPublic() {
-    const [state, nul] = useContext(OrderContext);
+    const {state} = useContext(OrderContext);
     const {order} = state;
     return (
         <div className="w-full flex justify-center py-3 border-b">

@@ -7,7 +7,7 @@ import {OrderContext} from "../../../stores/userOrder";
 export default function ApplyCoupon({currentOrder = {}}) {
     const {addToast} = useToasts();
     const [currentCoupon, setCustomCoupon] = useState("")
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
 
 
     const [applyCouponCode, {data, loading, error}] = useMutation(APPLY_COUPON_CODE_MUTATION, {

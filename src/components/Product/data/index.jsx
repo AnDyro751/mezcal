@@ -45,7 +45,7 @@ export default function ProductData({product, variant = null}) {
     const [selectedVariants, setSelectedVariants] = useState(createVariantObject(product.optionTypes));
     const [optionTypes, setOptionTypes] = useState(product.optionTypes.nodes);
     const [addQuantity, setAddQuantity] = useState(1);
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
     // console.log(variant, "VA")
 // );
 

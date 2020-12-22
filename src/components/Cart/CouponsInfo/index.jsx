@@ -6,7 +6,7 @@ import {REMOVE_COUPON_CODE_MUTATION} from "../../../graphql/mutations/cart/apply
 import {useToasts} from "react-toast-notifications";
 
 export default function CartCouponsInfo({currentOrder = {}}) {
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
     const {order} = state;
     const {addToast} = useToasts();
 

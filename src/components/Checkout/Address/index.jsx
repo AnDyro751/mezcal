@@ -8,7 +8,7 @@ import {OrderContext} from "../../../stores/userOrder";
 
 function ComponentsCheckoutAddress({currentOrder}) {
     // const {addToast} = useToasts()
-    const [state, dispatch] = useContext(OrderContext);
+    const {state, dispatch} = useContext(OrderContext);
     const {data, loading, error} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
             isoCode: "MX"
