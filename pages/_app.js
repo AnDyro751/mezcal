@@ -2,10 +2,8 @@ import "../src/css/base.css";
 import Router from "next/router";
 import NProgress from "nprogress";
 import {OrderContextProvider} from "../src/stores/userOrder";
-import SimpleReactLightbox from "simple-react-lightbox";
 import {ToastProvider} from 'react-toast-notifications';
 import Link from 'next/link'
-
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
@@ -41,17 +39,13 @@ function MyApp({Component, pageProps}) {
     const data = pageProps.data;
     return (
         <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
-            <SimpleReactLightbox>
-                <ToastProvider
-                    components={{Toast: MyCustomToast}}
-                    autoDismiss={true}
-                >
-                    <Component {...pageProps} />
-                </ToastProvider>
-            </SimpleReactLightbox>
+            <ToastProvider
+                components={{Toast: MyCustomToast}}
+                autoDismiss={true}
+            >
+                <Component {...pageProps} />
+            </ToastProvider>
         </OrderContextProvider>
-        // </ApolloProvider>
-
     )
 }
 

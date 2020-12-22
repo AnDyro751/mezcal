@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import {LazyLoadImage} from 'react-lazy-load-image-component';
-import {SRLWrapper} from 'simple-react-lightbox'
-import {useLightbox} from 'simple-react-lightbox'
+import Lightbox from 'react-image-lightbox';
 import NProgress from "nprogress";
+import 'react-image-lightbox/style.css';
 
 const options = {
     settings: {
@@ -48,11 +48,11 @@ const getImages = (images = []) => {
     return newImages;
 }
 export default function ProductGallery({product}) {
-    const {openLightbox, closeLightbox} = useLightbox()
     const [currentImage, setCurrentImage] = useState(0)
+    const [openImages, setOpenImages] = useState(false);
     useEffect(() => {
         return () => {
-            closeLightbox();
+            setOpenImages(false);
         }
     }, [])
     return (
@@ -72,7 +72,8 @@ export default function ProductGallery({product}) {
                     wrapperClassName="cursor-pointer"
                     onClick={() => {
                         setCurrentImage(currentImage);
-                        openLightbox(currentImage);
+                        // openLightbox(currentImage);
+                        setOpenImages(true);
                     }}
                     alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
                     src={`${GetImageUrl({
@@ -86,7 +87,47 @@ export default function ProductGallery({product}) {
                     })}`}
                 />
             }
-            <SRLWrapper images={getImages(product.masterVariant.images.nodes)} options={options}/>
+            {openImages && (
+                <Lightbox
+                    mainSrc={`${GetImageUrl({
+                        publicId: generateUrlPath({
+                            filename: product.masterVariant.images.nodes[currentImage].filename,
+                            id: product.masterVariant.images.nodes[currentImage].id
+                        }),
+                        height: 1000,
+                        width: 1000,
+                        fit: "cover"
+                    })}`}
+                    nextSrc={`${GetImageUrl({
+                        publicId: generateUrlPath({
+                            filename: product.masterVariant.images.nodes[(currentImage + 1) % product.masterVariant.images.nodes.length].filename,
+                            id: product.masterVariant.images.nodes[(currentImage + 1) % product.masterVariant.images.nodes.length].id
+                        }),
+                        height: 1000,
+                        width: 1000,
+                        fit: "cover"
+                    })}`}
+                    prevSrc={`${GetImageUrl({
+                        publicId: generateUrlPath({
+                            filename: product.masterVariant.images.nodes[(currentImage + product.masterVariant.images.nodes.length - 1) % product.masterVariant.images.nodes.length].filename,
+                            id: product.masterVariant.images.nodes[(currentImage + product.masterVariant.images.nodes.length - 1) % product.masterVariant.images.nodes.length].id
+                        }),
+                        height: 1000,
+                        width: 1000,
+                        fit: "cover"
+                    })}`}
+                    onCloseRequest={() => {
+                        setOpenImages(false);
+                    }}
+                    onMovePrevRequest={() => {
+                        setCurrentImage((currentImage + product.masterVariant.images.nodes.length - 1) % product.masterVariant.images.nodes.length)
+                    }}
+                    onMoveNextRequest={() => {
+                        setCurrentImage((currentImage + 1) % product.masterVariant.images.nodes.length)
+                    }}
+                />
+            )}
+            {/*<SRLWrapper images={getImages(product.masterVariant.images.nodes)} options={options}/>*/}
             <div className="flex space-x-4 mt-4">
                 {product.masterVariant.images.nodes.map((image, i) => (
                     <div key={i}
