@@ -4,10 +4,12 @@ import withApollo from "../../../lib/apollo";
 import GET_PAYMENT_METHODS_QUERY from "../../../graphql/queries/getPaymentMethods";
 import ComponentsCheckoutPaymentMethod from "../PaymentMethod";
 import {useState} from "react";
+import InputBase from "../../Inputs/base";
+import CardForm from "../CardForm";
 
 function ComponentsCheckoutPayment({}) {
     const {data: dataPayment, loading: loadingPayment, error: errorPayment} = useQuery(GET_PAYMENT_METHODS_QUERY)
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [addPaymentMethod, {data, loading, error}] = useMutation(ADD_PAYMENT_TO_CHECKOUT_MUTATION, {
         variables: {
             source: {
@@ -32,16 +34,19 @@ function ComponentsCheckoutPayment({}) {
                 !loadingPayment && !errorPayment &&
                 dataPayment.currentOrder.availablePaymentMethods.nodes.map((paymentMethod, i) => (
                     <ComponentsCheckoutPaymentMethod
-                        handleChange={(id) => {
-                            setSelectedPaymentMethod(id);
+                        handleChange={(paymentM) => {
+                            setSelectedPaymentMethod(paymentM);
                         }}
-                        checked={selectedPaymentMethod === paymentMethod.id}
-                        paymentMethod={paymentMethod} key={i}/>
+                        checked={selectedPaymentMethod ? selectedPaymentMethod.id === paymentMethod.id : false}
+                        paymentMethod={paymentMethod} key={i}
+                    />
                 ))
             }
-            {/*<button onClick={handleClick}>*/}
-            {/*    Agregar tarjeta de débito/crédito*/}
-            {/*</button>*/}
+            {
+                selectedPaymentMethod &&
+                selectedPaymentMethod.partialName === "gateway" &&
+                <CardForm />
+            }
         </div>
     )
 }

@@ -1,4 +1,4 @@
-export default function InputBaseSelect({label = null, handleChange = null, options = [], name = "", type = "text", id = ""}) {
+export default function InputBaseSelect({label = null, handleChange = null, options = [], name = "", id = ""}) {
     return (
         <div className="w-full">
             {label &&

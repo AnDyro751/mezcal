@@ -11,14 +11,17 @@ export default function ComponentsCheckoutPaymentMethod({checked = false, paymen
                 <input
                     onChange={(e) => {
                         if (e.target.checked) {
-                            handleChange(paymentMethod.id);
+                            handleChange(paymentMethod);
                         } else {
-                            handleChange("")
+                            handleChange(null)
                         }
                     }}
                     type="radio" checked={checkedInput}/>
             </div>
-            <span>{paymentMethod.name}-{paymentMethod.partialName}</span>
+            {
+                paymentMethod.partialName === "gateway" &&
+                <span>{paymentMethod.name}</span>
+            }
         </div>
     )
 }
