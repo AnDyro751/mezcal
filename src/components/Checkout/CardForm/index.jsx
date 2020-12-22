@@ -1,5 +1,6 @@
 import InputBase from "../../Inputs/base";
 import InputBaseSelect from "../../Inputs/Select";
+import ButtonsPrimary from "../../Buttons/primary";
 
 export default function CardForm({}) {
     return (
@@ -72,6 +73,9 @@ export default function CardForm({}) {
                     id={"order[cvv]"}
                     placeholder={"xxx"}
                 />
+            </div>
+            <div className="w-full">
+                <ButtonsPrimary text={"Completar order"}/>
             </div>
         </div>
     )
