@@ -2,11 +2,9 @@ import {useContext} from 'react';
 import ButtonsPrimary from "../primary";
 import {useMutation} from "@apollo/client";
 import {ADD_PRODUCT_TO_CART_MUTATION} from "../../../graphql/mutations/products/addProductToCart";
-import {initializeApollo} from "../../../lib/apolloClient";
 import {useToasts} from "react-toast-notifications";
 import {OrderContext} from "../../../stores/userOrder";
 
-const apolloClient = initializeApollo()
 
 export default function AddProductToCart({product}) {
     const currentVariant = product.masterVariant;
@@ -15,7 +13,6 @@ export default function AddProductToCart({product}) {
     const [state, dispatch] = useContext(OrderContext);
 
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
-        client: apolloClient,
         variables: {
             variantId: currentVariant.id,
             quantity: 1

@@ -1,7 +1,5 @@
 import {gql} from "@apollo/client";
-import {initializeApollo} from "../../lib/apolloClient";
-
-const apolloClient = initializeApollo()
+import {apolloClient} from "../../lib/apollo";
 
 const runQuery = (currentQuery, variables = {}, fetchPolicy = "no-cache") => {
     const getQuery = async () => {

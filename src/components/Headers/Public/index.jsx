@@ -2,12 +2,9 @@ import Link from "next/link";
 import {useContext} from 'react'
 import {OrderContext} from "../../../stores/userOrder";
 import {SITE_TITLE} from "../../../site/info";
-import {addApolloState, initializeApollo} from "../../../../src/lib/apolloClient";
-import {gql} from '@apollo/client';
 
 export default function HeadersPublic() {
-    const [state] = useContext(OrderContext);
-    const apolloClient = initializeApollo()
+    const [state, nul] = useContext(OrderContext);
     const {order} = state;
     return (
         <div className="w-full flex justify-center py-3 border-b">

@@ -14,7 +14,7 @@ function Home({data}) {
 export default Home
 
 
-export async function getServerSideProps() {
+export async function getServerSideProps({}) {
     const data = await runQuery(MAIN_QUERY())
     return {
         props: {

@@ -1,6 +1,5 @@
 import {useMutation} from "@apollo/client";
 import {ADD_PRODUCT_TO_CART_MUTATION} from "../../../graphql/mutations/products/addProductToCart";
-import {initializeApollo} from "../../../lib/apolloClient";
 import ButtonsPrimary from "../../Buttons/primary";
 import {useState, useContext, useMemo} from 'react';
 import emptyObject from "../../../lib/emptyObject";
@@ -10,7 +9,6 @@ import {OrderContext} from "../../../stores/userOrder";
 import ProductProperties from "../properties";
 import ProductTaxons from "../Taxons";
 
-const apolloClient = initializeApollo()
 
 function createVariantObject(optionTypes, inArray = false) {
     let newObject = {}
@@ -67,7 +65,6 @@ export default function ProductData({product, variant = null}) {
 
 
     const [addToCart, {data: newData, loading, error}] = useMutation(ADD_PRODUCT_TO_CART_MUTATION, {
-        client: apolloClient,
         variables: {
             variantId: currentVariant.id,
             quantity: addQuantity

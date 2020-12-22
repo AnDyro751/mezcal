@@ -1,7 +1,7 @@
 import "../src/css/base.css";
 import Router from "next/router";
 import NProgress from "nprogress";
-import {OrderContext, OrderContextProvider} from "../src/stores/userOrder";
+import {OrderContextProvider} from "../src/stores/userOrder";
 import SimpleReactLightbox from "simple-react-lightbox";
 import {ToastProvider} from 'react-toast-notifications';
 import Link from 'next/link'
@@ -38,10 +38,8 @@ const MyCustomToast = ({children, ...props}) => {
 };
 
 function MyApp({Component, pageProps}) {
-    // const apolloClient = useApollo(pageProps)
     const data = pageProps.data;
     return (
-        // <ApolloProvider client={apolloClient}>
         <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
             <SimpleReactLightbox>
                 <ToastProvider

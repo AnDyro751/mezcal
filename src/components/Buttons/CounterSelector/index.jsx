@@ -17,7 +17,6 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     }, [defaultValue, lineItem])
 
     const [updateCartQuantity, {data, error, loading}] = useMutation(UPDATE_CART_QUANTITY_MUTATION, {
-        // client: apolloClient,
         onCompleted: (data) => {
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.updateCartQuantity.order}});
             addToast('Carrito actualizado', {
@@ -34,7 +33,6 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
     });
 
     const [removeFromCart, {data: dataRemove, error: errorRemove, loading: loadingRemove}] = useMutation(REMOVE_FROM_CART_MUTATION, {
-        // client: apolloClient,
         onCompleted: (data) => {
             addToast('Producto eliminado de tu carrito', {
                 appearance: 'info',
