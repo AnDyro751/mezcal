@@ -18,6 +18,10 @@ mutation addProductToCart($variantId: ID!, $quantity: Int!) {
     total
       itemTotal
     }
+    errors{
+        path
+        message
+    }
   }
 }
 `;

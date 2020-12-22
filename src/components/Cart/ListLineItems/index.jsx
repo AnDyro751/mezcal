@@ -5,6 +5,7 @@ import CartLineItem from "../LineItem";
 
 const CartListLineItems = ({currentOrder = {}}) => {
     const [lineItems, setLineItems] = useState(currentOrder.lineItems.nodes || []);
+    console.log(currentOrder, "CUR")
     useEffect(() => {
         setLineItems(currentOrder.lineItems.nodes || [])
     }, [currentOrder])

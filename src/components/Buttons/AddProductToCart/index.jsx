@@ -18,32 +18,18 @@ export default function AddProductToCart({product}) {
             quantity: 1
         },
         onCompleted: (data) => {
-            addToast('Producto agregado al carrito', {
-                appearance: 'success',
-                withlink: "/cart",
-                withtext: "Ver carrito"
-            })
-            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.addToCart.order}});
-        },
-        update(cache, {data: {addToCart}}) {
-            cache.modify({
-                fields: {
-                    order(oldOrder = {}) {
-                        console.log(oldOrder, "OLD", cache)
-                        // const newOrder = cache
-                        //               const newTodoRef = cache.writeFragment({
-                        //                   data: addTodo,
-                        //                   fragment: gql`
-                        //       fragment NewTodo on DEMO {
-                        //         id
-                        //         type
-                        //       }
-                        //     `
-                        // });
-                        // return [...oldOrder, newTodoRef];
-                    }
-                }
-            });
+            if (data.addToCart.errors.length > 0) {
+                addToast(data.addToCart.errors[0].message, {
+                    appearance: 'error',
+                })
+            } else {
+                addToast('Producto agregado al carrito', {
+                    appearance: 'success',
+                    withlink: "/cart",
+                    withtext: "Ver carrito"
+                })
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.addToCart.order}});
+            }
         },
         onError: (e) => {
             addToast(e.message, {appearance: 'error'})
