@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
-import {LazyLoadImage} from 'react-lazy-load-image-component';
 import dynamic from 'next/dynamic'
 
 const Lightbox = dynamic(() => import('react-image-lightbox'), {

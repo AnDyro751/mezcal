@@ -12,6 +12,7 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
     const [shippingRateSelected, setShippingRate] = useState("");
     const {addToast} = useToasts()
 
+    console.log(currentOrder, "CURE");
     useMemo(() => {
         currentOrder.shipments.nodes.map((shipment) => {
             let currentSelected = shipment.shippingRates.nodes.find((el) => el.selected === true);

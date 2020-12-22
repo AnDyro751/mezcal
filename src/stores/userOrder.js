@@ -18,7 +18,8 @@ const reducer = (state, action) => {
 
 export const OrderContextProvider = ({children, data = {}}) => {
     const [state, dispatch] = React.useReducer(reducer, data);
-    const value = {state, dispatch}
+    const value = {state, dispatch};
+    console.log(value, "VALUE")
     return (
         <OrderContext.Provider value={value}>
             {children}

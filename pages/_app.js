@@ -5,6 +5,7 @@ import NProgress from "nprogress";
 import {OrderContextProvider} from "../src/stores/userOrder";
 import {ToastProvider} from 'react-toast-notifications';
 import Link from 'next/link'
+
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
@@ -38,6 +39,7 @@ const MyCustomToast = ({children, ...props}) => {
 
 function MyApp({Component, pageProps}) {
     const data = pageProps.data;
+    console.log(data, "DATA PROPS")
     return (
         <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
             <ToastProvider
