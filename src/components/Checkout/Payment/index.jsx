@@ -4,7 +4,6 @@ import withApollo from "../../../lib/apollo";
 import GET_PAYMENT_METHODS_QUERY from "../../../graphql/queries/getPaymentMethods";
 import ComponentsCheckoutPaymentMethod from "../PaymentMethod";
 import {useState} from "react";
-import InputBase from "../../Inputs/base";
 import CardForm from "../CardForm";
 
 function ComponentsCheckoutPayment({}) {

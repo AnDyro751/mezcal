@@ -3,14 +3,26 @@ import ProductData from "../data";
 import withApollo from "../../../lib/apollo";
 import {useQuery, gql} from "@apollo/client";
 import {SHOW_PRODUCT_QUERY} from "../../../graphql/queries/pages/products/show";
-import PagesError from "../../../pages/error";
 import ProductLoadingGallery from "../Loading/ProductLoadingGallery";
 import ProductLoadingData from "../Loading/ProductLoadingData";
-import ProductReviews from "../Reviews";
+import dynamic from 'next/dynamic'
+import updateLazyLoad from "../../../lib/updateLazyLoad";
+import {useEffect} from 'react';
+
+const PagesError = dynamic(() => import('../../../pages/error'), {
+    ssr: false
+})
+const ProductReviews = dynamic(() => import('../Reviews'), {
+    ssr: false
+})
 
 function ComponentsProductShow({slug = "", variant = null}) {
-    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`, {})
-
+    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`)
+    useEffect(() => {
+        if (mainData) {
+            updateLazyLoad();
+        }
+    }, [mainData])
     if (!loading) {
         if (error) {
             return (

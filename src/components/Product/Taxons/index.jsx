@@ -5,16 +5,17 @@ export default function ProductTaxons({product}) {
         return null
     }
     return (
-        <div className="w-full mt-4">
+        <div className="w-full mt-4 flex">
             <p>Categorías:&#160;&#160;
                 {product.taxons.nodes.map((taxon, i) => (
-                    <>
+                    <span className="inline" key={i}>
                         <Link href={`/t/${taxon.permalink}`}>
                             <a
                                 className="text-xs text-gray-600 hover:underline">{taxon.name}</a>
                         </Link>
-                        <span className="mr-1 text-xs text-gray-600">{(i + 1) === product.taxons.nodes.length ? "" : " , "}</span>
-                    </>
+                        <span
+                            className="mr-1 text-xs text-gray-600">{(i + 1) === product.taxons.nodes.length ? "" : " , "}</span>
+                    </span>
                 ))}
             </p>
         </div>

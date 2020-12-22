@@ -33,6 +33,7 @@
     "react-toast-notifications": "^2.4.0",
     "simple-react-lightbox": "^3.3.4-2",
     "subscriptions-transport-ws": "^0.9.18",
-    "tailwindcss": "^2.0.1"
+    "tailwindcss": "^2.0.1",
+    "vanilla-lazyload": "^17.3.0"
   }
 }

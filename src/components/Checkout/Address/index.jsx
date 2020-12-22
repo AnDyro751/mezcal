@@ -3,7 +3,6 @@ import SetEmailInput from "../SetEmailInput";
 import SetAddressData from "../SetAddressData";
 import {useQuery} from "@apollo/client";
 import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
-// import {useToasts} from "react-toast-notifications";
 import withApollo from "../../../lib/apollo";
 import {OrderContext} from "../../../stores/userOrder";
 

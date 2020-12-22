@@ -1,5 +1,3 @@
-// import gql from "graphql-tag";
-
 export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
     return `
 {
@@ -21,4 +19,3 @@ export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
 `
 }
 
-export const COMPLETE_CART_QUERY = ``

@@ -1,5 +1,4 @@
 import PagesError from "../src/pages/error";
-import ComponentCheckoutDelivery from "../src/components/Checkout/Delivery";
 import LayoutApplication from "../src/components/Layout/application";
 import runQuery from "../src/graphql/queries/runQuery";
 import {MAIN_QUERY} from "../src/graphql/queries/main";

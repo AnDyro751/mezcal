@@ -1,7 +1,3 @@
-import {MAIN_QUERY} from "../../main";
-
-const DEFAULT_QUERY = (slug = "") => {
-}
 export const SHOW_PRODUCT_QUERY = (slug = "") => {
     return `query getProductBySlug{
         productBySlug(slug: "${slug}") {
@@ -109,5 +105,4 @@ export const SHOW_PRODUCT_QUERY = (slug = "") => {
   }
     }`
     // return MAIN_QUERY(DEFAULT_QUERY(slug));
-    return DEFAULT_QUERY(slug);
 };

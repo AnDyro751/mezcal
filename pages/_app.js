@@ -1,4 +1,5 @@
 import "../src/css/base.css";
+import 'react-image-lightbox/style.css';
 import Router from "next/router";
 import NProgress from "nprogress";
 import {OrderContextProvider} from "../src/stores/userOrder";

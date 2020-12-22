@@ -1,6 +1,6 @@
 import HeadersPublic from "../Headers/Public";
 import Head from "next/head";
-import {useContext, useEffect, useMemo} from 'react';
+import {useContext, useEffect} from 'react';
 import {OrderContext} from "../../stores/userOrder";
 import {SITE_TITLE} from "../../site/info";
 

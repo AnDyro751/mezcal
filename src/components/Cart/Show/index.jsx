@@ -13,7 +13,6 @@ const CartShow = ({}) => {
     const [state, dispatch] = useContext(OrderContext);
 
     const {data, loading, error} = useQuery(gql`${MAIN_QUERY(null, SHOW_CART_QUERY)}`, {
-        ssr: true,
         fetchPolicy: "no-cache",
         onCompleted: (data) => {
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.currentOrder}});
