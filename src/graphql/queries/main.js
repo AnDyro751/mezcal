@@ -2,6 +2,7 @@ export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
     return `
 {
   currentOrder {
+    state
     ${addToOrder ? addToOrder : ""}
     itemCount
     completedAt

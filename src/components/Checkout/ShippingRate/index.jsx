@@ -1,11 +1,13 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import {useMutation} from "@apollo/client";
 import SELECT_SHIPPING_RATE from "../../../graphql/mutations/cart/selectShippingRate";
 import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
+import {OrderContext} from "../../../stores/userOrder";
 
 export default function ComponentsCheckoutShippingRate({shippingRate = {}, checked = false, handleSelect, shipping}) {
     const {addToast} = useToasts()
+    const {state, dispatch} = useContext(OrderContext);
 
     const [checkedInput, setChecked] = useState(shippingRate.selected || false);
     useEffect(() => {
@@ -24,6 +26,7 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                     appearance: 'error'
                 })
             } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.selectShippingRate.order}});
                 handleSelect(shippingRate.id)
                 setChecked(true);
                 addToast("Método de envío seleccionado", {

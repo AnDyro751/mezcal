@@ -5,6 +5,7 @@ mutation{
   nextCheckoutState(input:{clientMutationId:""}){
     order{
       total
+      state
     }
     errors{
       path
