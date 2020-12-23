@@ -72,6 +72,13 @@ function CartLineItem({lineItem, handleLineItems}) {
                             lineItem.variant.sku &&
                             <p className="text-xs mt-3 text-gray-600 uppercase">SKU: {lineItem.variant.sku}</p>
                         }
+                        {
+                            !lineItem.hasSufficientStock &&
+                            <p className="mt-2" >
+                                <span className="bg-red-600 px-2 py-1 rounded text-white text-xs" >Sin stock</span>
+                            </p>
+
+                        }
                     </div>
                 </div>
             </div>

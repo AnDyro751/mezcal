@@ -40,7 +40,9 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
     const {name, lastName, address, address2, phone, cp, city} = fields;
     const [toNextState, {data: nextData, loading: nextLoading, error: nextError}] = useMutation(NEXT_STATE_MUTATION, {
         onError: (e) => {
-            console.log(e, "ERROR")
+            addToast(e.message ? e.message : e, {
+                appearance: 'error'
+            });
         },
         onCompleted: (completedData) => {
             if (completedData.nextCheckoutState.errors.length <= 0) {
@@ -93,6 +95,11 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
         },
         onCompleted: () => {
             toNextState()
+        },
+        onError: (e) => {
+            addToast(e.message ? e.message : e, {
+                appearance: 'error'
+            });
         }
 
     });

@@ -13,6 +13,7 @@ adjustmentTotal
         }
 lineItems{
       nodes{
+      hasSufficientStock
           product{
               name
               description
