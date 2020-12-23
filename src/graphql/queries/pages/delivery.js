@@ -3,9 +3,9 @@ import {gql} from '@apollo/client'
 const PAGE_DELIVERY_QUERY = `
 shipments{
       nodes{
-        manifest{
-          quantity
-        }
+          stockLocation{
+              name
+            }
         shippingRates{
           nodes{
             cost
