@@ -3,6 +3,7 @@ import {gql} from '@apollo/client'
 const PAGE_DELIVERY_QUERY = `
 shipments{
       nodes{
+      id
           stockLocation{
               name
             }
