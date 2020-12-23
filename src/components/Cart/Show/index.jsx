@@ -12,6 +12,7 @@ import {useMutation} from "@apollo/client";
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
+import Link from 'next/link'
 
 function CartShow() {
     const {state, dispatch} = useContext(OrderContext);
@@ -58,11 +59,18 @@ function CartShow() {
             <CartListLineItems currentOrder={data.currentOrder}/>
             <CartTotalInfo currentOrder={data.currentOrder}/>
             <CartCouponsInfo currentOrder={data.currentOrder}/>
-            <ButtonsPrimary
-                onClick={handleClick}
-                loading={loadingMutation}
-                text={"Continuar"}
-            />
+            {
+                state.order.state === "cart" ?
+                    <ButtonsPrimary
+                        onClick={handleClick}
+                        loading={loadingMutation}
+                        text={"Continuar"}
+                    />
+                    :
+                    <Link href={`${state.order.state}`}>
+                        Continuar
+                    </Link>
+            }
         </div>
     )
 }
