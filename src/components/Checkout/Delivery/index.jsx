@@ -1,12 +1,13 @@
 import withApollo from "../../../lib/apollo";
 import ComponentsCheckoutShipping from "../Shipping";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
 import ButtonsPrimary from "../../Buttons/primary";
 import {useMutation} from "@apollo/client";
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
+import Link from 'next/link'
 
 function ComponentCheckoutDelivery({currentOrder = {}}) {
     const {state, dispatch} = useContext(OrderContext);
@@ -20,7 +21,7 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                 });
             } else {
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...mainData.nextCheckoutState.order}});
-                Router.push(`/${data.nextCheckoutState.state}`);
+                Router.push(`/${mainData.nextCheckoutState.order.state}`);
             }
         },
         onError: (e) => {
@@ -30,7 +31,11 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
         }
     });
     const handleClick = () => {
-        handleNext();
+        if(state.order.state === "delivery"){
+            handleNext();
+        }else{
+            Router.push(`/${state.order.state}`);
+        }
     }
 
 
@@ -46,16 +51,10 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                     }
                 </div>
                 <div className="w-full">
-                    {
-                        state.order.state === "delivery" &&
-                        <ButtonsPrimary
-                            onClick={handleClick}
-                            text={`Continuar con el pago ${state.order.state}`}
-                        />
-                    }
-                    {/*<Link href={"/payment"}>*/}
-                    {/*    <a className="bg-black text-white rounded px-5 py-3">Continuar con el pago</a>*/}
-                    {/*</Link>*/}
+                    <ButtonsPrimary
+                        onClick={handleClick}
+                        text={`Continuar con el pago`}
+                    />
                 </div>
             </div>
         </div>

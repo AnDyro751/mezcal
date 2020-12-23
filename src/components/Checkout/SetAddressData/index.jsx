@@ -1,5 +1,5 @@
 import InputBase from "../../Inputs/base";
-import {useState, useMemo} from 'react';
+import {useState, useMemo, useContext} from 'react';
 import ButtonsPrimary from "../../Buttons/primary";
 import {useMutation} from "@apollo/client";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
@@ -7,9 +7,12 @@ import InputBaseSelect from "../../Inputs/Select";
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 import {useToasts} from 'react-toast-notifications';
 import Router from 'next/router'
+import {OrderContext} from "../../../stores/userOrder";
+import Link from 'next/link';
 
 export default function SetAddressData({currentCountry = {}, currentOrder = {}}) {
     const {addToast} = useToasts()
+    const {state, dispatch} = useContext(OrderContext);
 
     const [fields, setFields] = useState({
         name: "",
@@ -49,7 +52,8 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                 addToast('Redirigiendo a los envíos', {
                     appearance: 'success'
                 });
-                Router.push("/delivery")
+                Router.push(`/${completedData.nextCheckoutState.order.state}`)
+                // Router.push("/address")
             } else {
                 addToast(completedData.nextCheckoutState.errors[0].message, {
                     appearance: 'error'
@@ -93,8 +97,14 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                 }
             }
         },
-        onCompleted: () => {
-            toNextState()
+        onCompleted: (mainData) => {
+            if (mainData.addAddressesToCheckout.errors.length > 0) {
+
+            } else {
+
+                toNextState()
+
+            }
         },
         onError: (e) => {
             addToast(e.message ? e.message : e, {
@@ -196,9 +206,13 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                 </div>
             </div>
             <div className="w-full">
-                <ButtonsPrimary onClick={handleClick} text={"Guardar y continuar"}
-                                loading={loading || nextLoading}
-                />
+                {
+                    <ButtonsPrimary
+                        onClick={handleClick} text={"Guardar y continuar"}
+                        loading={loading || nextLoading}
+                    />
+
+                }
             </div>
 
         </div>

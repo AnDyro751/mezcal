@@ -1,8 +1,20 @@
 import InputBase from "../../Inputs/base";
 import InputBaseSelect from "../../Inputs/Select";
 import ButtonsPrimary from "../../Buttons/primary";
+import {useState} from 'react';
 
 export default function CardForm({}) {
+
+    const [fields, setFields] = useState({
+        number: "",
+        month: "",
+        year: "",
+        code: ""
+    })
+
+    const handleClick = () => {
+
+    }
     return (
         <div className="w-full space-y-6">
             <h4 className="text-lg my-6 font-medium">
@@ -75,7 +87,10 @@ export default function CardForm({}) {
                 />
             </div>
             <div className="w-full">
-                <ButtonsPrimary text={"Completar order"}/>
+                <ButtonsPrimary
+                    text={"Completar order"}
+                    onClick={handleClick}
+                />
             </div>
         </div>
     )

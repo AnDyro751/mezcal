@@ -7,7 +7,7 @@ const apolloClient = new ApolloClient({
         uri: 'http://192.168.8.88:3001/graphql', // Server URL (must be absolute)
         credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
         headers: {
-            "X-Spree-Order-Token": "8nL5ReyTJQpaugHfV1wXTw"
+            "X-Spree-Order-Token": "MVlXiv2b2vKTYcZ14WiqVw"
         }
     }),
     cache: new InMemoryCache({})

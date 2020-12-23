@@ -27,12 +27,12 @@ export async function getServerSideProps({query, res}) {
         res.statusCode = 400;
     } else {
         if (data.currentOrder) {
-            if (data.currentOrder.state != "delivery") {
-                res.writeHead(307, {
-                    Location: `/${data.currentOrder.state}`
-                })
-                res.end();
-            }
+            // if (data.currentOrder.state != "delivery") {
+            // res.writeHead(307, {
+            //     Location: `/${data.currentOrder.state}`
+            // })
+            // res.end();
+            // }
             if (data.currentOrder.shipments.nodes.length > 0) {
                 if (data.currentOrder.shipments.nodes[0].shippingRates.nodes.length > 0) {
 

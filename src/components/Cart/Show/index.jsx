@@ -22,7 +22,7 @@ function CartShow() {
         fetchPolicy: "network-only"
     });
 
-    const [handleNext, {loading: loadingMutation}] = useMutation(NEXT_STATE_MUTATION, {
+    const [handleNext, {loading: loadingMutation, data: dataMutation}] = useMutation(NEXT_STATE_MUTATION, {
         onCompleted: (mainData) => {
             if (mainData.nextCheckoutState.errors.length > 0) {
                 addToast(mainData.nextCheckoutState.errors[0].message, {
@@ -30,7 +30,7 @@ function CartShow() {
                 });
             } else {
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...mainData.nextCheckoutState.order}});
-                Router.push(`/${data.nextCheckoutState.state}`);
+                Router.push(`/${mainData.nextCheckoutState.order.state}`);
             }
         },
         onError: (e) => {

@@ -4,6 +4,7 @@ const ADD_ADDRESS_TO_CHECKOUT_MUTATION = gql`
 mutation addAddressToCheckout($input: AddAddressesToCheckoutInput!) {
   addAddressesToCheckout(input: $input) {
     order {
+    state
       billingAddress {
         address1
         address2

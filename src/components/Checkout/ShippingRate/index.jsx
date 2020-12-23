@@ -26,7 +26,7 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                     appearance: 'error'
                 })
             } else {
-                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.selectShippingRate.order}});
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...dataCompleted.selectShippingRate.order}});
                 handleSelect(shippingRate.id)
                 setChecked(true);
                 addToast("Método de envío seleccionado", {
