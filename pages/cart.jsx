@@ -20,8 +20,18 @@ const PagesCart = ({data}) => {
 
 export default PagesCart
 
-export async function getServerSideProps() {
-    const data = await runQuery(MAIN_QUERY())
+export async function getServerSideProps({res}) {
+    const data = await runQuery(MAIN_QUERY());
+    if (data) {
+        if (data.currentOrder) {
+            if (data.currentOrder.state !== "cart") {
+                res.writeHead(307, {
+                    Location: `/${data.currentOrder.state}`
+                })
+                res.end();
+            }
+        }
+    }
     return {
         props: {
             data: data

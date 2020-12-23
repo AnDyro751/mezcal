@@ -41,7 +41,13 @@ export async function getServerSideProps({query, res}) {
       zipcode
       stateName
     }`));
-    if (!data) {
+    if (data) {
+        // if(data.currentOrder){
+        //     if(data.currentOrder){
+        //
+        //     }
+        // }
+    } else {
         res.statusCode = 400;
     }
     return {

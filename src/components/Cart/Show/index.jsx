@@ -7,17 +7,42 @@ import CartTotalInfo from "../TotalInfo";
 import CartCouponsInfo from "../CouponsInfo";
 import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
-import Link from 'next/link'
+import ButtonsPrimary from "../../Buttons/primary";
+import {useMutation} from "@apollo/client";
+import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
+import Router from "next/router";
+import {useToasts} from "react-toast-notifications";
 
 function CartShow() {
     const {state, dispatch} = useContext(OrderContext);
+    const {addToast} = useToasts()
 
     const {data, loading, error} = useQuery(gql`${MAIN_QUERY(null, SHOW_CART_QUERY)}`, {
-        fetchPolicy: "network-only",
-        // onCompleted: (data) => {
-        // dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.currentOrder}});
-        // }
+        fetchPolicy: "network-only"
     });
+
+    const [handleNext, {loading: loadingMutation}] = useMutation(NEXT_STATE_MUTATION, {
+        onCompleted: (mainData) => {
+            if (mainData.nextCheckoutState.errors.length > 0) {
+                addToast(mainData.nextCheckoutState.errors[0].message, {
+                    appearance: 'error'
+                });
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...mainData.nextCheckoutState.order}});
+                Router.push(`/${data.nextCheckoutState.state}`);
+            }
+        },
+        onError: (e) => {
+            addToast(e.message ? e.message : e, {
+                appearance: 'error'
+            });
+        }
+    });
+
+    const handleClick = () => {
+        handleNext();
+    }
+
     if (loading) {
         return (
             <h2>Cargando carrito</h2>
@@ -33,7 +58,11 @@ function CartShow() {
             <CartListLineItems currentOrder={data.currentOrder}/>
             <CartTotalInfo currentOrder={data.currentOrder}/>
             <CartCouponsInfo currentOrder={data.currentOrder}/>
-            <Link href={"/checkout"}>Continuar</Link>
+            <ButtonsPrimary
+                onClick={handleClick}
+                loading={loadingMutation}
+                text={"Continuar"}
+            />
         </div>
     )
 }

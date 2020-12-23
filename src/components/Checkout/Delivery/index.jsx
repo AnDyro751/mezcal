@@ -19,9 +19,14 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                     appearance: 'error'
                 });
             } else {
-                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.nextCheckoutState.order}});
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...mainData.nextCheckoutState.order}});
                 Router.push(`/${data.nextCheckoutState.state}`);
             }
+        },
+        onError: (e) => {
+            addToast(e.message ? e.message : e, {
+                appearance: 'error'
+            });
         }
     });
     const handleClick = () => {
