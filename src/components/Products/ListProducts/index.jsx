@@ -36,5 +36,5 @@ function ProductsListProducts({}) {
         </div>
     )
 }
-
-export default withApollo({ssrc: true})(ProductsListProducts)
+export default ProductsListProducts
+// export default withApollo({ssrc: true})(ProductsListProducts)

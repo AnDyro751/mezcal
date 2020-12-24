@@ -1,6 +1,5 @@
 import ProductGallery from "../gallery";
 import ProductData from "../data";
-import withApollo from "../../../lib/apollo";
 import {useQuery, gql} from "@apollo/client";
 import {SHOW_PRODUCT_QUERY} from "../../../graphql/queries/pages/products/show";
 import ProductLoadingGallery from "../Loading/ProductLoadingGallery";
@@ -8,6 +7,7 @@ import ProductLoadingData from "../Loading/ProductLoadingData";
 import dynamic from 'next/dynamic'
 import updateLazyLoad from "../../../lib/updateLazyLoad";
 import {useEffect} from 'react';
+import {useRouter} from 'next/router'
 
 const PagesError = dynamic(() => import('../../../pages/error'), {
     ssr: false
@@ -16,8 +16,10 @@ const ProductReviews = dynamic(() => import('../Reviews'), {
     ssr: false
 })
 
-function ComponentsProductShow({slug = "", variant = null}) {
-    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(slug)}`,     )
+function ComponentsProductShow({ctx}) {
+    const router = useRouter();
+    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(router.query.slug)}`)
+    const variant = router.query.variant || null;
     useEffect(() => {
         if (mainData) {
             updateLazyLoad();
@@ -65,4 +67,5 @@ function ComponentsProductShow({slug = "", variant = null}) {
     )
 }
 
-export default withApollo({ssr: true})(ComponentsProductShow);
+// export default withApollo({ssr: true})(ComponentsProductShow);
+export default ComponentsProductShow

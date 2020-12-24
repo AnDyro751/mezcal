@@ -5,12 +5,15 @@ import NProgress from "nprogress";
 import {OrderContextProvider} from "../src/stores/userOrder";
 import {ToastProvider} from 'react-toast-notifications';
 import Link from 'next/link'
+import {DefaultToast} from 'react-toast-notifications';
+import runQuery from "../src/graphql/queries/runQuery";
+import {MAIN_QUERY} from "../src/graphql/queries/main";
+import App from 'next/app'
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
 Router.events.on('routeChangeError', () => NProgress.done());
 
-import {DefaultToast} from 'react-toast-notifications';
 
 const MyCustomToast = ({children, ...props}) => {
     return (
@@ -37,11 +40,10 @@ const MyCustomToast = ({children, ...props}) => {
     )
 };
 
-function MyApp({Component, pageProps}) {
-    const data = pageProps.data;
-    console.log(data, "DATA PROPS")
+function MyApp({Component, pageProps, dataOrder}) {
+    const data = dataOrder;
     return (
-        <OrderContextProvider data={{order: data ? data.currentOrder || {} : {}}}>
+        <OrderContextProvider data={{order: data ? data.currentOrder ? data.currentOrder || {} : {} : {}}}>
             <ToastProvider
                 components={{Toast: MyCustomToast}}
                 autoDismiss={true}
@@ -51,5 +53,13 @@ function MyApp({Component, pageProps}) {
         </OrderContextProvider>
     )
 }
+
+MyApp.getInitialProps = async (appContext) => {
+    console.log(typeof appContext.ctx, "CTX IN APP");
+    const appProps = await App.getInitialProps(appContext);
+    const dataOrder = await runQuery(MAIN_QUERY(), null, "no-cache", appContext ? appContext.ctx : null);
+    return {dataOrder: dataOrder, ...appProps}
+}
+
 
 export default MyApp;

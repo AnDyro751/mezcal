@@ -1,18 +1,38 @@
-import {withApollo} from "next-apollo";
+import {withApollo as createWithApollo} from "next-apollo";
 import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
+import cookie from 'cookie'
 
-const apolloClient = new ApolloClient({
-    ssrMode: typeof window === "undefined",
-    link: new HttpLink({
-        uri: 'http://192.168.8.88:3001/graphql', // Server URL (must be absolute)
-        credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
-        headers: {
-            "X-Spree-Order-Token": "MVlXiv2b2vKTYcZ14WiqVw"
+function parseCookies(ctx, options = {}) {
+    if (ctx) {
+        if (ctx.req) {
+            return cookie.parse(ctx.req.headers.cookie || "", options)
+        } else {
+            if (typeof document === "undefined") {
+                return {}
+            } else {
+                return cookie.parse(document.cookie, options)
+            }
         }
-    }),
-    cache: new InMemoryCache({})
-});
+    } else {
+        return cookie.parse(document.cookie, options)
+    }
+}
 
+const apolloClient = ctx => {
+    return new ApolloClient({
+        ssrMode: typeof window === "undefined",
+        link: new HttpLink({
+            uri: 'http://192.168.8.88:3001/graphql',
+            credentials: "same-origin",
+            headers: {
+                "X-Spree-Order-Token": parseCookies(ctx).authorization_guest_token
+            }
+        }),
+        cache: new InMemoryCache({})
+    });
+}
+
+
+const withApollo = createWithApollo(apolloClient)
+export default withApollo
 export {apolloClient};
-
-export default withApollo(apolloClient);

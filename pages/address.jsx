@@ -17,8 +17,6 @@ export default function PagesAddress({data}) {
             currentOrder={data.currentOrder}
         >
             <ComponentsCheckoutAddress currentOrder={data.currentOrder}/>
-
-            {/*<ComponentCheckoutDelivery currentOrder={data.currentOrder}/>*/}
         </LayoutApplication>
     )
 }

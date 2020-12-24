@@ -1,11 +1,12 @@
 import {gql} from "@apollo/client";
 import {apolloClient} from "../../lib/apollo";
 
-const runQuery = (currentQuery, variables = {}, fetchPolicy = "no-cache") => {
+const runQuery = (currentQuery, variables = {}, fetchPolicy = "no-cache", ctx) => {
+    console.log(typeof ctx, "TYPEOF")
     const getQuery = async () => {
         let data = {};
         try {
-            data = await apolloClient.query({
+            data = await apolloClient(ctx).query({
                 query: gql`${currentQuery}`,
                 fetchPolicy: fetchPolicy,
                 variables: variables

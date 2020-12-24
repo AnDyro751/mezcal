@@ -10,11 +10,13 @@
   "dependencies": {
     "@apollo/client": "3.3.6",
     "@apollo/react-hooks": "^4.0.0",
+    "@next/bundle-analyzer": "^10.0.4",
     "@spree/storefront-api-v2-sdk": "^4.4.2",
     "apollo-boost": "^0.4.9",
     "apollo-link-ws": "^1.0.20",
     "apollo-server-micro": "^2.19.0",
     "autoprefixer": "^10.0.4",
+    "cookie": "^0.4.1",
     "deepmerge": "^4.2.2",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
