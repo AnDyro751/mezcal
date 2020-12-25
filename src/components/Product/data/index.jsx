@@ -49,13 +49,11 @@ export default function ProductData({product, variant = null}) {
     const {state, dispatch} = useContext(OrderContext);
     const [createOrder, {data: dataOrder, loading: loadingOrder, error: errorOrder}] = useMutation(CREATE_ORDER_MUTATION, {
         onCompleted: (newDataOrder) => {
-            // dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newDataOrder.createOrder.order}});
+            dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newDataOrder.createOrder.order}});
             setCookie('authorization_guest_token', newDataOrder.createOrder.order.guestToken)
-            // addToCart();
+            addToCart();
         }
     });
-    // console.log(variant, "VA")
-// );
 
     function findVariantBySku(variants = [], sku = null) {
         let newVariant;
@@ -116,7 +114,7 @@ export default function ProductData({product, variant = null}) {
             setCurrentVariant(newCurrentVariant);
         }
         if (product.depthVariants.nodes.length > 0) {
-            console.log(newCurrentVariant, "CURR")
+            // console.log(newCurrentVariant, "CURR")
             if (!emptyObject(newCurrentVariant)) {
                 newCurrentVariant.displayOptionValues.nodes.map((optionValue, i) => {
                     optionTypes.map((optionType) => {

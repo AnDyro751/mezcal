@@ -16,7 +16,6 @@ export default function AddProductToCart({product}) {
         onCompleted: (newDataOrder) => {
             dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newDataOrder.createOrder.order}});
             setCookie('authorization_guest_token', newDataOrder.createOrder.order.guestToken)
-            console.log("TOKEN", newDataOrder.createOrder.order.guestToken);
             addToCart();
         }
     });

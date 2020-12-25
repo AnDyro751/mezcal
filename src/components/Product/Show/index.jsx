@@ -16,7 +16,7 @@ const ProductReviews = dynamic(() => import('../Reviews'), {
     ssr: false
 })
 
-function ComponentsProductShow({ctx}) {
+function ComponentsProductShow() {
     const router = useRouter();
     const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(router.query.slug)}`)
     const variant = router.query.variant || null;
