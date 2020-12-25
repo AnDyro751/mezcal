@@ -5,8 +5,12 @@ import GET_PAYMENT_METHODS_QUERY from "../../../graphql/queries/getPaymentMethod
 import ComponentsCheckoutPaymentMethod from "../PaymentMethod";
 import {useState} from "react";
 import CardForm from "../CardForm";
+import CREATE_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/createCheckout";
+import {useToasts} from "react-toast-notifications";
 
 function ComponentsCheckoutPayment({}) {
+    const {addToast} = useToasts();
+
     const {data: dataPayment, loading: loadingPayment, error: errorPayment} = useQuery(GET_PAYMENT_METHODS_QUERY)
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [addPaymentMethod, {data, loading, error}] = useMutation(ADD_PAYMENT_TO_CHECKOUT_MUTATION, {
@@ -22,6 +26,17 @@ function ComponentsCheckoutPayment({}) {
         }
     });
 
+    const [createCheckout, {data: dataCheckout, loading: loadingCheckout}] = useMutation(CREATE_CHECKOUT_MUTATION, {
+        onCompleted: (newDataCheckout) => {
+            console.log(newDataCheckout);
+        },
+        onError: (e) => {
+            addToast(e.message ? e.message : e, {
+                appearance: 'error'
+            });
+        }
+    })
+
     if (loadingPayment) {
         return (
             <h2>Cargando data</h2>
@@ -29,7 +44,8 @@ function ComponentsCheckoutPayment({}) {
     }
 
     const handleClick = () => {
-        addPaymentMethod();
+        // addPaymentMethod();
+        createCheckout();
     }
 
     return (
@@ -47,6 +63,9 @@ function ComponentsCheckoutPayment({}) {
                     />
                 ))
             }
+            <button onClick={handleClick}>
+                Crear checkout
+            </button>
         </div>
     )
 }
