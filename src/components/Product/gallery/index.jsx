@@ -1,16 +1,24 @@
 import {useEffect, useState} from 'react';
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import dynamic from 'next/dynamic'
+import NProgress from 'nprogress'
 
 const Lightbox = dynamic(() => import('react-image-lightbox'), {
     ssr: false
 })
-const NProgress = dynamic(() => import('nprogress'), {
-    ssr: false
-})
+
 export default function ProductGallery({product}) {
     const [currentImage, setCurrentImage] = useState(0)
     const [openImages, setOpenImages] = useState(false);
+
+    useEffect(() => {
+        if (openImages) {
+            document.querySelector("body").classList.add("overflow-hidden");
+        } else {
+            document.querySelector("body").classList.remove("overflow-hidden");
+        }
+    }, [openImages])
+
     useEffect(() => {
         return () => {
             setOpenImages(false);
@@ -142,6 +150,13 @@ export default function ProductGallery({product}) {
                                 width: 40,
                                 fit: "cover"
                             })}`}
+                            onClick={() => {
+                                setCurrentImage(i);
+                                NProgress.start()
+                                setTimeout(() => {
+                                    NProgress.done()
+                                }, 500)
+                            }}
                         />
                         {/*<LazyLoadImage*/}
                         {/*    placeholderSrc={`${GetImageUrl({*/}
