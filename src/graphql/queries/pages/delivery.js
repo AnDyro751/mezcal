@@ -1,26 +1,28 @@
 import {gql} from '@apollo/client'
 
-const PAGE_DELIVERY_QUERY = `
-shipments{
-      nodes{
-      id
-          stockLocation{
-              name
-            }
-        shippingRates{
-          nodes{
+const PAGE_DELIVERY_QUERY = gql`
+{
+  currentOrder {
+    shipments {
+      nodes {
+        id
+        stockLocation {
+          name
+        }
+        shippingRates {
+          nodes {
             cost
             currency
             id
             selected
-            shippingMethod{
-                name
+            shippingMethod {
+              name
             }
           }
         }
       }
     }
-    shippingAddress {  
+    shippingAddress {
       address2
       address1
       phone
@@ -46,5 +48,8 @@ shipments{
       zipcode
       stateName
     }
+  }
+}
+
 `
 export default PAGE_DELIVERY_QUERY

@@ -3,22 +3,14 @@ import SetEmailInput from "../SetEmailInput";
 import SetAddressData from "../SetAddressData";
 import {useQuery} from "@apollo/client";
 import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
-import withApollo from "../../../lib/apollo";
 import {OrderContext} from "../../../stores/userOrder";
 
 function ComponentsCheckoutAddress({currentOrder}) {
-    // const {addToast} = useToasts()
     const {state, dispatch} = useContext(OrderContext);
     const {data, loading, error} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
             isoCode: "MX"
         },
-        // onCompleted: (dd) => {
-        //     console.log("DD", dd);
-        // },
-        // onError: () => {
-        //     addToast("Ha ocurrido un error al recuperar la información", {appearance: 'error'})
-        // }
     });
     if (loading) {
         return (
@@ -38,7 +30,7 @@ function ComponentsCheckoutAddress({currentOrder}) {
                     <>
                         <h3 className="text-lg text-gray-800">Dirección de envío</h3>
                         <div className="w-full">
-                            <SetAddressData currentOrder={currentOrder} currentCountry={data.countryByIso}/>
+                            <SetAddressData currentOrder={data.currentOrder} currentCountry={data.countryByIso}/>
                         </div>
                     </>
                     }
@@ -48,4 +40,4 @@ function ComponentsCheckoutAddress({currentOrder}) {
     )
 }
 
-export default withApollo({ssr: true})(ComponentsCheckoutAddress);
+export default ComponentsCheckoutAddress

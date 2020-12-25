@@ -2,8 +2,15 @@ import LayoutApplication from "../src/components/Layout/application";
 import CartShow from "../src/components/Cart/Show";
 import withApollo from "../src/lib/apollo";
 
-const PagesCart = ({data}) => {
+// Cart steps
+// cart
+// address
+// delivery
+// payment
+// confirm
+// complete
 
+const PagesCart = () => {
     return (
         <LayoutApplication>
             <div className="w-full flex justify-center">

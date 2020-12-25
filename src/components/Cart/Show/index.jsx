@@ -67,7 +67,7 @@ function CartShow() {
                         text={"Continuar"}
                     />
                     :
-                    <Link href={`${state.order.state}`}>
+                    <Link href={`/address`}>
                         Continuar
                     </Link>
             }

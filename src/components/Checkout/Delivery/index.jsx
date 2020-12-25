@@ -1,17 +1,17 @@
-import withApollo from "../../../lib/apollo";
 import ComponentsCheckoutShipping from "../Shipping";
 import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
 import ButtonsPrimary from "../../Buttons/primary";
-import {useMutation} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
-import Link from 'next/link'
+import PAGE_DELIVERY_QUERY from "../../../graphql/queries/pages/delivery";
 
-function ComponentCheckoutDelivery({currentOrder = {}}) {
+function ComponentCheckoutDelivery({}) {
     const {state, dispatch} = useContext(OrderContext);
     const {addToast} = useToasts()
+    const {data: dataQuery, loading: loadingQuery} = useQuery(PAGE_DELIVERY_QUERY);
 
     const [handleNext, {data, loading, error}] = useMutation(NEXT_STATE_MUTATION, {
         onCompleted: (mainData) => {
@@ -21,7 +21,7 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                 });
             } else {
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...mainData.nextCheckoutState.order}});
-                Router.push(`/${mainData.nextCheckoutState.order.state}`);
+                Router.push(`/payment`);
             }
         },
         onError: (e) => {
@@ -31,13 +31,18 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
         }
     });
     const handleClick = () => {
-        if(state.order.state === "delivery"){
+        if (state.order.state === "delivery") {
             handleNext();
-        }else{
-            Router.push(`/${state.order.state}`);
+        } else {
+            Router.push(`/payment`);
         }
     }
 
+    if (loadingQuery) {
+        return (
+            <h2>Cargando envíos</h2>
+        )
+    }
 
     return (
         <div className="w-10/12 mx-auto">
@@ -45,7 +50,7 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
                 <div className="md:w-6/12 w-full space-y-4">
                     <h3>Envíos</h3>
                     {
-                        currentOrder.shipments.nodes.map((shipment, i) =>
+                        dataQuery.currentOrder.shipments.nodes.map((shipment, i) =>
                             <ComponentsCheckoutShipping shipping={shipment} key={i}/>
                         )
                     }
@@ -61,4 +66,4 @@ function ComponentCheckoutDelivery({currentOrder = {}}) {
     )
 }
 
-export default withApollo({ssrc: true})(ComponentCheckoutDelivery)
+export default ComponentCheckoutDelivery

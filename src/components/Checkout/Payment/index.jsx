@@ -22,6 +22,12 @@ function ComponentsCheckoutPayment({}) {
         }
     });
 
+    if (loadingPayment) {
+        return (
+            <h2>Cargando data</h2>
+        )
+    }
+
     const handleClick = () => {
         addPaymentMethod();
     }
@@ -41,14 +47,9 @@ function ComponentsCheckoutPayment({}) {
                     />
                 ))
             }
-            {
-                selectedPaymentMethod &&
-                selectedPaymentMethod.partialName === "gateway" &&
-                <CardForm />
-            }
         </div>
     )
 }
 
 
-export default withApollo({ssrc: true})(ComponentsCheckoutPayment)
+export default ComponentsCheckoutPayment;

@@ -52,7 +52,7 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
                 addToast('Redirigiendo a los envíos', {
                     appearance: 'success'
                 });
-                Router.push(`/${completedData.nextCheckoutState.order.state}`)
+                Router.push(`/delivery`)
                 // Router.push("/address")
             } else {
                 addToast(completedData.nextCheckoutState.errors[0].message, {
@@ -99,11 +99,13 @@ export default function SetAddressData({currentCountry = {}, currentOrder = {}})
         },
         onCompleted: (mainData) => {
             if (mainData.addAddressesToCheckout.errors.length > 0) {
-
+                addToast(mainData.addAddressesToCheckout.errors[0].message, {
+                    appearance: 'error'
+                });
             } else {
-
-                toNextState()
-
+                if (mainData.addAddressesToCheckout.order.state === "address") {
+                    toNextState()
+                }
             }
         },
         onError: (e) => {
