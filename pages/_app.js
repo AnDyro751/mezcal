@@ -55,7 +55,6 @@ function MyApp({Component, pageProps, dataOrder}) {
 }
 
 MyApp.getInitialProps = async (appContext) => {
-    console.log(typeof appContext.ctx, "CTX IN APP");
     const appProps = await App.getInitialProps(appContext);
     const dataOrder = await runQuery(MAIN_QUERY(), null, "no-cache", appContext ? appContext.ctx : null);
     return {dataOrder: dataOrder, ...appProps}

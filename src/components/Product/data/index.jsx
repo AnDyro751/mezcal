@@ -8,7 +8,8 @@ import {CounterSelector} from "../../Buttons/CounterSelector";
 import {OrderContext} from "../../../stores/userOrder";
 import ProductProperties from "../properties";
 import ProductTaxons from "../Taxons";
-
+import CREATE_ORDER_MUTATION from "../../../graphql/mutations/cart/createOrder";
+import setCookie from "../../../lib/setCookie";
 
 function createVariantObject(optionTypes, inArray = false) {
     let newObject = {}
@@ -46,6 +47,13 @@ export default function ProductData({product, variant = null}) {
     const [optionTypes, setOptionTypes] = useState(product.optionTypes.nodes);
     const [addQuantity, setAddQuantity] = useState(1);
     const {state, dispatch} = useContext(OrderContext);
+    const [createOrder, {data: dataOrder, loading: loadingOrder, error: errorOrder}] = useMutation(CREATE_ORDER_MUTATION, {
+        onCompleted: (newDataOrder) => {
+            // dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newDataOrder.createOrder.order}});
+            setCookie('authorization_guest_token', newDataOrder.createOrder.order.guestToken)
+            // addToCart();
+        }
+    });
     // console.log(variant, "VA")
 // );
 
@@ -159,16 +167,21 @@ export default function ProductData({product, variant = null}) {
     }
 
     const handleAddToCart = () => {
-        try {
-            if (emptyObject(currentVariant)) {
-                addToast('La variante seleccionada no está disponible', {appearance: 'error'});
-                console.info("No hay variante seleccionada");
-            } else {
-                addToCart();
+        if (emptyObject(state.order)) {
+            createOrder();
+        } else {
+            try {
+                if (emptyObject(currentVariant)) {
+                    addToast('La variante seleccionada no está disponible', {appearance: 'error'});
+                    console.info("No hay variante seleccionada");
+                } else {
+                    addToCart();
+                }
+            } catch (e) {
+                console.log("ERROR->", e)
             }
-        } catch (e) {
-            console.log("ERROR->", e)
         }
+
     }
 
 
@@ -247,7 +260,7 @@ export default function ProductData({product, variant = null}) {
             </>
             }
             <ProductProperties product={product}/>
-            <ProductTaxons product={product} />
+            <ProductTaxons product={product}/>
         </div>
     )
 }

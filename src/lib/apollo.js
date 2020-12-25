@@ -1,6 +1,7 @@
 import {withApollo as createWithApollo} from "next-apollo";
-import {ApolloClient, HttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloClient, InMemoryCache, createHttpLink} from "@apollo/client";
 import cookie from 'cookie'
+import {setContext} from '@apollo/client/link/context';
 
 function parseCookies(ctx, options = {}) {
     if (ctx) {
@@ -18,21 +19,31 @@ function parseCookies(ctx, options = {}) {
     }
 }
 
-const apolloClient = ctx => {
-    return new ApolloClient({
-        ssrMode: typeof window === "undefined",
-        link: new HttpLink({
-            uri: 'http://192.168.8.88:3001/graphql',
+const httpLink = createHttpLink({
+    uri: 'http://192.168.8.88:3001/graphql',
+
+});
+
+const authLink = (ctx) => {
+    return setContext((_, {headers}) => {
+        return {
             credentials: "same-origin",
             headers: {
+                ...headers,
                 "X-Spree-Order-Token": parseCookies(ctx).authorization_guest_token
             }
-        }),
-        cache: new InMemoryCache({})
+        }
     });
 }
 
+const client = (ctx) => {
+    return new ApolloClient({
+        link: authLink(ctx).concat(httpLink),
+        cache: new InMemoryCache(),
+        ssrMode: typeof window === "undefined",
+    });
+}
 
-const withApollo = createWithApollo(apolloClient)
+const withApollo = createWithApollo(client);
 export default withApollo
-export {apolloClient};
+export {client};
