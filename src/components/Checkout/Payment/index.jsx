@@ -1,12 +1,15 @@
 import {useMutation, useQuery} from "@apollo/client";
 import ADD_PAYMENT_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addPaymentTocheckout";
-import withApollo from "../../../lib/apollo";
+// import withApollo from "../../../lib/apollo";
 import GET_PAYMENT_METHODS_QUERY from "../../../graphql/queries/getPaymentMethods";
 import ComponentsCheckoutPaymentMethod from "../PaymentMethod";
 import {useState} from "react";
-import CardForm from "../CardForm";
+// import CardForm from "../CardForm";
 import CREATE_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/createCheckout";
 import {useToasts} from "react-toast-notifications";
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_2cj88edK605KUkkoRWBH67gq007NzYIttB');
 
 function ComponentsCheckoutPayment({}) {
     const {addToast} = useToasts();
@@ -27,8 +30,21 @@ function ComponentsCheckoutPayment({}) {
     });
 
     const [createCheckout, {data: dataCheckout, loading: loadingCheckout}] = useMutation(CREATE_CHECKOUT_MUTATION, {
-        onCompleted: (newDataCheckout) => {
-            console.log(newDataCheckout);
+        onCompleted: async (newDataCheckout) => {
+            const stripe = await stripePromise;
+            console.log("NEW", newDataCheckout)
+            const result = await stripe.redirectToCheckout({
+                sessionId: newDataCheckout.createCheckout.checkoutId,
+            });
+
+            if (result.error) {
+                addToast("Ha ocurrido un error al redirigir al checkout", {
+                    appearance: 'error'
+                });
+                // If `redirectToCheckout` fails due to a browser or network
+                // error, display the localized error message to your customer
+                // using `result.error.message`.
+            }
         },
         onError: (e) => {
             addToast(e.message ? e.message : e, {
