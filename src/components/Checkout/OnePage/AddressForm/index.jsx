@@ -1,6 +1,7 @@
 import InputBase from "../../../Inputs/base";
 import {useState} from "react";
 import OnePageStepper from "../Stepper";
+import InputBaseSelect from "../../../Inputs/Select";
 
 export default function OnePageAddressForm({}) {
     const [fields, setFields] = useState({
@@ -20,28 +21,8 @@ export default function OnePageAddressForm({}) {
 
     return (
         <div className="w-full space-y-4">
-            <OnePageStepper text={"1. Información de envío"} open={false}>
-                <>
-                    <div className="w-full">
-                        <InputBase
-                            id={"order[name]"}
-                            name={"name"}
-                            label={"Nombre"}
-                            placeholder={"Nombre"}
-                            type={"text"}
-                            onChange={handleChange}
-                            value={fields.name}/>
-                    </div>
-                    <div className="w-full">
-                        <InputBase
-                            id={"order[lastName]"}
-                            name={"lastName"}
-                            label={"Apellido"}
-                            placeholder={"Apellido"}
-                            type={"text"}
-                            onChange={handleChange}
-                            value={fields.lastName}/>
-                    </div>
+            <OnePageStepper text={"2. Información de envío"} open={false}>
+                <div className="w-full space-y-6">
                     <div className="w-full">
                         <InputBase
                             id={"order[address1]"}
@@ -52,47 +33,66 @@ export default function OnePageAddressForm({}) {
                             onChange={handleChange}
                             value={fields.address1}/>
                     </div>
-                    <div className="w-full">
-                        <InputBase
-                            id={"order[address2]"}
-                            name={"address2"}
-                            label={"Colonia"}
-                            placeholder={"Colonia"}
-                            type={"text"}
-                            onChange={handleChange}
-                            value={fields.address2}/>
+                    <div className="w-full flex space-x-4">
+                        <div className="w-6/12">
+                            <InputBase
+                                id={"order[address2]"}
+                                name={"address2"}
+                                label={"Colonia"}
+                                placeholder={"Colonia"}
+                                type={"text"}
+                                onChange={handleChange}
+                                value={fields.address2}/>
+                        </div>
+                        <div className="w-6/12">
+
+                            <InputBase
+                                id={"order[cp]"}
+                                name={"cp"}
+                                label={"Código Postal"}
+                                placeholder={"Código Postal"}
+                                type={"text"}
+                                onChange={handleChange}
+                                value={fields.cp}/>
+                        </div>
+                    </div>
+                    <div className="w-full flex items-center space-x-4">
+                        <div className="w-6/12">
+                            <InputBase
+                                id={"order[city]"}
+                                name={"city"}
+                                label={"Ciudad"}
+                                placeholder={"Ciudad"}
+                                type={"text"}
+                                onChange={handleChange}
+                                value={fields.city}/>
+                        </div>
+                        <div className="w-6/12">
+                            <InputBaseSelect
+                                id={"order[country]"}
+                                handleChange={() => {
+                                }}
+                                label={"Estado"}
+                                name={"order[state]"}
+                                options={[{id: "demo1", name: "Aguascalientes"}]}
+                            />
+                        </div>
                     </div>
                     <div className="w-full">
-                        <InputBase
-                            id={"order[cp]"}
-                            name={"cp"}
-                            label={"Código Postal"}
-                            placeholder={"Código Postal"}
+                        <InputBaseSelect
+                            id={"order[country]"}
+                            name={"country"}
+                            label={"País"}
+                            placeholder={"País"}
                             type={"text"}
-                            onChange={handleChange}
-                            value={fields.cp}/>
+                            options={[{id: "mx", name: "México"}]}
+                            onChange={() => {
+
+                            }}
+                            value={fields.countryId}
+                        />
                     </div>
-                    <div className="w-full">
-                        <InputBase
-                            id={"order[city]"}
-                            name={"city"}
-                            label={"Ciudad"}
-                            placeholder={"Ciudad"}
-                            type={"text"}
-                            onChange={handleChange}
-                            value={fields.city}/>
-                    </div>
-                    <div className="w-full">
-                        <InputBase
-                            id={"order[phone]"}
-                            name={"phone"}
-                            label={"Teléfono"}
-                            placeholder={"Teléfono"}
-                            type={"text"}
-                            onChange={handleChange}
-                            value={fields.phone}/>
-                    </div>
-                </>
+                </div>
             </OnePageStepper>
         </div>
     )

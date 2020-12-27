@@ -26,7 +26,9 @@ export default function OnePageStepper({text = "", open = false, children}) {
             </div>
             {
                 newOpen &&
-                children
+                <div className="w-full border-l p-5 border-black  border-r border-b" >
+                    {children}
+                </div>
             }
         </div>
     )
