@@ -68,7 +68,9 @@ export default function ComponentsCheckoutOnePage({}) {
 
 
     const onHandleChangeData = (name, value) => {
-        setErrors({...errors, [name]: null});
+        if (fields[name] != null) {
+            setErrors({...errors, [name]: null});
+        }
         setFields({...fields, [name]: value});
     };
 
@@ -112,13 +114,12 @@ export default function ComponentsCheckoutOnePage({}) {
     }
 
     const validateAllStrings = async () => {
-        console.log("VALID")
         validateEmail();
         let newErrors = errors;
         let fieldsValues = Object.values(fields);
         Object.keys(fields).map((el, i) => {
             if (fieldsValues[i].split(/\s+/).join(' ').length <= 0) {
-                newErrors[el] = "Ingresa un valor correcto 4";
+                newErrors[el] = "Ingresa un valor correcto";
             }
         })
         setErrors({...errors, ...newErrors});
