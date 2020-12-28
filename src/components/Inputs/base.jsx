@@ -1,4 +1,4 @@
-export default function InputBase({label = null, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = ""}) {
+export default function InputBase({label = null, error = null, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = ""}) {
     return (
         <div className="w-full">
             {label &&
@@ -15,9 +15,19 @@ export default function InputBase({label = null, onBlur = null, name = "", value
                 }}
                 id={id}
                 placeholder={placeholder}
-                className={`${className ? "" : "uppercase font-medium text-sm py-3 w-full rounded px-3 bg-gray-200 text-black font-normal focus:outline-none"}`}
+                className={`${className ? "" : `${error ? "border-red-400" : "border-transparent"} border-2 uppercase font-medium text-sm py-3 w-full rounded px-3 bg-gray-200 text-black font-normal focus:outline-none`}`}
                 type={type}
             />
+            {
+                error &&
+                <p>
+                <span className="text-xs font-medium uppercase text-red-600">
+                    {
+                        error
+                    }
+                </span>
+                </p>
+            }
         </div>
     )
 }

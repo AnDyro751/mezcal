@@ -1,18 +1,39 @@
 import OnePageStepper from "../Stepper";
 import InputBase from "../../../Inputs/base";
-import {useState} from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
+import {OrderContext} from "../../../../stores/userOrder";
 
-export default function OnePageUserData({}) {
+export default function OnePageUserData({handleChangeData, handleBlurData, errors}) {
+    const {state, dispatch} = useContext(OrderContext);
+
     const [fields, setFields] = useState({
         name: "",
         lastName: "",
         phone: "",
         email: ""
     });
+    const [newErrors, setErrors] = useState(errors);
+
+    useMemo(() => {
+        if (state.order) {
+            if (state.order.email) {
+                setFields({...fields, email: state.order.email || ""});
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        setErrors(errors);
+    }, [errors])
 
     const handleChange = (e) => {
         setFields({...fields, [e.target.name]: e.target.value});
+        handleChangeData(e.target.name, e.target.value);
     };
+
+    const handleBlur = (e) => {
+        handleBlurData(e.target.name, e.target.value);
+    }
 
     return (
         <div className="w-full">
@@ -46,9 +67,11 @@ export default function OnePageUserData({}) {
                                 <InputBase
                                     id={"order[email]"}
                                     name={"email"}
+                                    error={newErrors ? newErrors.email : null}
                                     label={"Correo Electrónico"}
                                     placeholder={"Correo Electrónico"}
                                     type={"email"}
+                                    onBlur={handleBlur}
                                     onChange={handleChange}
                                     value={fields.email}/>
                             </div>

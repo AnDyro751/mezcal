@@ -3,7 +3,7 @@ import {useState} from "react";
 import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
 
-export default function OnePageAddressForm({}) {
+export default function OnePageAddressForm({handleChangeData}) {
     const [fields, setFields] = useState({
         name: "",
         lastName: "",
@@ -16,7 +16,8 @@ export default function OnePageAddressForm({}) {
         phone: ""
     })
     const handleChange = (e) => {
-        setFields({...fields, [e.target.name]: e.target.value})
+        setFields({...fields, [e.target.name]: e.target.value});
+        handleChangeData(e.target.name, e.target.value);
     };
 
     return (
