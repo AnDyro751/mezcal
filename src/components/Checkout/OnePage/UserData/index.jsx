@@ -24,10 +24,13 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
 
     useEffect(() => {
         setErrors(errors);
-    }, [errors])
+    }, [errors]);
 
     const handleChange = (e) => {
-        setFields({...fields, [e.target.name]: e.target.value});
+        setFields({
+            ...fields, [e.target.name]: e.target.value.split(/\s+/)
+                .join(' ')
+        });
         handleChangeData(e.target.name, e.target.value);
     };
 
@@ -40,24 +43,30 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
             <div className="w-full space-y-4">
                 <OnePageStepper text={"1. Información de contacto"} open={true}>
                     <div className="w-full space-y-6">
-                        <div className="w-full flex items-center space-x-4">
+                        <div className="w-full flex items-start space-x-4">
                             <div className="w-6/12">
                                 <InputBase
+                                    error={newErrors ? newErrors.name : null}
                                     id={"order[name]"}
                                     name={"name"}
                                     label={"Nombre"}
                                     placeholder={"Nombre"}
                                     type={"text"}
                                     onChange={handleChange}
+                                    onBlur={handleBlur}
+
                                     value={fields.name}/>
                             </div>
                             <div className="w-6/12">
                                 <InputBase
+                                    error={newErrors ? newErrors.lastName : null}
                                     id={"order[lastName]"}
                                     name={"lastName"}
                                     label={"Apellido"}
                                     placeholder={"Apellido"}
                                     type={"text"}
+                                    onBlur={handleBlur}
+
                                     onChange={handleChange}
                                     value={fields.lastName}/>
                             </div>
@@ -77,10 +86,13 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                             </div>
                             <div className="w-6/12">
                                 <InputBase
+                                    error={newErrors ? newErrors.phone : null}
                                     id={"order[phone]"}
                                     name={"phone"}
                                     label={"Teléfono"}
                                     placeholder={"Teléfono"}
+                                    onBlur={handleBlur}
+
                                     type={"text"}
                                     onChange={handleChange}
                                     value={fields.phone}/>

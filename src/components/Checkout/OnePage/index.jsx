@@ -9,22 +9,23 @@ import validator from "email-validator";
 import {useMutation} from "@apollo/client";
 import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";
 import {OrderContext} from "../../../stores/userOrder";
+import OnePageDelivery from "./Delivery";
 
-const INIT_ERRORS = {
-    email: null,
-    phone: null,
-    name: null,
-    lastName: null,
-    address1: null,
-    address2: null,
-    cp: null,
-    city: null,
-    stateId: null,
-    countryId: null
-}
+
 export default function ComponentsCheckoutOnePage({}) {
     const {addToast} = useToasts();
     const {state, dispatch} = useContext(OrderContext);
+    const INIT_ERRORS = {
+        email: null,
+        phone: null,
+        name: null,
+        lastName: null,
+        address1: null,
+        address2: null,
+        cp: null,
+        city: null,
+        stateId: null,
+    }
 
     const [fields, setFields] = useState({
         email: "",
@@ -36,8 +37,9 @@ export default function ComponentsCheckoutOnePage({}) {
         cp: "",
         city: "",
         stateId: "",
-        countryId: ""
     });
+    const [errors, setErrors] = useState(INIT_ERRORS);
+
 
     useMemo(() => {
         if (state.order) {
@@ -47,7 +49,6 @@ export default function ComponentsCheckoutOnePage({}) {
         }
     }, [])
 
-    const [errors, setErrors] = useState(INIT_ERRORS);
 
     const [addEmailToOrder, {data: dataEmailToOrder}] = useMutation(ADD_EMAIL_TO_ORDER, {
         variables: {
@@ -67,37 +68,71 @@ export default function ComponentsCheckoutOnePage({}) {
 
 
     const onHandleChangeData = (name, value) => {
-        setErrors(INIT_ERRORS)
+        setErrors({...errors, [name]: null});
         setFields({...fields, [name]: value});
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const validEmail = validateEmail();
-    };
 
     const validateEmail = () => {
         if (fields.email) {
             if (validator.validate(fields.email)) {
-                return true;
             } else {
                 setErrors({...errors, email: 'Ingresa un correo electrónico válido'});
-                return false;
             }
         } else {
             setErrors({...errors, email: 'Ingresa un correo electrónico'});
-            return false;
         }
-        return false;
     }
 
     const onHandleBlurData = (name, value) => {
+        // console.log(fields[name])
         if (name === "email") {
             if (validateEmail()) {
                 if (state.order.email !== fields.email) {
                     addEmailToOrder();
                 }
             }
+        } else {
+            validateString(name, value);
+        }
+    };
+
+    const validateString = (fieldName, fieldValue) => {
+        if (fieldValue) {
+            if (fieldValue.length > 0) {
+                if (fieldValue.length >= 80) {
+                    setErrors({...errors, [fieldName]: 'Ingresa un valor correcto'});
+                }
+            } else {
+                setErrors({...errors, [fieldName]: 'Ingresa un valor correcto'});
+            }
+        } else {
+            setErrors({...errors, [fieldName]: 'Ingresa un valor correcto'});
+        }
+    }
+
+    const validateAllStrings = async () => {
+        console.log("VALID")
+        validateEmail();
+        let newErrors = errors;
+        let fieldsValues = Object.values(fields);
+        Object.keys(fields).map((el, i) => {
+            if (fieldsValues[i].split(/\s+/).join(' ').length <= 0) {
+                newErrors[el] = "Ingresa un valor correcto 4";
+            }
+        })
+        setErrors({...errors, ...newErrors});
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await validateAllStrings();
+        // console.log(Object.values(errors).findIndex((el) => el != null))
+        if (Object.values(errors).findIndex((el) => el !== null) !== -1) {
+            console.log("HYA CAMP", errors)
+        } else {
+            // No hay ningún campo null, no hay errores
+            alert("TODOS LOS CAMPOS SON CORRECTOS")
         }
     };
 
@@ -111,11 +146,17 @@ export default function ComponentsCheckoutOnePage({}) {
                     errors={errors}
                     handleChangeData={onHandleChangeData}
                 />
-                <OnePageAddressForm handleChangeData={onHandleChangeData}/>
+                <OnePageAddressForm
+                    handleBlurData={onHandleBlurData}
+                    errors={errors}
+                    handleChangeData={onHandleChangeData}/>
+                <OnePageDelivery/>
             </div>
             <div className="w-4/12">
                 <OnePageDataCheckout/>
             </div>
+            <input type="submit" value={"Enviar"}/>
+            {/*<button className="" >Enviar</button>*/}
         </form>
     )
 }
