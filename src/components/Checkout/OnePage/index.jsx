@@ -26,14 +26,14 @@ export default function ComponentsCheckoutOnePage({}) {
     const formik = useFormik({
         initialValues: {
             email: state.order ? state.order.email : "",
-            phone: "",
-            firstname: "",
-            lastname: "",
-            address1: "",
-            address2: "",
-            cp: "",
-            city: "",
-            stateId: "",
+            phone: state.order ? state.order.billingAddress ? state.order.billingAddress.phone : "" : "",
+            firstname: state.order ? state.order.billingAddress ? state.order.billingAddress.firstname : "" : "",
+            lastname: state.order ? state.order.billingAddress ? state.order.billingAddress.lastname : "" : "",
+            address1: state.order ? state.order.billingAddress ? state.order.billingAddress.address1 : "" : "",
+            address2: state.order ? state.order.billingAddress ? state.order.billingAddress.address2 : "" : "",
+            cp: state.order ? state.order.billingAddress ? state.order.billingAddress.zipcode : "" : "",
+            city: state.order ? state.order.billingAddress ? state.order.billingAddress.city : "" : "",
+            stateId: state.order ? state.order.billingAddress ? state.order.billingAddress.state : "" ? state.order.state.id : "" : "",
         },
         validate,
         onSubmit: values => {

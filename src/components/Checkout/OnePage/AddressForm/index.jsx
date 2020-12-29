@@ -1,10 +1,12 @@
 import InputBase from "../../../Inputs/base";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
+import {OrderContext} from "../../../../stores/userOrder";
 
 export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
     const [newErrors, setErrors] = useState(errors);
+    const {state, dispatch} = useContext(OrderContext);
 
     useEffect(() => {
         setErrors(errors);
@@ -89,6 +91,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                                 label={"Estado"}
                                 value={form.values.stateId}
                                 name={"stateId"}
+                                defaultValue={state.order.billingAddress ? state.order.billingAddress.state ? state.order.billingAddress.state.id : "" : ""}
                                 handleChange={handleChange}
                                 placeholder={"Selecciona un estado"}
                                 options={country.states.nodes}
