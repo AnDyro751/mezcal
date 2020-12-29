@@ -3,18 +3,8 @@ import {useEffect, useState} from "react";
 import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
 
-export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form}) {
-    const [fields, setFields] = useState({
-        name: "",
-        lastName: "",
-        address1: "",
-        address2: "",
-        cp: "",
-        city: "",
-        stateId: "",
-        countryId: "",
-        phone: ""
-    })
+export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
+    console.log(country, "COUNTRY")
     const [newErrors, setErrors] = useState(errors);
 
     useEffect(() => {
@@ -96,28 +86,26 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                         <div className="w-6/12">
                             <InputBaseSelect
                                 error={newErrors ? newErrors.stateId : null}
-                                id={"order[state]"}
+                                id={"order[stateId]"}
                                 label={"Estado"}
                                 value={form.values.stateId}
-                                name={"order[state]"}
+                                name={"stateId"}
                                 handleChange={handleChange}
-                                options={[{id: "demo1", name: "Aguascalientes"}]}
+                                placeholder={"Selecciona un estado"}
+                                options={country.states.nodes}
                             />
                         </div>
                     </div>
                     <div className="w-full">
                         <InputBaseSelect
                             handleChange={handleChange}
-                            id={"order[country]"}
+                            id={"order[countryId]"}
                             error={newErrors ? newErrors.countryId : null}
-                            name={"country"}
+                            name={"countryId"}
                             label={"País"}
-                            placeholder={"País"}
+                            placeholder={"Selecciona un País"}
                             type={"text"}
-                            options={[{id: "mx", name: "México"}]}
-                            onChange={() => {
-
-                            }}
+                            options={[{id: country.id, name: country.isoName}]}
                             value={form.values.countryId}
                         />
                     </div>

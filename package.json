@@ -29,6 +29,7 @@
     "next-apollo": "^5.0.4",
     "next-with-apollo": "^5.1.0",
     "nprogress": "^0.2.0",
+    "phone": "^2.4.17",
     "postcss": "^8.1.10",
     "react": "17.0.1",
     "react-dom": "17.0.1",

@@ -6,16 +6,22 @@ import OnePageUserData from "./UserData";
 import {useContext, useMemo, useState} from "react";
 import {useToasts} from "react-toast-notifications";
 import validator from "email-validator";
-import {useMutation} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";
 import {OrderContext} from "../../../stores/userOrder";
 import OnePageDelivery from "./Delivery";
 import {useFormik} from "formik";
-
+import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
+import phone from 'phone';
 
 export default function ComponentsCheckoutOnePage({}) {
     const {addToast} = useToasts();
     const {state, dispatch} = useContext(OrderContext);
+    const {data: dataCountry, loading: loadingCountry, error: errorCountry} = useQuery(CHECKOUT_PAGE_QUERY, {
+        variables: {
+            isoCode: "MX"
+        }
+    });
     const INIT_ERRORS = {
         email: null,
         phone: null,
@@ -27,19 +33,6 @@ export default function ComponentsCheckoutOnePage({}) {
         city: null,
         stateId: null,
     }
-
-    // const [fields, setFields] = useState({
-    //     email: "",
-    //     phone: "",
-    //     firstName: "",
-    //     lastName: "",
-    //     address1: "",
-    //     address2: "",
-    //     cp: "",
-    //     city: "",
-    //     stateId: "",
-    // });
-
 
     const [newErrors, setErrors] = useState(INIT_ERRORS);
 
@@ -62,6 +55,12 @@ export default function ComponentsCheckoutOnePage({}) {
             errors.email = 'Campo requerido';
         } else if (!validator.validate(values.email)) {
             errors.email = 'Invalid email address';
+        }
+
+        if (!values.phone) {
+            errors.phone = 'Campo requerido';
+        } else if (phone(values.phone, 'MEX').length === 0) {
+            errors.phone = 'Ingresa un valor correcto';
         }
         if (!values.address1) {
             errors.address1 = 'Campo requerido';
@@ -157,9 +156,18 @@ export default function ComponentsCheckoutOnePage({}) {
         }
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        addEmailToOrder().then(() => {
+            formik.handleSubmit(e);
+        }).catch((e) => {
+            console.log("ERROR", e)
+        });
+    }
+
     return (
         <form
-            onSubmit={formik.handleSubmit}
+            onSubmit={handleSubmit}
             className="w-10/12 justify-between mx-auto flex mt-10 space-x-6">
             <div className="w-8/12 space-y-8">
                 <OnePageUserData
@@ -168,13 +176,19 @@ export default function ComponentsCheckoutOnePage({}) {
                     handleBlurData={onHandleBlurData}
                     errors={formik.errors}
                 />
-                <OnePageAddressForm
-                    form={formik}
-                    handleBlurData={onHandleBlurData}
-                    handleChangeData={onHandleChangeData}
-                    errors={formik.errors}
-                />
-                <OnePageDelivery/>
+                {
+                    !loadingCountry && !errorCountry &&
+                    <>
+                        <OnePageAddressForm
+                            form={formik}
+                            country={dataCountry.countryByIso}
+                            handleBlurData={onHandleBlurData}
+                            handleChangeData={onHandleChangeData}
+                            errors={formik.errors}
+                        />
+                        <OnePageDelivery/>
+                    </>
+                }
             </div>
             <div className="w-4/12">
                 <OnePageDataCheckout/>

@@ -1,4 +1,4 @@
-export default function InputBaseSelect({label = null, error, handleChange = null, options = [], name = "", id = ""}) {
+export default function InputBaseSelect({label = null, error, handleChange = null, options = [], name = "", id = "", placeholder = null}) {
     return (
         <div className="w-full">
             {label &&
@@ -10,6 +10,14 @@ export default function InputBaseSelect({label = null, error, handleChange = nul
                         handleChange ? handleChange(e) : null
                     }}
                     className={`${error ? "border-red-400" : "border-transparent"} border-2 w-full py-3 px-4 bg-gray-200 rounded focus:outline-none select appearance-none`}>
+                {
+                    placeholder &&
+                    <option
+                        value={""}
+                    >
+                        {placeholder}
+                    </option>
+                }
                 {options.map((option, i) => (
                     <option key={i} value={option.id}>{option.name}</option>
                 ))}
