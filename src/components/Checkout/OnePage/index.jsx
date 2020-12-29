@@ -10,6 +10,7 @@ import {useMutation} from "@apollo/client";
 import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";
 import {OrderContext} from "../../../stores/userOrder";
 import OnePageDelivery from "./Delivery";
+import {useFormik} from "formik";
 
 
 export default function ComponentsCheckoutOnePage({}) {
@@ -18,7 +19,7 @@ export default function ComponentsCheckoutOnePage({}) {
     const INIT_ERRORS = {
         email: null,
         phone: null,
-        name: null,
+        firstName: null,
         lastName: null,
         address1: null,
         address2: null,
@@ -27,130 +28,119 @@ export default function ComponentsCheckoutOnePage({}) {
         stateId: null,
     }
 
-    const [fields, setFields] = useState({
-        email: "",
-        phone: "",
-        name: "",
-        lastName: "",
-        address1: "",
-        address2: "",
-        cp: "",
-        city: "",
-        stateId: "",
-    });
-    const [errors, setErrors] = useState(INIT_ERRORS);
+    // const [fields, setFields] = useState({
+    //     email: "",
+    //     phone: "",
+    //     firstName: "",
+    //     lastName: "",
+    //     address1: "",
+    //     address2: "",
+    //     cp: "",
+    //     city: "",
+    //     stateId: "",
+    // });
 
 
-    useMemo(() => {
-        if (state.order) {
-            if (state.order.email) {
-                setFields({...fields, email: state.order.email});
-            }
+    const [newErrors, setErrors] = useState(INIT_ERRORS);
+
+
+    const validate = values => {
+        const errors = {};
+        if (!values.firstName) {
+            errors.firstName = 'Campo requerido';
+        } else if (values.firstName.length > 70) {
+            errors.firstName = 'Ingresa un nombre más pequeño';
         }
-    }, [])
 
+        if (!values.lastName) {
+            errors.lastName = 'Campo requerido';
+        } else if (values.lastName.length > 70) {
+            errors.lastName = 'Ingresa un apellido más pequeño';
+        }
+
+        if (!values.email) {
+            errors.email = 'Campo requerido';
+        } else if (!validator.validate(values.email)) {
+            errors.email = 'Invalid email address';
+        }
+
+        return errors;
+    };
+
+
+    const formik = useFormik({
+        initialValues: {
+            email: state.order ? state.order.email : "",
+            phone: "",
+            firstName: "",
+            lastName: "",
+            address1: "",
+            address2: "",
+            cp: "",
+            city: "",
+            stateId: "",
+        },
+        validate,
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
 
     const [addEmailToOrder, {data: dataEmailToOrder}] = useMutation(ADD_EMAIL_TO_ORDER, {
         variables: {
-            email: fields.email
+            email: formik.values.email
         },
         onCompleted: (newDataEmailToOrder) => {
             if (newDataEmailToOrder.setOrderEmail.errors.length > 0) {
-                setErrors({...errors, email: newDataEmailToOrder.setOrderEmail.errors[0].message});
+                formik.errors.email = newDataEmailToOrder.setOrderEmail.errors[0].message
+                // setErrors({...newErrors, email: newDataEmailToOrder.setOrderEmail.errors[0].message});
                 addToast(newDataEmailToOrder.setOrderEmail.errors[0].message, {
                     appearance: 'error',
                 });
             } else {
+                formik.errors.email = null;
+                // setErrors({...newErrors, email: null});
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newDataEmailToOrder.setOrderEmail.order}});
             }
         }
     });
 
-
-    const onHandleChangeData = (name, value) => {
-        if (fields[name] != null) {
-            setErrors({...errors, [name]: null});
-        }
-        setFields({...fields, [name]: value});
-    };
-
-
-    const validateEmail = () => {
-        if (fields.email) {
-            if (validator.validate(fields.email)) {
-            } else {
-                setErrors({...errors, email: 'Ingresa un correo electrónico válido'});
+    const reAssignEmail = () => {
+        if (formik.values.email !== state.order.email) {
+            if (!formik.errors.email) {
+                addEmailToOrder();
             }
-        } else {
-            setErrors({...errors, email: 'Ingresa un correo electrónico'});
         }
     }
 
-    const onHandleBlurData = (name, value) => {
-        // console.log(fields[name])
-        if (name === "email") {
-            if (validateEmail()) {
-                if (state.order.email !== fields.email) {
-                    addEmailToOrder();
-                }
-            }
-        } else {
-            validateString(name, value);
-        }
-    };
-
-    const validateString = (fieldName, fieldValue) => {
-        if (fieldValue) {
-            if (fieldValue.length > 0) {
-                if (fieldValue.length >= 80) {
-                    setErrors({...errors, [fieldName]: 'Ingresa un valor correcto'});
-                }
-            } else {
-                setErrors({...errors, [fieldName]: 'Ingresa un valor correcto'});
-            }
-        } else {
-            setErrors({...errors, [fieldName]: 'Ingresa un valor correcto'});
+    const onHandleBlurData = (fieldName, fieldValue) => {
+        if (fieldName === "email") {
+            reAssignEmail();
         }
     }
 
-    const validateAllStrings = async () => {
-        validateEmail();
-        let newErrors = errors;
-        let fieldsValues = Object.values(fields);
-        Object.keys(fields).map((el, i) => {
-            if (fieldsValues[i].split(/\s+/).join(' ').length <= 0) {
-                newErrors[el] = "Ingresa un valor correcto";
-            }
-        })
-        setErrors({...errors, ...newErrors});
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        await validateAllStrings();
-        // console.log(Object.values(errors).findIndex((el) => el != null))
-        if (Object.values(errors).findIndex((el) => el !== null) !== -1) {
-            console.log("HYA CAMP", errors)
-        } else {
-            // No hay ningún campo null, no hay errores
-            alert("TODOS LOS CAMPOS SON CORRECTOS")
+    const onHandleChangeData = (fieldName, fieldValue) => {
+        if (newErrors[fieldName] != null) {
+            setErrors({...newErrors, [fieldName]: null});
         }
-    };
+    }
 
     return (
         <form
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             className="w-10/12 justify-between mx-auto flex mt-10 space-x-6">
             <div className="w-8/12 space-y-8">
                 <OnePageUserData
-                    handleBlurData={onHandleBlurData}
-                    errors={errors}
+                    form={formik}
                     handleChangeData={onHandleChangeData}
+                    handleBlurData={onHandleBlurData}
+                    errors={formik.errors}
                 />
                 <OnePageAddressForm
-                    handleBlurData={onHandleBlurData}
-                    errors={errors}
-                    handleChangeData={onHandleChangeData}/>
+                    form={formik}
+                    handleChangeData={onHandleChangeData}
+                    errors={formik.errors}
+                />
                 <OnePageDelivery/>
             </div>
             <div className="w-4/12">

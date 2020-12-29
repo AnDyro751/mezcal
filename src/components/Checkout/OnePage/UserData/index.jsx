@@ -1,42 +1,19 @@
 import OnePageStepper from "../Stepper";
 import InputBase from "../../../Inputs/base";
-import {useContext, useEffect, useMemo, useState} from "react";
-import {OrderContext} from "../../../../stores/userOrder";
 
-export default function OnePageUserData({handleChangeData, handleBlurData, errors}) {
-    const {state, dispatch} = useContext(OrderContext);
-
-    const [fields, setFields] = useState({
-        name: "",
-        lastName: "",
-        phone: "",
-        email: ""
-    });
-    const [newErrors, setErrors] = useState(errors);
-
-    useMemo(() => {
-        if (state.order) {
-            if (state.order.email) {
-                setFields({...fields, email: state.order.email || ""});
-            }
-        }
-    }, [])
-
-    useEffect(() => {
-        setErrors(errors);
-    }, [errors]);
-
-    const handleChange = (e) => {
-        setFields({
-            ...fields, [e.target.name]: e.target.value.split(/\s+/)
-                .join(' ')
-        });
-        handleChangeData(e.target.name, e.target.value);
-    };
+export default function OnePageUserData({handleChangeData, handleBlurData, errors, form}) {
 
     const handleBlur = (e) => {
         handleBlurData(e.target.name, e.target.value);
+        form.handleBlur(e);
     }
+
+
+    const handleChange = (e) => {
+        handleChangeData(e.target.name, e.target.value);
+        form.handleChange(e);
+    }
+
 
     return (
         <div className="w-full">
@@ -46,29 +23,29 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                         <div className="w-full flex items-start space-x-4">
                             <div className="w-6/12">
                                 <InputBase
-                                    error={newErrors ? newErrors.name : null}
-                                    id={"order[name]"}
-                                    name={"name"}
+                                    error={errors ? errors.firstName : null}
+                                    id={"order[firstName]"}
+                                    name={"firstName"}
                                     label={"Nombre"}
                                     placeholder={"Nombre"}
                                     type={"text"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-
-                                    value={fields.name}/>
+                                    onChange={form.handleChange}
+                                    value={form.values.firstName}
+                                    onBlur={form.handleBlur}
+                                />
                             </div>
                             <div className="w-6/12">
                                 <InputBase
-                                    error={newErrors ? newErrors.lastName : null}
+                                    error={errors ? errors.lastName : null}
                                     id={"order[lastName]"}
                                     name={"lastName"}
                                     label={"Apellido"}
                                     placeholder={"Apellido"}
                                     type={"text"}
-                                    onBlur={handleBlur}
-
-                                    onChange={handleChange}
-                                    value={fields.lastName}/>
+                                    onBlur={form.handleBlur}
+                                    onChange={form.handleChange}
+                                    value={form.values.lastName}
+                                />
                             </div>
                         </div>
                         <div className="w-full flex space-x-4">
@@ -76,26 +53,26 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                                 <InputBase
                                     id={"order[email]"}
                                     name={"email"}
-                                    error={newErrors ? newErrors.email : null}
+                                    error={errors ? errors.email : null}
                                     label={"Correo Electrónico"}
                                     placeholder={"Correo Electrónico"}
                                     type={"email"}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
-                                    value={fields.email}/>
+                                    value={form.values.email}/>
                             </div>
                             <div className="w-6/12">
                                 <InputBase
-                                    error={newErrors ? newErrors.phone : null}
+                                    error={errors ? errors.phone : null}
                                     id={"order[phone]"}
                                     name={"phone"}
                                     label={"Teléfono"}
                                     placeholder={"Teléfono"}
-                                    onBlur={handleBlur}
+                                    onBlur={form.handleBlur}
 
                                     type={"text"}
-                                    onChange={handleChange}
-                                    value={fields.phone}/>
+                                    onChange={form.handleChange}
+                                    value={form.values.phone}/>
                             </div>
                         </div>
                     </div>
