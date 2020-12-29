@@ -108,6 +108,15 @@ export default function ComponentsCheckoutOnePage({}) {
         },
         validate,
         onSubmit: values => {
+            if (formik.values.email !== state.order.email) {
+                addEmailToOrder().then(() => {
+                    console.log("ACTUALIZAR 1")
+                }).catch((e) => {
+                    console.log("ERROR", e)
+                });
+            } else {
+                console.log("ACTUALIZAR 2")
+            }
             alert(JSON.stringify(values, null, 2));
         },
     });
@@ -139,18 +148,7 @@ export default function ComponentsCheckoutOnePage({}) {
     }
 
     const handleSubmit = (e) => {
-        e.preventDefault();
         formik.handleSubmit(e);
-        if (formik.values.email !== state.order.email) {
-            addEmailToOrder().then(() => {
-                console.log("ACTUALIZAR")
-            }).catch((e) => {
-                console.log("ERROR", e)
-            });
-        } else {
-            console.log("ACTUALIZAR")
-        }
-
     }
 
     return (
