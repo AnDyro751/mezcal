@@ -34,6 +34,8 @@ export default function CheckoutShippingSelected({shipping}) {
         if (state.order.state === "delivery") {
             toNextState();
             console.log("Vamos a hacer next");
+        } else {
+            alert(state.order.state)
         }
     }
     return (
