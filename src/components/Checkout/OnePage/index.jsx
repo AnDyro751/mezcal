@@ -3,7 +3,7 @@ import OnePageAddressForm from "./AddressForm";
 import OnePageListProductsLoader from "./Loaders/ListProductsLoader";
 import OnePageDataCheckout from "./Data";
 import OnePageUserData from "./UserData";
-import {useContext, useMemo, useState} from "react";
+import {useContext, useMemo, useRef, useState} from "react";
 import {useToasts} from "react-toast-notifications";
 import {useMutation, useQuery} from "@apollo/client";
 import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";
@@ -16,6 +16,7 @@ import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/ad
 
 export default function ComponentsCheckoutOnePage({}) {
     const {addToast} = useToasts();
+    const formRef = useRef();
     const {state, dispatch} = useContext(OrderContext);
     const {data: dataCountry, loading: loadingCountry, error: errorCountry} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
@@ -115,46 +116,49 @@ export default function ComponentsCheckoutOnePage({}) {
             }
         }
     });
-    //
-    const onHandleChangeData = (fieldName, fieldValue) => {
-    }
-
-    const handleSubmit = (e) => {
-        formik.handleSubmit(e);
-    }
 
     return (
-        <form
-            onSubmit={handleSubmit}
+        <div
             className="w-10/12 justify-between mx-auto flex mt-10 space-x-6">
             <div className="w-8/12 space-y-8">
-                <OnePageUserData
-                    form={formik}
-                    handleChangeData={onHandleChangeData}
-                    handleBlurData={() => {
+                <form
+                    id={"addressForm"}
+                    ref={formRef}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        formik.handleSubmit(e);
                     }}
-                    errors={formik.errors}
-                />
-                {
-                    !loadingCountry && !errorCountry &&
-                    <>
-                        <OnePageAddressForm
-                            form={formik}
-                            handleBlurData={() => {
-                            }}
-                            country={dataCountry.countryByIso}
-                            handleChangeData={onHandleChangeData}
-                            errors={formik.errors}
-                        />
-                        <OnePageDelivery/>
-                    </>
+                    className="w-full space-y-8">
+                    <OnePageUserData
+                        form={formik}
+                        handleChangeData={() => {
+                        }}
+                        handleBlurData={() => {
+                        }}
+                        errors={formik.errors}
+                    />
+                    {
+                        !loadingCountry && !errorCountry &&
+                        <>
+                            <OnePageAddressForm
+                                form={formik}
+                                handleBlurData={() => {
+                                }}
+                                country={dataCountry.countryByIso}
+                                handleChangeData={() => {
+                                }}
+                                errors={formik.errors}
+                            />
+                        </>
+                    }
+                </form>
+                {!loadingCountry && !errorCountry &&
+                <OnePageDelivery shipments={dataCountry.currentOrder.shipments}/>
                 }
             </div>
             <div className="w-4/12">
-                <OnePageDataCheckout/>
+                <OnePageDataCheckout shipments={dataCountry ? dataCountry.currentOrder.shipments.nodes : []}/>
             </div>
-            <input type="submit" value={"Enviar"}/>
-            {/*<button className="" >Enviar</button>*/}
-        </form>
+        </div>
     )
 }

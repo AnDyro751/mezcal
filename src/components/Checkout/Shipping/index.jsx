@@ -16,7 +16,7 @@ export default function ComponentsCheckoutShipping({shipping}) {
         // })
     }, [])
     return (
-        <form className="w-full space-y-4">
+        <div className="w-full space-y-4">
             {
                 shipping.stockLocation &&
                 <div
@@ -35,6 +35,6 @@ export default function ComponentsCheckoutShipping({shipping}) {
                     />
                 ))
             }
-        </form>
+        </div>
     )
 }

@@ -2,7 +2,31 @@ import {gql} from '@apollo/client';
 
 const CHECKOUT_PAGE_QUERY = gql`
 query getCountryByISO($isoCode: String!) {
+
   currentOrder {
+      shipments {
+          nodes {
+            state
+            number
+            id
+            tracking
+            shippingRates {
+              nodes {
+                cost
+                id
+                currency
+                selected
+                shippingMethod {
+                  id
+                  name
+                  carrier
+                  trackingUrl
+                  adminName
+                }
+              }
+            }
+          }
+        }
     shippingAddress {
       address2
       address1
