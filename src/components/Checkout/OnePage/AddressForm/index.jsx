@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
 
-export default function OnePageAddressForm({handleChangeData, handleBlurData, errors}) {
+export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form}) {
     const [fields, setFields] = useState({
         name: "",
         lastName: "",
@@ -20,14 +20,17 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
     useEffect(() => {
         setErrors(errors);
     }, [errors])
-    const handleChange = (e) => {
-        setFields({...fields, [e.target.name]: e.target.value});
-        handleChangeData(e.target.name, e.target.value);
-    };
-
     const handleBlur = (e) => {
         handleBlurData(e.target.name, e.target.value);
+        form.handleBlur(e);
     }
+
+
+    const handleChange = (e) => {
+        handleChangeData(e.target.name, e.target.value);
+        form.handleChange(e);
+    }
+
 
     return (
         <div className="w-full space-y-4">
@@ -44,7 +47,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                             onChange={handleChange}
                             onBlur={handleBlur}
 
-                            value={fields.address1}/>
+                            value={form.values.address1}/>
                     </div>
                     <div className="w-full flex space-x-4">
                         <div className="w-6/12">
@@ -58,7 +61,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                                 onBlur={handleBlur}
 
                                 onChange={handleChange}
-                                value={fields.address2}/>
+                                value={form.values.address2}/>
                         </div>
                         <div className="w-6/12">
 
@@ -72,7 +75,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                                 onBlur={handleBlur}
 
                                 onChange={handleChange}
-                                value={fields.cp}/>
+                                value={form.values.cp}/>
                         </div>
                     </div>
                     <div className="w-full flex items-start space-x-4">
@@ -87,22 +90,24 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                                 onBlur={handleBlur}
 
                                 onChange={handleChange}
-                                value={fields.city}/>
+                                value={form.values.city}
+                            />
                         </div>
                         <div className="w-6/12">
                             <InputBaseSelect
                                 error={newErrors ? newErrors.stateId : null}
                                 id={"order[state]"}
-                                handleChange={() => {
-                                }}
                                 label={"Estado"}
+                                value={form.values.stateId}
                                 name={"order[state]"}
+                                handleChange={handleChange}
                                 options={[{id: "demo1", name: "Aguascalientes"}]}
                             />
                         </div>
                     </div>
                     <div className="w-full">
                         <InputBaseSelect
+                            handleChange={handleChange}
                             id={"order[country]"}
                             error={newErrors ? newErrors.countryId : null}
                             name={"country"}
@@ -113,7 +118,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                             onChange={() => {
 
                             }}
-                            value={fields.countryId}
+                            value={form.values.countryId}
                         />
                     </div>
                 </div>

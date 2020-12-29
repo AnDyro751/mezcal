@@ -63,6 +63,37 @@ export default function ComponentsCheckoutOnePage({}) {
         } else if (!validator.validate(values.email)) {
             errors.email = 'Invalid email address';
         }
+        if (!values.address1) {
+            errors.address1 = 'Campo requerido';
+        } else if (values.lastName.length > 100) {
+            errors.lastName = 'Ingresa una dirección más corta';
+        }
+
+        if (values.address2) {
+            if (values.address2.length > 100) {
+                errors.address2 = "Ingresa un valor más corto";
+            }
+        }
+
+        if (!values.cp) {
+            errors.cp = "Campo requerido"
+        } else if (values.cp.length !== 5) {
+            errors.cp = "Código postal incorrecto";
+        }
+
+        if (!values.city) {
+            errors.city = "Campo requerido"
+        } else if (values.city.length > 50) {
+            errors.city = "Ingresa un valor más corto";
+        }
+
+        if (!values.stateId) {
+            errors.stateId = "Campo requerido"
+        }
+
+        if (!values.countryId) {
+            errors.countryId = "Campo requerido"
+        }
 
         return errors;
     };
@@ -79,6 +110,7 @@ export default function ComponentsCheckoutOnePage({}) {
             cp: "",
             city: "",
             stateId: "",
+            countryId: ""
         },
         validate,
         onSubmit: values => {
@@ -138,6 +170,7 @@ export default function ComponentsCheckoutOnePage({}) {
                 />
                 <OnePageAddressForm
                     form={formik}
+                    handleBlurData={onHandleBlurData}
                     handleChangeData={onHandleChangeData}
                     errors={formik.errors}
                 />
