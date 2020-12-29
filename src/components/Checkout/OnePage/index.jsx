@@ -33,7 +33,7 @@ export default function ComponentsCheckoutOnePage({}) {
             address2: state.order ? state.order.billingAddress ? state.order.billingAddress.address2 : "" : "",
             cp: state.order ? state.order.billingAddress ? state.order.billingAddress.zipcode : "" : "",
             city: state.order ? state.order.billingAddress ? state.order.billingAddress.city : "" : "",
-            stateId: state.order ? state.order.billingAddress ? state.order.billingAddress.state : "" ? state.order.state.id : "" : "",
+            stateId: state.order ? state.order.billingAddress ? state.order.billingAddress.state ? state.order.billingAddress.state.id : "" : "" : ""
         },
         validate,
         onSubmit: values => {
@@ -80,8 +80,8 @@ export default function ComponentsCheckoutOnePage({}) {
             }
         },
         onCompleted: (newDataAddress) => {
-            if (newDataAddress.errors.length > 0) {
-                addToast(newDataAddress.errors[0].message, {
+            if (newDataAddress.addAddressesToCheckout.errors.length > 0) {
+                addToast(newDataAddress.addAddressesToCheckout.errors[0].message, {
                     appearance: 'error'
                 });
             } else {
