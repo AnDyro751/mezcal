@@ -4,7 +4,6 @@ import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
 
 export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
-    console.log(country, "COUNTRY")
     const [newErrors, setErrors] = useState(errors);
 
     useEffect(() => {
@@ -100,10 +99,8 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                         <InputBaseSelect
                             handleChange={handleChange}
                             id={"order[countryId]"}
-                            error={newErrors ? newErrors.countryId : null}
                             name={"countryId"}
                             label={"País"}
-                            placeholder={"Selecciona un País"}
                             type={"text"}
                             options={[{id: country.id, name: country.isoName}]}
                             value={form.values.countryId}

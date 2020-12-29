@@ -90,10 +90,6 @@ export default function ComponentsCheckoutOnePage({}) {
             errors.stateId = "Campo requerido"
         }
 
-        if (!values.countryId) {
-            errors.countryId = "Campo requerido"
-        }
-
         return errors;
     };
 
@@ -109,7 +105,6 @@ export default function ComponentsCheckoutOnePage({}) {
             cp: "",
             city: "",
             stateId: "",
-            countryId: ""
         },
         validate,
         onSubmit: values => {
@@ -117,11 +112,12 @@ export default function ComponentsCheckoutOnePage({}) {
         },
     });
 
-    const [addEmailToOrder, {data: dataEmailToOrder}] = useMutation(ADD_EMAIL_TO_ORDER, {
+    const [addEmailToOrder, {data: dataEmailToOrder, loading: loadingEmailToOrder}] = useMutation(ADD_EMAIL_TO_ORDER, {
         variables: {
             email: formik.values.email
         },
         onCompleted: (newDataEmailToOrder) => {
+            console.log("COMPLETE");
             if (newDataEmailToOrder.setOrderEmail.errors.length > 0) {
                 formik.errors.email = newDataEmailToOrder.setOrderEmail.errors[0].message
                 // setErrors({...newErrors, email: newDataEmailToOrder.setOrderEmail.errors[0].message});
@@ -136,20 +132,6 @@ export default function ComponentsCheckoutOnePage({}) {
         }
     });
 
-    const reAssignEmail = () => {
-        if (formik.values.email !== state.order.email) {
-            if (!formik.errors.email) {
-                addEmailToOrder();
-            }
-        }
-    }
-
-    const onHandleBlurData = (fieldName, fieldValue) => {
-        if (fieldName === "email") {
-            reAssignEmail();
-        }
-    }
-
     const onHandleChangeData = (fieldName, fieldValue) => {
         if (newErrors[fieldName] != null) {
             setErrors({...newErrors, [fieldName]: null});
@@ -158,11 +140,17 @@ export default function ComponentsCheckoutOnePage({}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addEmailToOrder().then(() => {
-            formik.handleSubmit(e);
-        }).catch((e) => {
-            console.log("ERROR", e)
-        });
+        formik.handleSubmit(e);
+        if (formik.values.email !== state.order.email) {
+            addEmailToOrder().then(() => {
+                console.log("ACTUALIZAR")
+            }).catch((e) => {
+                console.log("ERROR", e)
+            });
+        } else {
+            console.log("ACTUALIZAR")
+        }
+
     }
 
     return (
@@ -173,7 +161,8 @@ export default function ComponentsCheckoutOnePage({}) {
                 <OnePageUserData
                     form={formik}
                     handleChangeData={onHandleChangeData}
-                    handleBlurData={onHandleBlurData}
+                    handleBlurData={() => {
+                    }}
                     errors={formik.errors}
                 />
                 {
@@ -181,8 +170,9 @@ export default function ComponentsCheckoutOnePage({}) {
                     <>
                         <OnePageAddressForm
                             form={formik}
+                            handleBlurData={() => {
+                            }}
                             country={dataCountry.countryByIso}
-                            handleBlurData={onHandleBlurData}
                             handleChangeData={onHandleChangeData}
                             errors={formik.errors}
                         />
