@@ -23,28 +23,28 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                         <div className="w-full flex items-start space-x-4">
                             <div className="w-6/12">
                                 <InputBase
-                                    error={errors ? errors.firstName : null}
-                                    id={"order[firstName]"}
-                                    name={"firstName"}
+                                    error={errors ? errors.firstname : null}
+                                    id={"order[firstname]"}
+                                    name={"firstname"}
                                     label={"Nombre"}
                                     placeholder={"Nombre"}
                                     type={"text"}
                                     onChange={form.handleChange}
-                                    value={form.values.firstName}
+                                    value={form.values.firstname}
                                     onBlur={form.handleBlur}
                                 />
                             </div>
                             <div className="w-6/12">
                                 <InputBase
-                                    error={errors ? errors.lastName : null}
-                                    id={"order[lastName]"}
-                                    name={"lastName"}
+                                    error={errors ? errors.lastname : null}
+                                    id={"order[lastname]"}
+                                    name={"lastname"}
                                     label={"Apellido"}
                                     placeholder={"Apellido"}
                                     type={"text"}
                                     onBlur={form.handleBlur}
                                     onChange={form.handleChange}
-                                    value={form.values.lastName}
+                                    value={form.values.lastname}
                                 />
                             </div>
                         </div>
