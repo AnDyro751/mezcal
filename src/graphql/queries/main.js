@@ -3,6 +3,7 @@ export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
 {
   currentOrder {
     state
+    currency
     ${addToOrder ? addToOrder : ""}
     itemCount
     completedAt

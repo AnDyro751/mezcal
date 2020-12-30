@@ -22,6 +22,12 @@ export default function ComponentsCheckoutOnePage({}) {
     const {data: dataCountry, loading: loadingCountry, error: errorCountry} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
             isoCode: "MX"
+        },
+        onCompleted: (newDataCountry) => {
+            dispatch({
+                type: "UPDATE_ORDER",
+                payload: {...state.order, ...newDataCountry.currentOrder}
+            });
         }
     });
 
@@ -164,7 +170,13 @@ export default function ComponentsCheckoutOnePage({}) {
                 }
             </div>
             <div className="w-4/12">
-                <OnePageDataCheckout shipments={dataCountry ? dataCountry.currentOrder.shipments.nodes : []}/>
+                {
+                    !loadingCountry && !errorCountry &&
+                    <OnePageDataCheckout
+                        currentOrder={dataCountry.currentOrder}
+                        shipments={dataCountry.currentOrder.shipments.nodes}/>
+
+                }
             </div>
         </div>
     )

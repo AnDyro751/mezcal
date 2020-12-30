@@ -4,6 +4,18 @@ const CHECKOUT_PAGE_QUERY = gql`
 query getCountryByISO($isoCode: String!) {
 
   currentOrder {
+  adjustmentTotal
+        adjustments{
+          nodes{
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode{
+              value
+            }
+          }
+        }
       shipments {
           nodes {
             state
