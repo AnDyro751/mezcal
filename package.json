@@ -12,6 +12,7 @@
     "@apollo/react-hooks": "^4.0.0",
     "@next/bundle-analyzer": "^10.0.4",
     "@spree/storefront-api-v2-sdk": "^4.4.2",
+    "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
     "apollo-boost": "^0.4.9",
     "apollo-link-ws": "^1.0.20",

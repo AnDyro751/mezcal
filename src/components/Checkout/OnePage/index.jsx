@@ -13,6 +13,7 @@ import {useFormik} from "formik";
 import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
 import validate from "./validateValues";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
+import CheckoutOnePagePayment from "./Payment";
 
 export default function ComponentsCheckoutOnePage({}) {
     const {addToast} = useToasts();
@@ -153,7 +154,13 @@ export default function ComponentsCheckoutOnePage({}) {
                     }
                 </form>
                 {!loadingCountry && !errorCountry &&
-                <OnePageDelivery shipments={dataCountry.currentOrder.shipments}/>
+                <>
+                    <OnePageDelivery
+                        shipments={dataCountry.currentOrder.shipments}
+                    />
+                    <CheckoutOnePagePayment/>
+
+                </>
                 }
             </div>
             <div className="w-4/12">

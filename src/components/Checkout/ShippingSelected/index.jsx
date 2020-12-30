@@ -1,4 +1,5 @@
 import {useMemo, useState} from "react";
+import InputCoupon from "../OnePage/InputCoupon";
 
 export default function CheckoutShippingSelected({shipping}) {
     const [shippingRateSelected, setShippingRate] = useState(null);
@@ -25,6 +26,7 @@ export default function CheckoutShippingSelected({shipping}) {
                     :
                     <p>Selecciona un método de envío</p>
             }
+            <InputCoupon/>
 
         </div>
     )

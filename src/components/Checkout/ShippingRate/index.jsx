@@ -4,6 +4,7 @@ import SELECT_SHIPPING_RATE from "../../../graphql/mutations/cart/selectShipping
 import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
 import {OrderContext} from "../../../stores/userOrder";
+import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 
 export default function ComponentsCheckoutShippingRate({shippingRate = {}, checked = false, handleSelect, shipping}) {
     const {addToast} = useToasts()
@@ -12,7 +13,20 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
     const [checkedInput, setChecked] = useState(shippingRate.selected || false);
     useEffect(() => {
         setChecked(checked);
-    }, [checked])
+    }, [checked]);
+
+    const [toNextState, {data: dataNextState, loading: loadingNextState, error: errorNextState}] = useMutation(NEXT_STATE_MUTATION, {
+        onCompleted: (newData) => {
+            if (newData.nextCheckoutState.errors.length > 0) {
+                addToast(newData.nextCheckoutState.errors[0].message, {
+                    appearance: "error"
+                })
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.nextCheckoutState.order}});
+            }
+        }
+    })
+
 
     const [selectShippingRate, {data, loading, error}] = useMutation(SELECT_SHIPPING_RATE, {
         variables: {
@@ -26,12 +40,19 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                     appearance: 'error'
                 })
             } else {
-                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...dataCompleted.selectShippingRate.order}});
                 handleSelect(shippingRate.id)
                 setChecked(true);
-                addToast("Método de envío seleccionado", {
-                    appearance: 'success'
-                })
+                if (dataCompleted.selectShippingRate.order.state === "delivery") {
+                    toNextState();
+                } else {
+                    dispatch({
+                        type: "UPDATE_ORDER",
+                        payload: {...state.order, ...dataCompleted.selectShippingRate.order}
+                    });
+                }
+                // addToast("Método de envío seleccionado", {
+                //     appearance: 'success'
+                // })
                 // Router.push("/payment")
             }
         }
@@ -52,7 +73,7 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
         >
             <div className="w-4">
                 <input type="radio"
-                       // name={`${shipping.id}["delivery"]`}
+                    // name={`${shipping.id}["delivery"]`}
                        checked={checkedInput}
                        onChange={(e) => {
                            // setChecked(true);
