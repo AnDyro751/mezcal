@@ -164,8 +164,7 @@ export default function ComponentsCheckoutOnePage({}) {
                     <OnePageDelivery
                         shipments={dataCountry.currentOrder.shipments}
                     />
-                    <CheckoutOnePagePayment/>
-
+                    <CheckoutOnePagePayment currentOrder={dataCountry.currentOrder}/>
                 </>
                 }
             </div>

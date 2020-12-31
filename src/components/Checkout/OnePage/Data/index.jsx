@@ -3,15 +3,46 @@ import {OrderContext} from "../../../../stores/userOrder";
 import CheckoutShippingSelected from "../../ShippingSelected";
 import ButtonsPrimary from "../../../Buttons/primary";
 import {useToasts} from "react-toast-notifications";
+import {useMutation} from "@apollo/client";
+import {REMOVE_COUPON_CODE_MUTATION} from "../../../../graphql/mutations/cart/applyCouponCode";
 
 export default function OnePageDataCheckout({shipments, currentOrder}) {
     const {state, dispatch} = useContext(OrderContext);
+    const {addToast} = useToasts();
 
-    console.log(state);
+    const [removeCouponCode, {data, loading, error}] = useMutation(REMOVE_COUPON_CODE_MUTATION, {
+        onCompleted: (data) => {
+            console.log(data, "COMPLETED");
+            if (data.removeCouponCode.errors.length >= 1) {
+                addToast(data.removeCouponCode.errors[0].message, {
+                    appearance: 'error'
+                });
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.removeCouponCode.order}});
+                addToast('Se ha removido el cupón', {
+                    appearance: 'success'
+                });
+            }
+        },
+        onError: (e) => {
+            console.log(e, "ERROR")
+            addToast('Ha ocurrido un error al eliminar el cupón', {
+                appearance: 'error'
+            });
+        }
+    });
 
 
     const handleClick = () => {
         alert(state.order.state);
+    }
+
+    const handleRemove = (adjustment) => {
+        removeCouponCode({
+            variables: {
+                coupon_code: adjustment.promotionCode.value
+            }
+        })
     }
 
     return (
@@ -40,7 +71,14 @@ export default function OnePageDataCheckout({shipments, currentOrder}) {
                                 className={`${adjustment.eligible ? "" : "opacity-50"} ${adjustment.eligible ? "" : "line-through"} w-full flex items-center justify-between`}
                                 key={i}>
                                 <div
-                                    className="bg-gray-200 font-normal text-gray-800 w-auto px-5 py-2 rounded uppercase">{adjustment.promotionCode.value}</div>
+                                    className="bg-gray-200 font-normal text-gray-800 w-auto px-5 py-2 rounded uppercase">
+                                    {adjustment.promotionCode.value}
+                                    <span
+                                        onClick={() => {
+                                            handleRemove(adjustment)
+                                        }}
+                                        className="hover:text-black text-gray-500 cursor-pointer">&#160;&#160;x</span>
+                                </div>
                                 <div className="w-auto">
                                     <span
                                         className={`text-gray-500 text-sm`}>{adjustment.amount} {state.order.currency}</span>

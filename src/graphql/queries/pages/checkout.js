@@ -4,6 +4,13 @@ const CHECKOUT_PAGE_QUERY = gql`
 query getCountryByISO($isoCode: String!) {
 
   currentOrder {
+  availablePaymentMethods {
+      nodes {
+        name
+        partialName
+        description
+      }
+    }
   adjustmentTotal
         adjustments{
           nodes{

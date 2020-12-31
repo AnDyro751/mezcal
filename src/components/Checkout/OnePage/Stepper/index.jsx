@@ -1,9 +1,12 @@
 import {useEffect, useState} from "react";
 
-export default function OnePageStepper({text = "", open = false, children}) {
+export default function OnePageStepper({text = "", open = false, children, handleOpen = null}) {
     const [newOpen, setNewOpen] = useState(open)
     const handleClick = () => {
         setNewOpen(!newOpen);
+        if (handleOpen) {
+            handleOpen(!newOpen);
+        }
     };
 
     useEffect(() => {
@@ -26,7 +29,7 @@ export default function OnePageStepper({text = "", open = false, children}) {
             </div>
             {
                 newOpen &&
-                <div className="w-full border-l p-5 border-black  border-r border-b" >
+                <div className="w-full border-l p-5 border-black  border-r border-b">
                     {children}
                 </div>
             }
