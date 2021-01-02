@@ -6,6 +6,7 @@ query getCountryByISO($isoCode: String!) {
   currentOrder {
   availablePaymentMethods {
       nodes {
+        id
         name
         partialName
         description

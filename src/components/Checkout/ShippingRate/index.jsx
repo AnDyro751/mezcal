@@ -69,7 +69,7 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                 // handleSelect(shippingRate.id);
                 // }
             }}
-            className="w-full select-none p-3 space-x-4 rounded border cursor-pointer border-gray-300 flex"
+            className="w-full hover:border-black select-none p-3 space-x-4 rounded border cursor-pointer border-gray-300 flex"
         >
             <div className="w-4">
                 <input type="radio"
