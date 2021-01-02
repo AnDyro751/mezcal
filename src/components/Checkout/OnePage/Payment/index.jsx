@@ -1,12 +1,55 @@
 import OnePageStepper from "../Stepper";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import ButtonsPrimary from "../../../Buttons/primary";
+import {useMutation} from "@apollo/client";
+import ADD_PAYMENT_TO_ORDER from "../../../../graphql/mutations/cart/addPaymentToOrder";
+import {useToasts} from "react-toast-notifications";
+import {OrderContext} from "../../../../stores/userOrder";
 
 export default function CheckoutOnePagePayment({currentOrder}) {
     const [currentPayment, setCurrentPayment] = useState("");
+    const {addToast} = useToasts();
+    const {state, dispatch} = useContext(OrderContext);
+
+    const [addNewPayment, {data, loading, error}] = useMutation(ADD_PAYMENT_TO_ORDER, {
+        onCompleted: (newData) => {
+            if (newData.addPaymentToCheckout.errors.length > 0) {
+                addToast(newData.addPaymentToCheckout.errors[0].message, {
+                    appearance: 'error',
+                });
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.addPaymentToCheckout.order}});
+                addToast('Método de pago seleccionado', {
+                    appearance: 'success',
+                });
+            }
+        },
+        onError: (e) => {
+            addToast(e.message ? e.message : e, {
+                appearance: 'error',
+            });
+        },
+        variables: {
+            "input": {
+                "paymentMethodId": currentPayment,
+                "source": {"gateway_customer_profile_id": "siop"}
+            }
+        }
+    });
 
     const handleSelect = (id) => {
         setCurrentPayment(id);
     };
+
+    const createPayment = () => {
+        if (currentPayment.length > 0) {
+            addNewPayment();
+        } else {
+            addToast('Selecciona un método de pago', {
+                appearance: 'error',
+            });
+        }
+    }
 
     return (
         <div className="w-full">
@@ -24,6 +67,13 @@ export default function CheckoutOnePagePayment({currentOrder}) {
                             }
                         </div>
                     ))}
+                </div>
+                <div className="w-full">
+                    <ButtonsPrimary
+                        disabled={loading || currentPayment.length <= 0}
+                        loading={loading}
+                        text={"Siguiente"}
+                        onClick={createPayment}/>
                 </div>
             </OnePageStepper>
         </div>
