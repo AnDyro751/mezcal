@@ -22,6 +22,7 @@ export default function InputCoupon({}) {
                 });
             } else {
                 setDefaultCoupon("");
+                setOpen(false);
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...data.applyCouponCode.order}});
                 // console.log(data.applyCouponCode.order)
                 addToast('Se ha aplicado el cupón', {
@@ -69,35 +70,43 @@ export default function InputCoupon({}) {
         <div className="w-full">
             <div className="w-full py-3 border-t border-b my-3">
                 {open ?
-                    <InputBase
-                        id={"order_coupon"}
-                        onBlur={handleBlur}
-                        value={defaultCoupon} onChange={handleChange} type={"text"}
-                        placeholder={"Agregar código de promoción"}
-                        name={"order[coupon]"}
-                        className="pr-20"
-                        withButton={() => (
-                            <button
-                                onClick={handleClickCoupon}
-                                className={`absolute focus:outline-none top-0 bottom-0 cursor-pointer right-5 flex items-center`}>
-                                {loading ?
-                                    <svg className="inline animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                         xmlns="http://www.w3.org/2000/svg"
-                                         fill="none"
-                                         viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="#000"
-                                                strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="#000"
-                                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    :
-                                    <span className="text-xs font-medium text-blue-600">APLICAR</span>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleClickCoupon();
+                        }}
+                    >
+                        <InputBase
+                            autoComplete={"off"}
+                            id={"order_coupon"}
+                            onBlur={handleBlur}
+                            value={defaultCoupon} onChange={handleChange} type={"text"}
+                            placeholder={"Agregar código de promoción"}
+                            name={"order[coupon]"}
+                            className="pr-20"
+                            withButton={() => (
+                                <button
+                                    // onClick={handleClickCoupon}
+                                    className={`absolute focus:outline-none top-0 bottom-0 cursor-pointer right-5 flex items-center`}>
+                                    {loading ?
+                                        <svg className="inline animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             fill="none"
+                                             viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="#000"
+                                                    strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="#000"
+                                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        :
+                                        <span className="text-xs font-medium text-blue-600">APLICAR</span>
 
-                                }
+                                    }
 
-                            </button>
-                        )}
-                    />
+                                </button>
+                            )}
+                        />
+                    </form>
                     :
                     <span
                         onClick={handleClick}

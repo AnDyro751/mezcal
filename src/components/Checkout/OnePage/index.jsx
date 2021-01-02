@@ -3,7 +3,7 @@ import OnePageAddressForm from "./AddressForm";
 import OnePageListProductsLoader from "./Loaders/ListProductsLoader";
 import OnePageDataCheckout from "./Data";
 import OnePageUserData from "./UserData";
-import {useContext, useMemo, useRef, useState} from "react";
+import {useContext, useRef} from "react";
 import {useToasts} from "react-toast-notifications";
 import {useMutation, useQuery} from "@apollo/client";
 import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";

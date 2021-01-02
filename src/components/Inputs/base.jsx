@@ -1,4 +1,4 @@
-export default function InputBase({label = null, error = null, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = "", withButton = null}) {
+export default function InputBase({autoComplete = null, label = null, error = null, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = "", withButton = null}) {
     return (
         <div className="w-full">
             {label &&
@@ -9,6 +9,7 @@ export default function InputBase({label = null, error = null, onBlur = null, na
                     onBlur={(e) => {
                         onBlur ? onBlur(e) : null
                     }}
+                    autoComplete={autoComplete}
                     name={name}
                     value={value}
                     onChange={(e) => {
