@@ -153,7 +153,7 @@ export default function ComponentsCheckoutOnePage({}) {
 
                 }
             </div>
-            <div className="w-5/12">
+            <div className="w-5/12 space-y-4">
                 <form
                     id={"addressForm"}
                     ref={formRef}

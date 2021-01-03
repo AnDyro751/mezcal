@@ -55,7 +55,7 @@ export default function CheckoutOnePagePayment({currentOrder}) {
     return (
         <div className="w-full">
             <OnePageStepper
-                text={"4. Pago"} open={false}>
+                text={"Datos del pago"} small open={false}>
                 <div className="w-full space-y-4">
                     {currentOrder.availablePaymentMethods.nodes.map((paymentMethod, i) => (
                         <div key={i} className="w-full">
