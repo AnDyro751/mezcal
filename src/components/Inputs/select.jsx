@@ -5,7 +5,7 @@ export default function InputSelect({name = "", id = null, options = []}, handle
             <label className="mb-2 w-full block text-sm text-gray-500" htmlFor={id}>{label}</label>
             }
 
-            {label ? "SI HAY" : "NO HAY"}
+            {/*{label ? "SI HAY" : "NO HAY"}*/}
             <select name={name}
                     id={id}
                     onChange={(e) => {

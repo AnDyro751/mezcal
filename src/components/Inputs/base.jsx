@@ -1,6 +1,6 @@
-export default function InputBase({autoComplete = null, label = null, error = null, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = "", withButton = null}) {
+export default function InputBase({autoComplete = null, label = null, error = null, first = false, last = false, onBlur = null, name = "", value = "", onChange = null, placeholder = "", type = "text", id = "", className = "", withButton = null}) {
     return (
-        <div className="w-full">
+        <div className={`${error ? "my-0" : "w-full"}`}>
             {label &&
             <label className="mb-2 w-full block text-sm text-gray-500" htmlFor={id}>{label}</label>
             }
@@ -17,7 +17,7 @@ export default function InputBase({autoComplete = null, label = null, error = nu
                     }}
                     id={id}
                     placeholder={placeholder}
-                    className={`${error ? "border-red-400" : "border-transparent"} ${className ? className : ""} border-2 uppercase font-medium text-sm py-3 w-full rounded px-3 bg-gray-200 text-black font-normal focus:outline-none`}
+                    className={`${error ? "text-red-600 z-10 shadow-input-error" : "shadow-input z-0"}  relative ${last ? "rounded-b" : ""} ${first ? "rounded-t" : ""} ${className ? className : ""} uppercase font-medium text-sm py-3 w-full px-3 bg-white text-black font-normal focus:outline-none`}
                     type={type}
                 />
                 {
@@ -25,16 +25,16 @@ export default function InputBase({autoComplete = null, label = null, error = nu
                     withButton()
                 }
             </div>
-            {
-                error &&
-                <p>
-                <span className="text-xs font-medium uppercase text-red-600">
-                    {
-                        error
-                    }
-                </span>
-                </p>
-            }
+            {/*{*/}
+            {/*    error &&*/}
+            {/*    <p>*/}
+            {/*    <span className="text-xs font-medium uppercase text-red-600">*/}
+            {/*        {*/}
+            {/*            error*/}
+            {/*        }*/}
+            {/*    </span>*/}
+            {/*    </p>*/}
+            {/*}*/}
         </div>
     )
 }

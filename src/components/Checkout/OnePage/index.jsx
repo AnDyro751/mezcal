@@ -161,7 +161,7 @@ export default function ComponentsCheckoutOnePage({}) {
                         e.preventDefault();
                         formik.handleSubmit(e);
                     }}
-                    className="w-full space-y-8">
+                    className="w-full space-y-4">
                     <OnePageUserData
                         form={formik}
                         handleChangeData={() => {

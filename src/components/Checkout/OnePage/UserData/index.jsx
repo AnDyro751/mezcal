@@ -1,5 +1,6 @@
 import OnePageStepper from "../Stepper";
 import InputBase from "../../../Inputs/base";
+import emptyObject from "../../../../lib/emptyObject";
 
 export default function OnePageUserData({handleChangeData, handleBlurData, errors, form}) {
 
@@ -22,10 +23,12 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                     text={"Información de contacto"}
                     open={true}
                 >
-                    <div className="w-full space-y-6">
+                    <div className="w-full divide-y divide-gray-300 border border-gray-300 rounded">
                         <InputBase
                             id={"order[email]"}
                             name={"email"}
+                            first
+                            // error={!emptyObject(errors)}
                             error={errors ? errors.email : null}
                             // label={"Correo Electrónico"}
                             placeholder={"Correo Electrónico"}
@@ -34,6 +37,7 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                             onChange={handleChange}
                             value={form.values.email}/>
                         <InputBase
+                            // error={!emptyObject(errors)}
                             error={errors ? errors.phone : null}
                             id={"order[phone]"}
                             name={"phone"}
@@ -42,40 +46,11 @@ export default function OnePageUserData({handleChangeData, handleBlurData, error
                             onBlur={form.handleBlur}
                             type={"text"}
                             onChange={form.handleChange}
+                            last
                             value={form.values.phone}/>
                     </div>
                 </OnePageStepper>
-                <OnePageStepper
-                    text={"Dirección de envío"}
-                    small={true}
-                >
-                    <div className="space-y-4">
-                        <InputBase
-                            error={errors ? errors.firstname : null}
-                            id={"order[firstname]"}
-                            name={"firstname"}
-                            // label={"Nombre"}
-                            placeholder={"Nombre"}
-                            type={"text"}
-                            onChange={form.handleChange}
-                            value={form.values.firstname}
-                            onBlur={form.handleBlur}
-                        />
-                        {/*<InputBase*/}
-                        {/*    error={errors ? errors.lastname : null}*/}
-                        {/*    id={"order[lastname]"}*/}
-                        {/*    name={"lastname"}*/}
-                        {/*    // label={"Apellido"}*/}
-                        {/*    placeholder={"Apellido"}*/}
-                        {/*    type={"text"}*/}
-                        {/*    onBlur={form.handleBlur}*/}
-                        {/*    onChange={form.handleChange}*/}
-                        {/*    value={form.values.lastname}*/}
-                        {/*/>*/}
 
-
-                    </div>
-                </OnePageStepper>
             </div>
         </div>
     )

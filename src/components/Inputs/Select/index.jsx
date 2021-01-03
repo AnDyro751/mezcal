@@ -11,7 +11,7 @@ export default function InputBaseSelect({defaultValue = "", label = null, error,
                 onChange={(e) => {
                     handleChange ? handleChange(e) : null
                 }}
-                className={`${error ? "border-red-400" : "border-transparent"} border-2 w-full py-3 px-4 bg-gray-200 rounded focus:outline-none select appearance-none`}>
+                className={`${error ? "text-red-600 z-10 shadow-input-error" : "shadow-input z-0"} relative w-full py-3 px-4 bg-white rounded focus:outline-none select appearance-none`}>
                 {
                     placeholder &&
                     <option
