@@ -5,10 +5,23 @@ import ButtonsPrimary from "../../../Buttons/primary";
 import {useToasts} from "react-toast-notifications";
 import {useMutation} from "@apollo/client";
 import {REMOVE_COUPON_CODE_MUTATION} from "../../../../graphql/mutations/cart/applyCouponCode";
+import NEXT_STATE_MUTATION from "../../../../graphql/mutations/cart/nextState";
 
 export default function OnePageDataCheckout({shipments, currentOrder}) {
     const {state, dispatch} = useContext(OrderContext);
     const {addToast} = useToasts();
+
+    const [toNext, {loading: loadingNext}] = useMutation(NEXT_STATE_MUTATION, {
+        onCompleted: (newData) => {
+            if (newData.nextCheckoutState.errors.length >= 1) {
+                addToast(newData.nextCheckoutState.errors[0].message, {
+                    appearance: 'error'
+                });
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.nextCheckoutState.order}});
+            }
+        }
+    });
 
     const [removeCouponCode, {data, loading, error}] = useMutation(REMOVE_COUPON_CODE_MUTATION, {
         onCompleted: (data) => {
@@ -34,7 +47,9 @@ export default function OnePageDataCheckout({shipments, currentOrder}) {
 
 
     const handleClick = () => {
-        alert(state.order.state);
+        if (state.order.state === "cart") {
+            toNext();
+        }
     }
 
     const handleRemove = (adjustment) => {
@@ -89,9 +104,15 @@ export default function OnePageDataCheckout({shipments, currentOrder}) {
                 </div>
             }
 
-            <ButtonsPrimary onClick={handleClick}
-                            text={"Siguiente"}
-            />
+            {
+                state.order.state === "cart" &&
+
+                <ButtonsPrimary
+                    loading={loadingNext}
+                    onClick={handleClick}
+                    text={"Siguiente"}
+                />
+            }
 
         </div>
     );

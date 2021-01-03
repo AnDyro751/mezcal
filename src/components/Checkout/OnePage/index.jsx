@@ -14,11 +14,25 @@ import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
 import validate from "./validateValues";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
 import CheckoutOnePagePayment from "./Payment";
+import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 
 export default function ComponentsCheckoutOnePage({}) {
     const {addToast} = useToasts();
     const formRef = useRef();
     const {state, dispatch} = useContext(OrderContext);
+
+    const [toNext, {loading: loadingNext}] = useMutation(NEXT_STATE_MUTATION, {
+        onCompleted: (newData) => {
+            if (newData.nextCheckoutState.errors.length >= 1) {
+                addToast(newData.nextCheckoutState.errors[0].message, {
+                    appearance: 'error'
+                });
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.nextCheckoutState.order}});
+            }
+        }
+    });
+
     const {data: dataCountry, loading: loadingCountry, error: errorCountry} = useQuery(CHECKOUT_PAGE_QUERY, {
         variables: {
             isoCode: "MX"
@@ -97,6 +111,9 @@ export default function ComponentsCheckoutOnePage({}) {
                     type: "UPDATE_ORDER",
                     payload: {...state.order, ...newDataAddress.addAddressesToCheckout.order}
                 });
+                if (newDataAddress.addAddressesToCheckout.order.state === "address") {
+                    toNext();
+                }
             }
         },
         onError: (e) => {
@@ -127,7 +144,16 @@ export default function ComponentsCheckoutOnePage({}) {
     return (
         <div
             className="w-10/12 justify-between mx-auto flex mt-10 space-x-6">
-            <div className="w-8/12 space-y-8">
+            <div className="w-7/12 space-y-8">
+                {
+                    !loadingCountry && !errorCountry &&
+                    <OnePageDataCheckout
+                        currentOrder={dataCountry.currentOrder}
+                        shipments={dataCountry.currentOrder.shipments.nodes}/>
+
+                }
+            </div>
+            <div className="w-5/12">
                 <form
                     id={"addressForm"}
                     ref={formRef}
@@ -167,15 +193,7 @@ export default function ComponentsCheckoutOnePage({}) {
                     <CheckoutOnePagePayment currentOrder={dataCountry.currentOrder}/>
                 </>
                 }
-            </div>
-            <div className="w-4/12">
-                {
-                    !loadingCountry && !errorCountry &&
-                    <OnePageDataCheckout
-                        currentOrder={dataCountry.currentOrder}
-                        shipments={dataCountry.currentOrder.shipments.nodes}/>
 
-                }
             </div>
         </div>
     )
