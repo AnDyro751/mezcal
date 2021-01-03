@@ -38,10 +38,10 @@ const validate = values => {
         }
     }
 
-    if (!values.cp) {
-        errors.cp = "Campo requerido"
-    } else if (values.cp.length !== 5) {
-        errors.cp = "Código postal incorrecto";
+    if (!values.zipcode) {
+        errors.zipcode = "Campo requerido"
+    } else if (values.zipcode.length !== 5) {
+        errors.zipcode = "Código postal incorrecto";
     }
 
     if (!values.city) {

@@ -3,7 +3,6 @@ import {useContext, useEffect, useState} from "react";
 import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
 import {OrderContext} from "../../../../stores/userOrder";
-import emptyObject from "../../../../lib/emptyObject";
 
 export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
     const [newErrors, setErrors] = useState(errors);
@@ -72,16 +71,16 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                     <div className="w-full flex items-start divide-x divide-gray-300">
                         <div className="w-6/12">
                             <InputBase
-                                id={"order[cp]"}
-                                name={"cp"}
+                                id={"order[zipcode]"}
+                                name={"zipcode"}
                                 // error={!emptyObject(errors)}
-                                error={newErrors ? newErrors.cp : null}
+                                error={newErrors ? newErrors.zipcode : null}
                                 //label={"Código Postal"}
                                 placeholder={"Código Postal"}
                                 type={"text"}
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                value={form.values.cp}/>
+                                value={form.values.zipcode}/>
                         </div>
                         <div className="w-6/12">
                             <InputBase

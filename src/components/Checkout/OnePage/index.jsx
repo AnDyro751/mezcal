@@ -15,6 +15,8 @@ import validate from "./validateValues";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
 import CheckoutOnePagePayment from "./Payment";
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
+import ButtonsPrimary from "../../Buttons/primary";
+import {isEqual} from 'lodash';
 
 export default function ComponentsCheckoutOnePage({}) {
     const {addToast} = useToasts();
@@ -38,9 +40,17 @@ export default function ComponentsCheckoutOnePage({}) {
             isoCode: "MX"
         },
         onCompleted: (newDataCountry) => {
+            console.log(newDataCountry.currentOrder)
+            let formatedData = {
+                ...newDataCountry.currentOrder,
+                billingAddress: {
+                    ...newDataCountry.currentOrder.billingAddress,
+                    stateId: newDataCountry.currentOrder.billingAddress.state ? newDataCountry.currentOrder.billingAddress.state.id : ""
+                }
+            }
             dispatch({
                 type: "UPDATE_ORDER",
-                payload: {...state.order, ...newDataCountry.currentOrder}
+                payload: {...state.order, ...formatedData}
             });
         }
     });
@@ -53,23 +63,13 @@ export default function ComponentsCheckoutOnePage({}) {
             lastname: state.order ? state.order.billingAddress ? state.order.billingAddress.lastname : "" : "",
             address1: state.order ? state.order.billingAddress ? state.order.billingAddress.address1 : "" : "",
             address2: state.order ? state.order.billingAddress ? state.order.billingAddress.address2 : "" : "",
-            cp: state.order ? state.order.billingAddress ? state.order.billingAddress.zipcode : "" : "",
+            zipcode: state.order ? state.order.billingAddress ? state.order.billingAddress.zipcode : "" : "",
             city: state.order ? state.order.billingAddress ? state.order.billingAddress.city : "" : "",
             stateId: state.order ? state.order.billingAddress ? state.order.billingAddress.state ? state.order.billingAddress.state.id : "" : "" : ""
         },
         validate,
         onSubmit: values => {
-            if (formik.values.email !== state.order.email) {
-                addEmailToOrder().then(() => {
-                    addAddressToOrder()
-                    console.log("ACTUALIZAR 1")
-                }).catch((e) => {
-                    console.log("ERROR", e)
-                });
-            } else {
-                addAddressToOrder()
-                console.log("ACTUALIZAR 2")
-            }
+
             // alert(JSON.stringify(values, null, 2));
         },
     });
@@ -86,7 +86,7 @@ export default function ComponentsCheckoutOnePage({}) {
                     lastname: formik.values.lastname,
                     phone: formik.values.phone,
                     stateId: formik.values.stateId,
-                    zipcode: formik.values.cp
+                    zipcode: formik.values.zipcode
                 },
                 shippingAddress: {
                     address1: formik.values.address1,
@@ -97,7 +97,7 @@ export default function ComponentsCheckoutOnePage({}) {
                     lastname: formik.values.lastname,
                     phone: formik.values.phone,
                     stateId: formik.values.stateId,
-                    zipcode: formik.values.cp
+                    zipcode: formik.values.zipcode
                 }
             }
         },
@@ -140,6 +140,52 @@ export default function ComponentsCheckoutOnePage({}) {
             }
         }
     });
+
+    const handleSendAllForm = () => {
+        let newBilling = state.order.billingAddress
+        let newValues = formik.values;
+        if (newBilling) {
+            newBilling = JSON.stringify(newBilling)
+            newBilling = JSON.parse(newBilling);
+            // console.log("DD", JSON.parse(newBilling));
+            // delete (state.order.billingAddress.__typename);
+            delete (newBilling["country"]);
+            delete (newBilling["__typename"]);
+            delete (newBilling["stateName"]);
+            delete (newBilling["state"]);
+            delete (newValues.email);
+            // delete (newValues.stateId);
+
+        }
+        console.log(isEqual(newValues, newBilling))
+        console.log(newValues);
+        console.log(newBilling, typeof state.order.billingAddress);
+    };
+
+    const handleSendEmail = () => {
+        if (formik.values.email !== state.order.email) {
+            addEmailToOrder().then(() => {
+                handleChangeAddress()
+                console.log("ACTUALIZAR 1")
+            }).catch((e) => {
+                console.log("ERROR", e)
+            });
+        } else {
+            handleChangeAddress();
+            // addAddressToOrder();
+            console.log("ACTUALIZAR 2")
+        }
+    };
+
+    const handleChangeAddress = () => {
+        const billingAddress = state.order.billingAddress;
+        const {phone} = formik.values;
+        if (billingAddress) {
+
+        } else {
+            addAddressToOrder();
+        }
+    }
 
     return (
         <div
@@ -192,6 +238,13 @@ export default function ComponentsCheckoutOnePage({}) {
                     />
                     <CheckoutOnePagePayment currentOrder={dataCountry.currentOrder}/>
                 </>
+                }
+                {
+                    !loadingCountry &&
+                    <ButtonsPrimary
+                        onClick={handleSendAllForm}
+                        text={"Siguiente"}
+                    />
                 }
 
             </div>

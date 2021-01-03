@@ -58,10 +58,16 @@ query getCountryByISO($isoCode: String!) {
       lastname
       firstname
       zipcode
+      state{
+        id
+      }
       stateName
     }
     billingAddress {
       address2
+      state{
+        id
+      }
       address1
       phone
       city
