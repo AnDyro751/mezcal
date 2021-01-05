@@ -3,10 +3,28 @@ import {useContext, useEffect, useState} from "react";
 import OnePageStepper from "../Stepper";
 import InputBaseSelect from "../../../Inputs/Select";
 import {OrderContext} from "../../../../stores/userOrder";
+import {useMutation} from "@apollo/client";
+import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../../graphql/mutations/cart/addAddressToCheckout";
+import UPDATE_STATE_ORDER_MUTATION from "../../../../graphql/mutations/cart/updateStateOrder";
 
 export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
     const [newErrors, setErrors] = useState(errors);
     const {state, dispatch} = useContext(OrderContext);
+
+    const [updateState, {data, loading, error}] = useMutation(UPDATE_STATE_ORDER_MUTATION, {
+        onCompleted: (newData) => {
+            // console.log(newData);
+            if(newData.updateStateOrder){
+                console.log("Paso");
+            }else{
+                console.log("Ha ocurrido un error");
+            }
+        },
+        onError: (e) => {
+            console.log("ERROR", e)
+        }
+    });
+
 
     useEffect(() => {
         setErrors(errors);
@@ -20,6 +38,15 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
     const handleChange = (e) => {
         handleChangeData(e.target.name, e.target.value);
         form.handleChange(e);
+    }
+
+    const handleChangeState = (e) => {
+        handleChange(e);
+        updateState({
+            variables: {
+                stateId: e.target.value
+            }
+        })
     }
 
 
@@ -105,7 +132,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                         value={form.values.stateId}
                         name={"stateId"}
                         defaultValue={state.order.billingAddress ? state.order.billingAddress.state ? state.order.billingAddress.state.id : "" : ""}
-                        handleChange={handleChange}
+                        handleChange={handleChangeState}
                         placeholder={"Selecciona un estado"}
                         options={country.states.nodes}
                     />

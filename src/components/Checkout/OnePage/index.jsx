@@ -69,7 +69,8 @@ export default function ComponentsCheckoutOnePage({}) {
         },
         validate,
         onSubmit: values => {
-
+            handleSendAllForm();
+            // console.log("HOLA")
             // alert(JSON.stringify(values, null, 2));
         },
     });
@@ -147,19 +148,18 @@ export default function ComponentsCheckoutOnePage({}) {
         if (newBilling) {
             newBilling = JSON.stringify(newBilling)
             newBilling = JSON.parse(newBilling);
-            // console.log("DD", JSON.parse(newBilling));
-            // delete (state.order.billingAddress.__typename);
             delete (newBilling["country"]);
             delete (newBilling["__typename"]);
             delete (newBilling["stateName"]);
             delete (newBilling["state"]);
             delete (newValues.email);
-            // delete (newValues.stateId);
 
         }
-        console.log(isEqual(newValues, newBilling))
-        console.log(newValues);
-        console.log(newBilling, typeof state.order.billingAddress);
+        if (isEqual(newValues, newBilling)) {
+            console.log("El formulario es el mismo");
+        } else {
+            console.log("Traer nuevos métodos de envío");
+        }
     };
 
     const handleSendEmail = () => {
@@ -241,10 +241,11 @@ export default function ComponentsCheckoutOnePage({}) {
                 }
                 {
                     !loadingCountry &&
-                    <ButtonsPrimary
-                        onClick={handleSendAllForm}
-                        text={"Siguiente"}
-                    />
+                    <input type="submit" value={"Enviar"} form={"addressForm"}/>
+                    // <ButtonsPrimary
+                    //     onClick={handleSendAllForm}
+                    //     text={"Siguiente"}
+                    // />
                 }
 
             </div>
