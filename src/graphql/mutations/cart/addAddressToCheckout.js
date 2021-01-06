@@ -4,6 +4,25 @@ const ADD_ADDRESS_TO_CHECKOUT_MUTATION = gql`
 mutation addAddressToCheckout($input: AddAddressesToCheckoutInput!) {
   addAddressesToCheckout(input: $input) {
     order {
+    shipments {
+      nodes {
+        id
+        stockLocation {
+          name
+        }
+        shippingRates {
+          nodes {
+            cost
+            currency
+            id
+            selected
+            shippingMethod {
+              name
+            }
+          }
+        }
+      }
+    }
     state
       billingAddress {
         address1

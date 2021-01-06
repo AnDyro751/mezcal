@@ -14,42 +14,36 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
     const {addToast} = useToasts();
     const [newState, setNewState] = useState("");
 
-    useEffect(() => {
-        if (newState.length > 0) {
-            updateState()
-        }
-    }, [newState])
-
-    const [updateState, {data, loading, error}] = useMutation(UPDATE_STATE_ORDER_MUTATION, {
-        onCompleted: (newData) => {
-            if (newData.updateStateOrder) {
-                dispatch({
-                    type: "UPDATE_ORDER",
-                    payload: {
-                        ...state.order,
-                        shipments: newData.updateStateOrder.shipments,
-                        ...newData.updateStateOrder
-                    }
-                });
-                console.log("Pasó");
-            } else {
-
-                addToast('Ha ocurrido un error, intenta de nuevo', {
-                    appearance: 'error',
-                })
-                console.log("Ha ocurrido un error");
-            }
-        },
-        onError: (e) => {
-            addToast(e.message ? e.message : e, {
-                appearance: 'error',
-            })
-            console.log("ERROR", e)
-        },
-        variables: {
-            stateId: newState
-        }
-    });
+    // const [updateState, {data, loading, error}] = useMutation(UPDATE_STATE_ORDER_MUTATION, {
+    //     onCompleted: (newData) => {
+    //         if (newData.updateStateOrder) {
+    //             dispatch({
+    //                 type: "UPDATE_ORDER",
+    //                 payload: {
+    //                     ...state.order,
+    //                     shipments: newData.updateStateOrder.shipments,
+    //                     ...newData.updateStateOrder
+    //                 }
+    //             });
+    //             console.log("Pasó");
+    //         } else {
+    //
+    //             addToast('Ha ocurrido un error, intenta de nuevo', {
+    //                 appearance: 'error',
+    //             })
+    //             console.log("Ha ocurrido un error");
+    //         }
+    //     },
+    //     onError: (e) => {
+    //         addToast(e.message ? e.message : e, {
+    //             appearance: 'error',
+    //         })
+    //         console.log("ERROR", e)
+    //     },
+    //     variables: {
+    //         stateId: newState
+    //     }
+    // });
 
 
     useEffect(() => {
@@ -69,7 +63,8 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
 
     const handleChangeState = (e) => {
         handleChange(e);
-        setNewState(e.target.value);
+        form.handleChange(e);
+        // setNewState(e.target.value);
         // dispatch({type: "UPDATE_ORDER", payload: {...state.order, shipments: {nodes: []}}});
     }
 

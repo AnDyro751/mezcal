@@ -80,6 +80,7 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
             }
         },
         onCompleted: (newDataAddress) => {
+            console.log("NEW", newDataAddress.addAddressesToCheckout)
             if (newDataAddress.addAddressesToCheckout.errors.length > 0) {
                 addToast(newDataAddress.addAddressesToCheckout.errors[0].message, {
                     appearance: 'error'
@@ -90,7 +91,7 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
                     payload: {...state.order, ...newDataAddress.addAddressesToCheckout.order}
                 });
                 if (newDataAddress.addAddressesToCheckout.order.state === "address") {
-                    toNext();
+                    // toNext();
                 }
             }
         },
@@ -164,6 +165,16 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
         }
     }
 
+
+    const onHandleChange = (name, value) => {
+        if (name === "stateId") {
+            console.log("Recalculate", formik.isValid);
+            if (formik.isValid) {
+                addAddressToOrder();
+            }
+        }
+    };
+
     return (
         <div
             className="w-10/12 justify-between mx-auto flex mt-10 space-x-6">
@@ -195,8 +206,7 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
                             handleBlurData={() => {
                             }}
                             country={dataCountry.countryByIso}
-                            handleChangeData={() => {
-                            }}
+                            handleChangeData={onHandleChange}
                             errors={formik.errors}
                         />
                     </>

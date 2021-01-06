@@ -84,7 +84,7 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
             <div className="w-11/12 flex items-center">
                 <div className="w-8/12">
                                             <span className="text-gray-700 font-normal">
-                                                {shippingRate.shippingMethod.name}
+                                                {shippingRate.shippingMethod.name} {shippingRate.id}
                                             </span>
                 </div>
                 <div className="w-4/12 flex justify-end">
