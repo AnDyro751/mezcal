@@ -28,14 +28,7 @@ export default function CheckoutAddress({data}) {
         },
     });
 
-    const onHandleChange = (name, value) => {
-        if (name === "stateId") {
-            console.log("Recalculate", formik.isValid);
-            if (formik.isValid) {
-                addAddressToOrder();
-            }
-        }
-    };
+    const onHandleChange = (name, value) => {};
 
 
     return (
