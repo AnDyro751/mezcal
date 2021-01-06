@@ -6,21 +6,37 @@ import {OrderContext} from "../../../../stores/userOrder";
 import {useMutation} from "@apollo/client";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../../graphql/mutations/cart/addAddressToCheckout";
 import UPDATE_STATE_ORDER_MUTATION from "../../../../graphql/mutations/cart/updateStateOrder";
+import {useToasts} from "react-toast-notifications";
 
 export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
     const [newErrors, setErrors] = useState(errors);
     const {state, dispatch} = useContext(OrderContext);
+    const {addToast} = useToasts()
+
 
     const [updateState, {data, loading, error}] = useMutation(UPDATE_STATE_ORDER_MUTATION, {
         onCompleted: (newData) => {
             // console.log(newData);
-            if(newData.updateStateOrder){
-                console.log("Paso");
-            }else{
+            if (newData.updateStateOrder) {
+                let newOrder = {...state.order, shipments: newData.updateStateOrder.shipments}
+                console.log(newOrder);
+                dispatch({
+                    type: "UPDATE_ORDER",
+                    payload: newOrder
+                });
+                console.log("Pasó");
+            } else {
+
+                addToast('Ha ocurrido un error, intenta de nuevo', {
+                    appearance: 'error',
+                })
                 console.log("Ha ocurrido un error");
             }
         },
         onError: (e) => {
+            addToast(e.message ? e.message : e, {
+                appearance: 'error',
+            })
             console.log("ERROR", e)
         }
     });
@@ -42,6 +58,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
 
     const handleChangeState = (e) => {
         handleChange(e);
+        dispatch({type: "UPDATE_ORDER", payload: {...state.order, shipments: {nodes: []}}});
         updateState({
             variables: {
                 stateId: e.target.value
