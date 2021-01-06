@@ -3,6 +3,10 @@ import {gql} from '@apollo/client';
 const UPDATE_STATE_ORDER_MUTATION = gql`
 mutation updateStateOrderMutation($stateId: ID!) {
   updateStateOrder(stateId: $stateId) {
+    state
+    total
+    itemCount
+    paymentTotal
     shipments {
       nodes {
         id

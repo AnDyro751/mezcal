@@ -1,24 +1,20 @@
-import OnePageListProducts from "./ListProducts";
 import OnePageAddressForm from "./AddressForm";
-import OnePageListProductsLoader from "./Loaders/ListProductsLoader";
 import OnePageDataCheckout from "./Data";
 import OnePageUserData from "./UserData";
 import {useContext, useRef} from "react";
 import {useToasts} from "react-toast-notifications";
-import {useMutation, useQuery} from "@apollo/client";
+import {useMutation} from "@apollo/client";
 import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";
 import {OrderContext} from "../../../stores/userOrder";
 import OnePageDelivery from "./Delivery";
 import {useFormik} from "formik";
-import CHECKOUT_PAGE_QUERY from "../../../graphql/queries/pages/checkout";
 import validate from "./validateValues";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
 import CheckoutOnePagePayment from "./Payment";
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
-import ButtonsPrimary from "../../Buttons/primary";
 import {isEqual} from 'lodash';
 
-export default function ComponentsCheckoutOnePage({}) {
+export default function ComponentsCheckoutOnePage({dataCountry}) {
     const {addToast} = useToasts();
     const formRef = useRef();
     const {state, dispatch} = useContext(OrderContext);
@@ -35,25 +31,6 @@ export default function ComponentsCheckoutOnePage({}) {
         }
     });
 
-    const {data: dataCountry, loading: loadingCountry, error: errorCountry} = useQuery(CHECKOUT_PAGE_QUERY, {
-        variables: {
-            isoCode: "MX"
-        },
-        onCompleted: (newDataCountry) => {
-            console.log(newDataCountry.currentOrder)
-            let formatedData = {
-                ...newDataCountry.currentOrder,
-                billingAddress: {
-                    ...newDataCountry.currentOrder.billingAddress,
-                    stateId: newDataCountry.currentOrder.billingAddress.state ? newDataCountry.currentOrder.billingAddress.state.id : ""
-                }
-            }
-            dispatch({
-                type: "UPDATE_ORDER",
-                payload: {...state.order, ...formatedData}
-            });
-        }
-    });
 
     const formik = useFormik({
         initialValues: {
@@ -191,13 +168,9 @@ export default function ComponentsCheckoutOnePage({}) {
         <div
             className="w-10/12 justify-between mx-auto flex mt-10 space-x-6">
             <div className="w-7/12 space-y-8">
-                {
-                    !loadingCountry && !errorCountry &&
-                    <OnePageDataCheckout
-                        currentOrder={dataCountry.currentOrder}
-                        shipments={dataCountry.currentOrder.shipments.nodes}/>
-
-                }
+                <OnePageDataCheckout
+                    currentOrder={dataCountry.currentOrder}
+                    shipments={dataCountry.currentOrder.shipments.nodes}/>
             </div>
             <div className="w-5/12 space-y-4">
                 <form
@@ -216,38 +189,25 @@ export default function ComponentsCheckoutOnePage({}) {
                         }}
                         errors={formik.errors}
                     />
-                    {
-                        !loadingCountry && !errorCountry &&
-                        <>
-                            <OnePageAddressForm
-                                form={formik}
-                                handleBlurData={() => {
-                                }}
-                                country={dataCountry.countryByIso}
-                                handleChangeData={() => {
-                                }}
-                                errors={formik.errors}
-                            />
-                        </>
-                    }
+                    <>
+                        <OnePageAddressForm
+                            form={formik}
+                            handleBlurData={() => {
+                            }}
+                            country={dataCountry.countryByIso}
+                            handleChangeData={() => {
+                            }}
+                            errors={formik.errors}
+                        />
+                    </>
                 </form>
-                {!loadingCountry && !errorCountry &&
                 <>
                     <OnePageDelivery
                         shipments={dataCountry.currentOrder.shipments}
                     />
                     <CheckoutOnePagePayment currentOrder={dataCountry.currentOrder}/>
                 </>
-                }
-                {
-                    !loadingCountry &&
-                    <input type="submit" value={"Enviar"} form={"addressForm"}/>
-                    // <ButtonsPrimary
-                    //     onClick={handleSendAllForm}
-                    //     text={"Siguiente"}
-                    // />
-                }
-
+                <input type="submit" value={"Enviar"} form={"addressForm"}/>
             </div>
         </div>
     )

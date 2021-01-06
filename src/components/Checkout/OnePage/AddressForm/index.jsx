@@ -11,18 +11,25 @@ import {useToasts} from "react-toast-notifications";
 export default function OnePageAddressForm({handleChangeData, handleBlurData, errors, form, country}) {
     const [newErrors, setErrors] = useState(errors);
     const {state, dispatch} = useContext(OrderContext);
-    const {addToast} = useToasts()
+    const {addToast} = useToasts();
+    const [newState, setNewState] = useState("");
 
+    useEffect(() => {
+        if (newState.length > 0) {
+            updateState()
+        }
+    }, [newState])
 
     const [updateState, {data, loading, error}] = useMutation(UPDATE_STATE_ORDER_MUTATION, {
         onCompleted: (newData) => {
-            // console.log(newData);
             if (newData.updateStateOrder) {
-                let newOrder = {...state.order, shipments: newData.updateStateOrder.shipments}
-                console.log(newOrder);
                 dispatch({
                     type: "UPDATE_ORDER",
-                    payload: newOrder
+                    payload: {
+                        ...state.order,
+                        shipments: newData.updateStateOrder.shipments,
+                        ...newData.updateStateOrder
+                    }
                 });
                 console.log("Pasó");
             } else {
@@ -38,6 +45,9 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                 appearance: 'error',
             })
             console.log("ERROR", e)
+        },
+        variables: {
+            stateId: newState
         }
     });
 
@@ -45,6 +55,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
     useEffect(() => {
         setErrors(errors);
     }, [errors])
+
     const handleBlur = (e) => {
         handleBlurData(e.target.name, e.target.value);
         form.handleBlur(e);
@@ -58,12 +69,8 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
 
     const handleChangeState = (e) => {
         handleChange(e);
-        dispatch({type: "UPDATE_ORDER", payload: {...state.order, shipments: {nodes: []}}});
-        updateState({
-            variables: {
-                stateId: e.target.value
-            }
-        })
+        setNewState(e.target.value);
+        // dispatch({type: "UPDATE_ORDER", payload: {...state.order, shipments: {nodes: []}}});
     }
 
 
