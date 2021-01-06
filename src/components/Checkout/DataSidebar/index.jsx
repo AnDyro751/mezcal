@@ -9,6 +9,7 @@ export default function DataSidebar({}) {
     const {state, dispatch} = useContext(OrderContext);
     return (
         <div className="w-full">
+            <h2>Current Step: {state.order.state}</h2>
             <h1 className="text-3xl uppercase font-medium">Total: <span
                 className="">{state.order.total} {state.order.currency}</span></h1>
             {

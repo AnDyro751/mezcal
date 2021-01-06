@@ -7,6 +7,9 @@ import {OrderContext} from "../../../stores/userOrder";
 import {useMutation} from "@apollo/client";
 import {useToasts} from "react-toast-notifications";
 import ADD_ADDRESS_TO_CHECKOUT_MUTATION from "../../../graphql/mutations/cart/addAddressToCheckout";
+import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
+import Router from "next/router";
+import ADD_EMAIL_TO_ORDER from "../../../graphql/mutations/cart/addEmailToOrder";
 
 export default function CheckoutAddress({data}) {
     const {state, dispatch} = useContext(OrderContext);
@@ -31,6 +34,38 @@ export default function CheckoutAddress({data}) {
             handleSendForm()
             // alert(JSON.stringify(values, null, 2));
         },
+    });
+
+
+    const [addEmailToOrder, {data: dataEmailToOrder, loading: loadingEmailToOrder}] = useMutation(ADD_EMAIL_TO_ORDER, {
+        variables: {
+            email: formik.values.email
+        },
+        onCompleted: (newDataEmailToOrder) => {
+            console.log("COMPLETE");
+            if (newDataEmailToOrder.setOrderEmail.errors.length > 0) {
+                formik.errors.email = newDataEmailToOrder.setOrderEmail.errors[0].message
+                addToast(newDataEmailToOrder.setOrderEmail.errors[0].message, {
+                    appearance: 'error',
+                });
+            } else {
+                formik.errors.email = null;
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newDataEmailToOrder.setOrderEmail.order}});
+            }
+        }
+    });
+
+    const [toNext, {loading: loadingNext}] = useMutation(NEXT_STATE_MUTATION, {
+        onCompleted: (newData) => {
+            if (newData.nextCheckoutState.errors.length >= 1) {
+                addToast(newData.nextCheckoutState.errors[0].message, {
+                    appearance: 'error'
+                });
+            } else {
+                Router.push("/delivery")
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.nextCheckoutState.order}});
+            }
+        }
     });
 
     const [addAddressToOrder, {data: dataAddressToOrder, loading: loadingToOrder, error: errorToOrder}] = useMutation(ADD_ADDRESS_TO_CHECKOUT_MUTATION, {
@@ -73,7 +108,7 @@ export default function CheckoutAddress({data}) {
                 });
                 if (newDataAddress.addAddressesToCheckout.order.state === "address") {
                     console.log("VAMOS A NEXT");
-                    // toNext();
+                    toNext();
                 }
             }
         },
@@ -89,7 +124,11 @@ export default function CheckoutAddress({data}) {
             console.log("UPDATE 1");
             addAddressToOrder();
         } else {
-            console.log("UPDATE 2")
+            console.log("UPDATE 2");
+            addEmailToOrder().then(() => {
+                console.log("Email actualizado")
+                addAddressToOrder();
+            });
         }
     }
 
