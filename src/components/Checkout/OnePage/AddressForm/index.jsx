@@ -61,12 +61,12 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
         form.handleChange(e);
     }
 
-    const handleChangeState = (e) => {
-        handleChange(e);
-        form.handleChange(e);
-        // setNewState(e.target.value);
-        // dispatch({type: "UPDATE_ORDER", payload: {...state.order, shipments: {nodes: []}}});
-    }
+    // const handleChangeState = (e) => {
+    //     handleChange(e);
+    //     form.handleChange(e);
+    //     // setNewState(e.target.value);
+    //     // dispatch({type: "UPDATE_ORDER", payload: {...state.order, shipments: {nodes: []}}});
+    // }
 
 
     return (
@@ -151,7 +151,7 @@ export default function OnePageAddressForm({handleChangeData, handleBlurData, er
                         value={form.values.stateId}
                         name={"stateId"}
                         defaultValue={state.order.billingAddress ? state.order.billingAddress.state ? state.order.billingAddress.state.id : "" : ""}
-                        handleChange={handleChangeState}
+                        handleChange={handleChange}
                         placeholder={"Selecciona un estado"}
                         options={country.states.nodes}
                     />

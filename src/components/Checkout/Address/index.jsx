@@ -4,6 +4,7 @@ import {useFormik} from "formik";
 import validate from "../OnePage/validateValues";
 import {useContext} from "react";
 import {OrderContext} from "../../../stores/userOrder";
+import {isEqual} from "lodash";
 
 export default function CheckoutAddress({data}) {
     const {state, dispatch} = useContext(OrderContext);
@@ -24,11 +25,21 @@ export default function CheckoutAddress({data}) {
         onSubmit: values => {
             // handleSendAllForm();
             // console.log("HOLA")
-            alert(JSON.stringify(values, null, 2));
+            handleSendForm()
+            // alert(JSON.stringify(values, null, 2));
         },
     });
 
-    const onHandleChange = (name, value) => {};
+    const handleSendForm = () => {
+        if (state.order.email === formik.values.email) {
+            console.log("UPDATE 1")
+        } else {
+            console.log("UPDATE 2")
+        }
+    }
+
+    const onHandleChange = (name, value) => {
+    };
 
 
     return (
@@ -58,6 +69,7 @@ export default function CheckoutAddress({data}) {
                         errors={formik.errors}
                     />
                 </>
+                <input type="submit" value={"Siguiente"}/>
             </form>
         </div>
     )
