@@ -6,7 +6,7 @@ import CHECKOUT_PAGE_QUERY from "../src/graphql/queries/pages/checkout";
 import {useContext} from "react";
 import {OrderContext} from "../src/stores/userOrder";
 
-function CheckoutPage({}) {
+function CheckoutPage({data}) {
     const {state, dispatch} = useContext(OrderContext);
 
     const {data: dataCountry, loading, error} = useQuery(CHECKOUT_PAGE_QUERY, {

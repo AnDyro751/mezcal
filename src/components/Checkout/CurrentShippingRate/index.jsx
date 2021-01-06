@@ -1,19 +1,16 @@
 import {useContext, useMemo, useState} from "react";
-import InputCoupon from "../OnePage/InputCoupon";
 import {OrderContext} from "../../../stores/userOrder";
 
-export default function CheckoutShippingSelected({shipping}) {
+export default function CurrentShippingRate({}) {
     const [shippingRateSelected, setShippingRate] = useState(null);
     const {state,} = useContext(OrderContext);
 
     useMemo(() => {
-        let currentSelected = shipping.shippingRates.nodes.find((el) => el.selected === true);
+        let currentSelected = state.order.shippingRates.nodes.find((el) => el.selected === true);
         if (currentSelected) {
             setShippingRate(currentSelected);
         }
     }, [])
-
-
     return (
         <div className="w-full">
             {
