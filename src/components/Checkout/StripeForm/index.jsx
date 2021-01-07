@@ -19,7 +19,7 @@ const CARD_ELEMENT_OPTIONS = {
     },
 };
 
-export default function StripeForm({}) {
+export default function StripeForm({handleResult}) {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -33,7 +33,7 @@ export default function StripeForm({}) {
                 },
             })
             .then(function (result) {
-                console.log(result, "RESULT")
+                handleResult(result);
                 // Handle result.error or result.paymentMethod
             }).catch((e) => {
             console.log("ERROR", e)
