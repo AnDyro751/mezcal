@@ -69,22 +69,23 @@ export default function ComponentsCheckoutShippingRate({shippingRate = {}, check
                 // handleSelect(shippingRate.id);
                 // }
             }}
-            className="w-full hover:border-black select-none p-3 space-x-4 rounded border cursor-pointer border-gray-300 flex"
+            className={`w-full hover:border-black select-none p-3 space-x-4 rounded border-2 cursor-pointer flex ${checkedInput ? "border-black" : "border-gray-300"}`}
         >
-            <div className="w-4">
-                <input type="radio"
-                    // name={`${shipping.id}["delivery"]`}
-                       checked={checkedInput}
-                       onChange={(e) => {
-                           // setChecked(true);
-                           selectShippingRate()
-                       }}
-                />
-            </div>
-            <div className="w-11/12 flex items-center">
+            {/*<div className="w-4">*/}
+            {/*    <input type="radio"*/}
+            {/*        // name={`${shipping.id}["delivery"]`}*/}
+            {/*           checked={checkedInput}*/}
+            {/*           onChange={(e) => {*/}
+            {/*               // setChecked(true);*/}
+            {/*               selectShippingRate()*/}
+            {/*           }}*/}
+            {/*    />*/}
+            {/*</div>*/}
+            <div className="w-full flex items-center">
                 <div className="w-8/12">
-                                            <span className="text-gray-700 font-normal">
-                                                {shippingRate.shippingMethod.name} {shippingRate.id}
+                                            <span className={`text-gray-700 ${checkedInput ? "font-medium" : "font-normal"}`}>
+                                                {shippingRate.shippingMethod.name}
+                                                {/*{shippingRate.id}*/}
                                             </span>
                 </div>
                 <div className="w-4/12 flex justify-end">

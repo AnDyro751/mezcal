@@ -6,6 +6,7 @@ mutation{
     order{
       total
       state
+      shipmentTotal
     }
     errors{
       path

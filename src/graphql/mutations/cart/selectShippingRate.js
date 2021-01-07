@@ -9,6 +9,7 @@ mutation selectShippingRate($input: SelectShippingRateInput!) {
     }
     order {
       state
+      total
       shipmentTotal
     }
   }

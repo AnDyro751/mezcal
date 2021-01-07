@@ -20,7 +20,7 @@ export default function ComponentsCheckoutShipping({shipping}) {
             {
                 shipping.stockLocation &&
                 <div
-                    className="w-full mb-4 px-3 py-2 rounded bg-blue-500 text-white">{shipping.stockLocation.name}</div>
+                    className="w-full mb-4 px-3 py-2 rounded bg-blue-500 text-white font-medium uppercase">Enviando desde: {shipping.stockLocation.name}</div>
             }
             {
                 shipping.shippingRates.nodes.map((shippingRate, i) => (
