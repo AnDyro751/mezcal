@@ -18,10 +18,7 @@ export default function ComponentsCheckoutPaymentMethod({checked = false, paymen
                     }}
                     type="radio" checked={checkedInput}/>
             </div>
-            {
-                paymentMethod.partialName === "gateway" &&
-                <span>{paymentMethod.name}</span>
-            }
+            <span>{paymentMethod.name}</span>
         </div>
     )
 }
