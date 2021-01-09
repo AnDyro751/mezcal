@@ -1,16 +1,32 @@
 import ComponentsCheckoutShipping from "../Shipping";
-import {useQuery} from "@apollo/client";
-import PAGE_DELIVERY_QUERY from "../../../graphql/queries/pages/delivery";
-import Link from 'next/link';
+import {useMutation} from "@apollo/client";
+import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
+import Router from "next/router";
+import {useContext} from "react";
+import {OrderContext} from "../../../stores/userOrder";
+import {useToasts} from "react-toast-notifications";
 
-function ComponentCheckoutDelivery({}) {
-    const {data: dataQuery, loading: loadingQuery} = useQuery(PAGE_DELIVERY_QUERY);
+function ComponentCheckoutDelivery({currentOrder}) {
 
+    const {state, dispatch} = useContext(OrderContext);
+    const {addToast} = useToasts();
 
-    if (loadingQuery) {
-        return (
-            <h2>Cargando envíos</h2>
-        )
+    const [toNext, {loading: loadingNext}] = useMutation(NEXT_STATE_MUTATION, {
+        onCompleted: (newData) => {
+            if (newData.nextCheckoutState.errors.length >= 1) {
+                addToast(newData.nextCheckoutState.errors[0].message, {
+                    appearance: 'error'
+                });
+            } else {
+                dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.nextCheckoutState.order}});
+                Router.push("/payment")
+            }
+        }
+    });
+    const handleClick = () => {
+        if (state.order.state === "delivery") {
+            toNext();
+        }
     }
 
     return (
@@ -19,15 +35,15 @@ function ComponentCheckoutDelivery({}) {
                 <div className="w-full space-y-4">
                     <h3>Envíos</h3>
                     {
-                        dataQuery.currentOrder.shipments.nodes.map((shipment, i) =>
+                        currentOrder.shipments.nodes.map((shipment, i) =>
                             <ComponentsCheckoutShipping shipping={shipment} key={i}/>
                         )
                     }
                 </div>
                 <div className="w-full">
-                    <Link href={"/payment"}>
-                        <a>Siguiente</a>
-                    </Link>
+                    <button onClick={handleClick}>
+                        Siguiente
+                    </button>
                 </div>
             </div>
         </div>

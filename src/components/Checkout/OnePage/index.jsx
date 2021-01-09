@@ -37,7 +37,6 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
             email: state.order ? state.order.email : "",
             phone: state.order ? state.order.billingAddress ? state.order.billingAddress.phone : "" : "",
             firstname: state.order ? state.order.billingAddress ? state.order.billingAddress.firstname : "" : "",
-            lastname: state.order ? state.order.billingAddress ? state.order.billingAddress.lastname : "" : "",
             address1: state.order ? state.order.billingAddress ? state.order.billingAddress.address1 : "" : "",
             address2: state.order ? state.order.billingAddress ? state.order.billingAddress.address2 : "" : "",
             zipcode: state.order ? state.order.billingAddress ? state.order.billingAddress.zipcode : "" : "",
@@ -61,7 +60,6 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
                     city: formik.values.city,
                     countryId: dataCountry ? dataCountry.countryByIso.id : "",
                     firstname: formik.values.firstname,
-                    lastname: formik.values.lastname,
                     phone: formik.values.phone,
                     stateId: formik.values.stateId,
                     zipcode: formik.values.zipcode
@@ -72,7 +70,6 @@ export default function ComponentsCheckoutOnePage({dataCountry}) {
                     city: formik.values.city,
                     countryId: dataCountry ? dataCountry.countryByIso.id : "",
                     firstname: formik.values.firstname,
-                    lastname: formik.values.lastname,
                     phone: formik.values.phone,
                     stateId: formik.values.stateId,
                     zipcode: formik.values.zipcode

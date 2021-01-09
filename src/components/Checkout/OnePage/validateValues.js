@@ -9,12 +9,6 @@ const validate = values => {
         errors.firstname = 'Ingresa un nombre más pequeño';
     }
 
-    if (!values.lastname) {
-        errors.lastname = 'Campo requerido';
-    } else if (values.lastname.length > 70) {
-        errors.lastname = 'Ingresa un apellido más pequeño';
-    }
-
     if (!values.email) {
         errors.email = 'Campo requerido';
     } else if (!validator.validate(values.email)) {
@@ -28,8 +22,8 @@ const validate = values => {
     }
     if (!values.address1) {
         errors.address1 = 'Campo requerido';
-    } else if (values.lastname.length > 100) {
-        errors.lastname = 'Ingresa una dirección más corta';
+    } else if (values.address1.length > 100) {
+        errors.address1 = 'Ingresa una dirección más corta';
     }
 
     if (values.address2) {

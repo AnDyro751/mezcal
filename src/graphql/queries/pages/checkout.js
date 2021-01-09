@@ -13,6 +13,17 @@ query getCountryByISO($isoCode: String!) {
       }
     }
   adjustmentTotal
+        shipmentAdjustments {
+          nodes {
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode {
+              value
+            }
+          }
+        }
         adjustments{
           nodes{
             updatedAt
@@ -55,7 +66,6 @@ query getCountryByISO($isoCode: String!) {
       country {
         id
       }
-      lastname
       firstname
       zipcode
       state{
@@ -74,7 +84,6 @@ query getCountryByISO($isoCode: String!) {
       country {
         id
       }
-      lastname
       firstname
       zipcode
       stateName

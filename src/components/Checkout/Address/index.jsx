@@ -20,7 +20,6 @@ export default function CheckoutAddress({data}) {
             email: state.order ? state.order.email : "",
             phone: state.order ? state.order.billingAddress ? state.order.billingAddress.phone : "" : "",
             firstname: state.order ? state.order.billingAddress ? state.order.billingAddress.firstname : "" : "",
-            lastname: state.order ? state.order.billingAddress ? state.order.billingAddress.lastname : "" : "",
             address1: state.order ? state.order.billingAddress ? state.order.billingAddress.address1 : "" : "",
             address2: state.order ? state.order.billingAddress ? state.order.billingAddress.address2 : "" : "",
             zipcode: state.order ? state.order.billingAddress ? state.order.billingAddress.zipcode : "" : "",
@@ -29,10 +28,7 @@ export default function CheckoutAddress({data}) {
         },
         validate,
         onSubmit: values => {
-            // handleSendAllForm();
-            // console.log("HOLA")
-            handleSendForm()
-            // alert(JSON.stringify(values, null, 2));
+            handleSendForm();
         },
     });
 
@@ -62,8 +58,8 @@ export default function CheckoutAddress({data}) {
                     appearance: 'error'
                 });
             } else {
-                Router.push("/delivery")
                 dispatch({type: "UPDATE_ORDER", payload: {...state.order, ...newData.nextCheckoutState.order}});
+                Router.push("/delivery")
             }
         }
     });
@@ -77,7 +73,6 @@ export default function CheckoutAddress({data}) {
                     city: formik.values.city,
                     countryId: data.countryByIso ? data.countryByIso.id : "",
                     firstname: formik.values.firstname,
-                    lastname: formik.values.lastname,
                     phone: formik.values.phone,
                     stateId: formik.values.stateId,
                     zipcode: formik.values.zipcode
@@ -88,7 +83,6 @@ export default function CheckoutAddress({data}) {
                     city: formik.values.city,
                     countryId: data.countryByIso ? data.countryByIso.id : "",
                     firstname: formik.values.firstname,
-                    lastname: formik.values.lastname,
                     phone: formik.values.phone,
                     stateId: formik.values.stateId,
                     zipcode: formik.values.zipcode

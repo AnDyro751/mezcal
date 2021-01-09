@@ -22,7 +22,7 @@ function CheckoutPage({data}) {
                     ...newDataCountry.currentOrder,
                     billingAddress: {
                         ...newDataCountry.currentOrder.billingAddress,
-                        stateId: newDataCountry.currentOrder.billingAddress.state ? newDataCountry.currentOrder.billingAddress.state.id : ""
+                        stateId: newDataCountry.currentOrder.billingAddress ? newDataCountry.currentOrder.billingAddress.state ? newDataCountry.currentOrder.billingAddress.state.id : "" : ""
                     }
                 }
             });

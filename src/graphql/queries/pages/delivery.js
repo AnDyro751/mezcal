@@ -30,7 +30,6 @@ const PAGE_DELIVERY_QUERY = gql`
       country {
         id
       }
-      lastname
       firstname
       zipcode
       stateName
@@ -43,7 +42,6 @@ const PAGE_DELIVERY_QUERY = gql`
       country {
         id
       }
-      lastname
       firstname
       zipcode
       stateName

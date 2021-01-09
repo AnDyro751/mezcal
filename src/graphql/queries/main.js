@@ -15,7 +15,6 @@ export const MAIN_QUERY = function (otherQuery = null, addToOrder = null) {
     billingAddress{
       phone
       firstname
-      lastname
       zipcode
       address1
       address2
