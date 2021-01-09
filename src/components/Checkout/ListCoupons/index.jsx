@@ -66,6 +66,7 @@ export default function CheckoutListCoupons({}) {
                 }
                 {
                     state.order.shipmentAdjustments.nodes &&
+                    state.order.shipmentAdjustments.nodes.length > 0 &&
                     <div className={"w-full"}>
                         <h3 className="mb-4 text-gray-600 uppercase text-sm font-medium">Descuentos de envío</h3>
                         {state.order.shipmentAdjustments.nodes.map((adjustment, i) => (

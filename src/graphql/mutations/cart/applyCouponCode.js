@@ -7,6 +7,17 @@ mutation ApplyCouponCode($coupon_code:String!){
       total
       itemTotal
       adjustmentTotal
+      shipmentAdjustments {
+          nodes {
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode {
+              value
+            }
+          }
+        }
       adjustments{
           nodes{
             updatedAt
@@ -35,6 +46,17 @@ mutation ApplyCouponCode($coupon_code:String!){
       total
       itemTotal
       adjustmentTotal
+      shipmentAdjustments {
+          nodes {
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode {
+              value
+            }
+          }
+        }
       adjustments{
           nodes{
             updatedAt
