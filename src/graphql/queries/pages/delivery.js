@@ -2,26 +2,65 @@ import {gql} from '@apollo/client'
 
 const PAGE_DELIVERY_QUERY = gql`
 {
+  
   currentOrder {
-    shipments {
+  availablePaymentMethods {
       nodes {
         id
-        stockLocation {
-          name
-        }
-        shippingRates {
+        name
+        partialName
+        description
+      }
+    }
+        adjustmentTotal
+        shipmentAdjustments {
           nodes {
-            cost
-            currency
-            id
-            selected
-            shippingMethod {
-              name
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode {
+              value
             }
           }
         }
-      }
-    }
+        adjustments{
+          nodes{
+            updatedAt
+            label
+            eligible
+            amount
+            promotionCode{
+              value
+            }
+          }
+        }
+      shipments {
+          nodes {
+            stockLocation{
+                  name
+            }
+            state
+            number
+            id
+            tracking
+            shippingRates {
+              nodes {
+                cost
+                id
+                currency
+                selected
+                shippingMethod {
+                  id
+                  name
+                  carrier
+                  trackingUrl
+                  adminName
+                }
+              }
+            }
+          }
+        }
     shippingAddress {
       address2
       address1
@@ -32,10 +71,16 @@ const PAGE_DELIVERY_QUERY = gql`
       }
       firstname
       zipcode
+      state{
+        id
+      }
       stateName
     }
     billingAddress {
       address2
+      state{
+        id
+      }
       address1
       phone
       city

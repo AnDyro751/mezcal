@@ -12,7 +12,7 @@ query getCountryByISO($isoCode: String!) {
         description
       }
     }
-  adjustmentTotal
+        adjustmentTotal
         shipmentAdjustments {
           nodes {
             updatedAt
@@ -37,6 +37,9 @@ query getCountryByISO($isoCode: String!) {
         }
       shipments {
           nodes {
+          stockLocation{
+                  name
+            }
             state
             number
             id
