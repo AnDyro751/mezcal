@@ -13,6 +13,7 @@ import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
 import Link from 'next/link'
+import moreState from "../../../lib/moreState";
 
 function CartShow() {
     const {state, dispatch} = useContext(OrderContext);
@@ -60,7 +61,7 @@ function CartShow() {
             <CartTotalInfo currentOrder={data.currentOrder}/>
             <CartCouponsInfo currentOrder={data.currentOrder}/>
             {
-                state.order.state === "cart" ?
+                moreState(state.order.state, "cart") ?
                     <ButtonsPrimary
                         onClick={handleClick}
                         loading={loadingMutation}
