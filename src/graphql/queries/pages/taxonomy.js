@@ -2,8 +2,27 @@ import {gql} from '@apollo/client';
 
 const GET_TAXONOMY_BY_PERMALINK_QUERY = gql`
 query getTaxonByPermalink($permalink: String!) {
+    taxonomies(first: 4) {
+        nodes {
+          name
+          rootTaxon {
+            children(first: 4) {
+              nodes {
+                name
+                permalink
+              }
+            }
+            name
+            permalink
+          }
+        }
+      }
   taxonByPermalink(permalink: $permalink) {
     name
+    parentTaxon {
+      name
+      permalink
+    }
     products(first: 20) {
       nodes {
         name

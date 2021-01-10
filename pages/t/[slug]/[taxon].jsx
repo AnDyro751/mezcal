@@ -1,7 +1,13 @@
-export default function PagesTaxon() {
+import LayoutApplication from "../../../src/components/Layout/application";
+import withApollo from "../../../src/lib/apollo";
+import ComponentsPageTaxon from "../../../src/components/Pages/Taxon";
+
+function PagesTaxon() {
     return (
-        <div className="w-full">
-            Taxooon
-        </div>
+        <LayoutApplication>
+            <ComponentsPageTaxon/>
+        </LayoutApplication>
     )
 }
+
+export default withApollo({ssr: true})(PagesTaxon);

@@ -25,7 +25,7 @@ function PagesTaxonomy() {
             }
             {
                 data &&
-                <ComponentsPageTaxonomy taxon={data.taxonByPermalink}/>
+                <ComponentsPageTaxonomy taxonomies={data.taxonomies} taxon={data.taxonByPermalink}/>
             }
         </LayoutApplication>
     )
