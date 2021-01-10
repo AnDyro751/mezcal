@@ -27,6 +27,10 @@ export default function ComponentsPageTaxon({}) {
                                     title: data.taxonByPermalink ? data.taxonByPermalink.parentTaxon.name : "Desconocido",
                                     href: `/t/${data.taxonByPermalink ? data.taxonByPermalink.parentTaxon.permalink : ""}`
                                 },
+                                {
+                                    title: data.taxonByPermalink.name,
+                                    href: `/t/${data.taxonByPermalink.permalink}`
+                                }
                             ]
                         }
                         />

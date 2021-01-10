@@ -19,6 +19,7 @@ query getTaxonByPermalink($permalink: String!) {
       }
   taxonByPermalink(permalink: $permalink) {
     name
+    permalink
     parentTaxon {
       name
       permalink
