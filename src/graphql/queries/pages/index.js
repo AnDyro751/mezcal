@@ -5,11 +5,15 @@ query getIndexProducts($first: Int!) {
   taxonomies(first: 4) {
     nodes {
       name
-      taxons(first: 4) {
-        nodes {
-          name
-          permalink
+      rootTaxon {
+        children(first: 4) {
+          nodes {
+            name
+            permalink
+          }
         }
+        name
+        permalink
       }
     }
   }
