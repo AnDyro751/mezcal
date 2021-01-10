@@ -23,7 +23,7 @@ function Home() {
             }
             {
                 data &&
-                <ComponentsPagesIndex taxonomies={data.taxonomies}/>
+                <ComponentsPagesIndex products={data.products.nodes} taxonomies={data.taxonomies}/>
             }
         </LayoutApplication>
     )

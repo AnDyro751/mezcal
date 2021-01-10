@@ -25,13 +25,24 @@ query getIndexProducts($first: Int!) {
       id
       reviewsCount
       slug
+      
       masterVariant {
-        images {
-          nodes {
-            smallUrl
-            filename
+      id
+      defaultPrice {
+          amount
+          displayAmount
+          currency {
+            isoCode
           }
         }
+        images (first: 1){
+            nodes {
+              id
+              alt
+              filename
+              largeUrl
+            }
+          }
       }
     }
   }
