@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import GET_PRODUCT_REVIEWS from "../../../graphql/queries/pages/products/reviews";
 import runQuery from "../../../graphql/queries/runQuery";
 import Rating from "react-rating";
+import NewReview from "../../Reviews/NewReview";
 
 export default function ProductReviews({product = {}}) {
     const {ref, inView, entry} = useInView({
@@ -12,6 +13,7 @@ export default function ProductReviews({product = {}}) {
     const [allReviews, setAllReviews] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loaded, setLoaded] = useState(false);
+    const [openNewReview, setOpenNewReview] = useState(false);
 
     useEffect(() => {
         if (inView) {
@@ -35,8 +37,23 @@ export default function ProductReviews({product = {}}) {
     return (
         <div className="w-full mt-10" ref={ref}>
             <h3 className="text-4xl font-medium uppercase">
-                Customer reviews&#160;({product.reviewsCount})</h3>
-            {/*<div className="w-full mt-3"><ReviewsSelecter defaultRating={product.avgRating || 0}/></div>*/}
+                Reseñas&#160;({product.reviewsCount})</h3>
+            {
+                !openNewReview &&
+                <h4
+                    onClick={() => {
+                        setOpenNewReview(true)
+                    }}
+                    className="mt-3 text-sm text-gray-700 hover:underline">
+                    Escribir reseña
+                </h4>
+            }
+            {
+                openNewReview &&
+                <div className="w-full mt-4">
+                    <NewReview open={openNewReview}/>
+                </div>
+            }
             <div className="w-full flex space-x-4 mt-6">
                 {
                     !loading &&
