@@ -10,6 +10,7 @@ import StripeForm from "../StripeForm";
 import Router from 'next/router';
 import NEXT_STATE_MUTATION from "../../../graphql/mutations/cart/nextState";
 import {OrderContext} from "../../../stores/userOrder";
+import ButtonStripeCheckout from "../ButtonStripeCheckout";
 
 
 function ComponentsCheckoutPayment({}) {
@@ -17,7 +18,23 @@ function ComponentsCheckoutPayment({}) {
     const {state, dispatch} = useContext(OrderContext);
 
     const stripePromise = loadStripe("pk_test_51H9CZeBOcPJ0nbHcn3sfLIpeMPDr4YfdEWe7ytAM7bge9lzgYQTC1uOAFopBIbeKc7i3btFTEGaHSrnBfTwmmu4o00Dz7IGOu6");
-    const {data: dataPayment, loading: loadingPayment, error: errorPayment} = useQuery(GET_PAYMENT_METHODS_QUERY)
+    const {data: dataPayment, loading: loadingPayment, error: errorPayment} = useQuery(GET_PAYMENT_METHODS_QUERY, {
+        onCompleted: (newData) => {
+            console.log(newData, "NEW")
+            dispatch({
+                type: "UPDATE_ORDER",
+                payload: {
+                    ...state.order,
+                    ...newData.currentOrder,
+                    billingAddress: {
+                        ...newData.currentOrder.billingAddress,
+                        stateId: newData.currentOrder.billingAddress ? newData.currentOrder.billingAddress.state ? newData.currentOrder.billingAddress.state.id : "" : ""
+                    }
+                }
+            });
+        },
+        fetchPolicy: "no-cache",
+    })
 
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     // const [stripePm, setStripePm] = useState(null);
@@ -79,6 +96,10 @@ function ComponentsCheckoutPayment({}) {
         )
     }
 
+    if (errorPayment) {
+        return (<h2>Error {errorPayment.message}</h2>)
+    }
+
     return (
         <Elements stripe={stripePromise}>
             <div className="w-10/12 mx-auto mt-10">
@@ -97,10 +118,8 @@ function ComponentsCheckoutPayment({}) {
                 }
                 {
                     selectedPaymentMethod &&
-                    (selectedPaymentMethod.partialName === "stripe" || selectedPaymentMethod.partialName === "gateway") &&
-                    <StripeForm
-                        handleResult={onHandleResult}
-                    />
+                    selectedPaymentMethod.partialName === "stripe_checkout" &&
+                    <ButtonStripeCheckout paymentId={selectedPaymentMethod.id}/>
                 }
                 <div className="w-full mt-5">
                     {/*<ButtonsPrimary*/}

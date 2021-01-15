@@ -26,6 +26,8 @@ function ComponentCheckoutDelivery({currentOrder}) {
     const handleClick = () => {
         if (state.order.state === "delivery") {
             toNext();
+        } else {
+            Router.push(`/${state.order.state}`)
         }
     }
 

@@ -218,8 +218,7 @@ export default function ProductData({product, variant = null}) {
                                                         }
                                                     }}
                                                     className={`
-                                                        w-auto p-1 px-6 mb-3 border 
-                                                        ${selectedVariants[optionType.name] === optionValue.id ? "border-black" : "opacity-50"}
+                                                        w-auto p-1 px-6 mb-3 border cursor-pointer ${selectedVariants[optionType.name] === optionValue.id ? "border-black" : "opacity-50"}
                                                     `}
                                                     key={j}
                                                     id={`option_value_${optionValue.id}`}>
