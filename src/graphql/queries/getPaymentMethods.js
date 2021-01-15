@@ -3,15 +3,6 @@ import {gql} from '@apollo/client';
 const GET_PAYMENT_METHODS_QUERY = gql`
 {
   currentOrder {
-  checkoutPaymentMethod {
-      paymentSource {
-        gatewayPaymentProfileId
-        gatewayCustomerProfileId
-        paymentMethod {
-          partialName
-        }
-      }
-    }
         adjustmentTotal
         shipmentAdjustments {
           nodes {

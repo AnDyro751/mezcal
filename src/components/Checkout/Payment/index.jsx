@@ -100,6 +100,19 @@ function ComponentsCheckoutPayment({}) {
         return (<h2>Error {errorPayment.message}</h2>)
     }
 
+    const handleClickCheck = () => {
+        let variables = {
+            "name": "Angel Mendez",
+            // gateway_payment_profile_id: "",
+        };
+        addPaymentMethod({
+            variables: {
+                "source": {},
+                "paymentMethodId": selectedPaymentMethod ? selectedPaymentMethod.id : ""
+            }
+        })
+    }
+
     return (
         <Elements stripe={stripePromise}>
             <div className="w-10/12 mx-auto mt-10">
@@ -120,6 +133,12 @@ function ComponentsCheckoutPayment({}) {
                     selectedPaymentMethod &&
                     selectedPaymentMethod.partialName === "stripe_checkout" &&
                     <ButtonStripeCheckout paymentId={selectedPaymentMethod.id}/>
+                }
+                {
+                    selectedPaymentMethod &&
+                    selectedPaymentMethod.partialName === "check" &&
+                    <button onClick={handleClickCheck}>Pagar en efectivo</button>
+
                 }
                 <div className="w-full mt-5">
                     {/*<ButtonsPrimary*/}

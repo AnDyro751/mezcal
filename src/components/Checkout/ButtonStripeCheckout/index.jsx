@@ -44,7 +44,7 @@ export default function ButtonStripeCheckout({paymentId}) {
         variables: {
             "input": {
                 "paymentMethodId": paymentId,
-                "source": {"gateway_payment_profile_id": stripeSessionId}
+                "source": {}
             }
         }
     });
