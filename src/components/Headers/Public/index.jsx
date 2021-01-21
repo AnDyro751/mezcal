@@ -8,10 +8,10 @@ export default function HeadersPublic() {
     const {state} = useContext(OrderContext);
     const {order} = state;
     return (
-        <div className="w-full flex justify-center py-3 border-b">
+        <div className="w-full flex justify-center py-3 border-b bg-white">
             <div className="w-10/12 flex items-center">
                 <header className="w-full">
-                    <div className="grid grid-cols-3 items-center">
+                    <div className="grid grid-cols-4 items-center">
                         <div className="col-span-2 grid grid-cols-2">
                             <div className="col-span-1">
                                 <Link href={"/"}>
@@ -19,7 +19,7 @@ export default function HeadersPublic() {
                                 </Link>
                             </div>
                         </div>
-                        <div className="col-span-1">
+                        <div className="col-span-2">
                             <div className="w-full flex space-x-4">
                                 {
                                     header.items.map((item, i) => (

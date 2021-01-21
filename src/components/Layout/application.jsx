@@ -11,7 +11,7 @@ export default function LayoutApplication({children, seo = {}, currentOrder = {}
                 <meta name="viewport" content="initial-scale=1.0, width=device-width"/>
             </Head>
             <HeadersPublic publicOrder={currentOrder}/>
-            <main>
+            <main className="bg-gray-100" >
                 {children}
             </main>
         </>

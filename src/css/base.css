@@ -56,3 +56,7 @@
     -ms-transform: rotate(3deg) translate(0px, -4px);
     transform: rotate(3deg) translate(0px, -4px);
 }
+
+body, html {
+    background-color: #f3f4f6 !important;
+}

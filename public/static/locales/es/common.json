@@ -10,6 +10,10 @@
         "href": "/products"
       },
       {
+        "title": "Categorías",
+        "href": "/t"
+      },
+      {
         "title": "Contacto",
         "href": "/contact"
       }
