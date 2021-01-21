@@ -2,6 +2,7 @@ import Link from "next/link";
 import {useContext} from 'react'
 import {OrderContext} from "../../../stores/userOrder";
 import {SITE_TITLE} from "../../../site/info";
+import {header} from '../../../../public/static/locales/es/common.json'
 
 export default function HeadersPublic() {
     const {state} = useContext(OrderContext);
@@ -20,12 +21,13 @@ export default function HeadersPublic() {
                         </div>
                         <div className="col-span-1">
                             <div className="w-full flex space-x-4">
-                                <Link href={"/"}>
-                                    <a className="w-1/3 text-center text-gray-600 hover:text-black">Inicio</a>
-                                </Link>
-                                <Link href={"/products"}>
-                                    <a className="w-1/3 text-center text-gray-600 hover:text-black">Productos</a>
-                                </Link>
+                                {
+                                    header.items.map((item, i) => (
+                                        <Link href={item.href} key={i}>
+                                            <a className="w-1/3 text-center text-gray-600 hover:text-black">{item.title}</a>
+                                        </Link>
+                                    ))
+                                }
                                 <Link href={"/cart"}>
                                     <a className="w-1/3 text-center flex items-center justify-center text-gray-600 hover:text-black">
                                         <img

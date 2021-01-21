@@ -1,7 +1,6 @@
 import ProductsItem from "../Item";
 import {gql, useQuery} from "@apollo/client";
 import SHOW_PRODUCTS_QUERY from "../../../graphql/queries/pages/products";
-import withApollo from "../../../lib/apollo";
 
 function ProductsListProducts({}) {
     const {data, loading, error} = useQuery(gql`${SHOW_PRODUCTS_QUERY}`, {
@@ -37,4 +36,3 @@ function ProductsListProducts({}) {
     )
 }
 export default ProductsListProducts
-// export default withApollo({ssrc: true})(ProductsListProducts)

@@ -3,6 +3,8 @@ import {useRouter} from 'next/router'
 import {useQuery} from "@apollo/client";
 import GET_TAXONOMY_BY_PERMALINK_QUERY from "../../../graphql/queries/pages/taxonomy";
 import ComponentsListTaxons from "../../ListTaxons";
+import EmptyObjects from "../../EmptyObjects";
+import ProductsItem from "../../Products/Item";
 
 export default function ComponentsPageTaxon({}) {
     const router = useRouter();
@@ -35,9 +37,21 @@ export default function ComponentsPageTaxon({}) {
                         }
                         />
                     </div>
-                    <div className="w-full">
+                    <div className="w-full flex">
                         <div className="w-3/12">
                             <ComponentsListTaxons taxonomies={data.taxonomies}/>
+                        </div>
+                        <div className="w-9/12">
+                            {
+                                data.taxonByPermalink.products.nodes.length <= 0 &&
+                                <EmptyObjects message={"No hay productos que mostrar"}
+                                              withButtonText={"Explorar productos"}
+                                              withButton={"/products"}
+                                />
+                            }
+                            {data.taxonByPermalink.products.nodes.map((product, i) => (
+                                <ProductsItem product={product} key={i}/>
+                            ))}
                         </div>
                     </div>
                 </>

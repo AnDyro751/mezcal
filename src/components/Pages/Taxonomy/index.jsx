@@ -2,10 +2,8 @@ import ProductsItem from "../../Products/Item";
 import EmptyObjects from "../../EmptyObjects";
 import ComponentsListTaxons from "../../ListTaxons";
 import BreadCrumbs from "../../Breadcrumbs";
-import {useRouter} from "next/router";
 
 export default function ComponentsPageTaxonomy({taxon, taxonomies}) {
-    const router = useRouter()
     return (
         <div className="w-10/12 mx-auto mt-10 space-y-4">
             <div className="w-full">

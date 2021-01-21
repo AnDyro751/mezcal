@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react';
 import InputBase from "../../Inputs/base";
+import {useMutation} from "@apollo/client";
+import NEW_REVIEW_MUTATION from "../../../graphql/mutations/cart/newReview";
 
 export default function NewReview({open = false}) {
     const [isOpen, setIsOpen] = useState(open);
@@ -9,6 +11,14 @@ export default function NewReview({open = false}) {
         review: "",
         rating: 0
     });
+    const [addReview, {data, loading, error}] = useMutation(NEW_REVIEW_MUTATION, {
+        onCompleted: () => {
+            alert("Tu reseña se ha registrado");
+        },
+        variables: {
+            productId: ""
+        }
+    });
 
     useEffect(() => {
         setIsOpen(open);
@@ -16,6 +26,10 @@ export default function NewReview({open = false}) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (fields.name.length > 0 && fields.title.length > 0 && fields.review.length > 0 && fields.rating > 0) {
+            alert("Valido");
+            // addReview()
+        }
     };
 
     const handleChange = (e) => {

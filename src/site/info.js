@@ -1,4 +1,4 @@
-export const SITE_TITLE = "Mezcal Yaní";
+export const SITE_TITLE = "Demo";
 export const SITE_DESCRIPTION = "Mezcal Yani description";
 export const SITE_SOCIAL = {
     facebook: "",

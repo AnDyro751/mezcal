@@ -1,0 +1,18 @@
+{
+  "header": {
+    "items": [
+      {
+        "title": "Inicio",
+        "href": "/"
+      },
+      {
+        "title": "Productos",
+        "href": "/products"
+      },
+      {
+        "title": "Contacto",
+        "href": "/contact"
+      }
+    ]
+  }
+}

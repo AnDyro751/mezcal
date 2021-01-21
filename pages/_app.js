@@ -9,6 +9,7 @@ import {DefaultToast} from 'react-toast-notifications';
 import runQuery from "../src/graphql/queries/runQuery";
 import {MAIN_QUERY} from "../src/graphql/queries/main";
 import App from 'next/app'
+import withApollo from '../src/lib/apollo'
 
 Router.events.on('routeChangeStart', () => NProgress.start());
 Router.events.on('routeChangeComplete', () => NProgress.done());
@@ -61,4 +62,4 @@ MyApp.getInitialProps = async (appContext) => {
 }
 
 
-export default MyApp;
+export default withApollo({ssr: true})(MyApp);

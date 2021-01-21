@@ -1,5 +1,4 @@
 import LayoutApplication from "../src/components/Layout/application";
-import withApollo from "../src/lib/apollo";
 import {useQuery} from "@apollo/client";
 import INDEX_PAGE_QUERY from "../src/graphql/queries/pages";
 import ComponentsPagesIndex from "../src/components/Pages/Index";
@@ -29,6 +28,6 @@ function Home() {
     )
 }
 
-export default withApollo({ssr: true})(Home)
+export default Home
 
 

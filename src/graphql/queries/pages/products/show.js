@@ -1,6 +1,7 @@
 export const SHOW_PRODUCT_QUERY = (slug = "") => {
     return `query getProductBySlug{
         productBySlug(slug: "${slug}") {
+        id
         reviewsCount
         slug
         avgRating

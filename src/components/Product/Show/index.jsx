@@ -18,7 +18,11 @@ const ProductReviews = dynamic(() => import('../Reviews'), {
 
 function ComponentsProductShow() {
     const router = useRouter();
-    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(router.query.slug)}`)
+    const {data: mainData, loading, error} = useQuery(gql`${SHOW_PRODUCT_QUERY(router.query.slug)}`, {
+        // onCompleted: (newData) => {
+        //     console.log(newData, "NEWDATA");
+        // }
+    })
     const variant = router.query.variant || null;
     useEffect(() => {
         if (mainData) {
