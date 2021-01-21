@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import dynamic from 'next/dynamic'
 import NProgress from 'nprogress'
+import updateLazyLoad, {destroyLazyLoad} from "../../../lib/updateLazyLoad";
 
 const Lightbox = dynamic(() => import('react-image-lightbox'), {
     ssr: false
@@ -18,6 +19,12 @@ export default function ProductGallery({product}) {
             document.querySelector("body").classList.remove("overflow-hidden");
         }
     }, [openImages])
+
+    useEffect(() => {
+        // destroyLazyLoad();
+        // updateLazyLoad();
+        console.log("ACTUALIZAR IMAGEN");
+    }, [currentImage])
 
     useEffect(() => {
         return () => {
@@ -70,10 +77,13 @@ export default function ProductGallery({product}) {
                 product.masterVariant.images.nodes.length > 0 &&
                 <img
                     key={"1"}
+                    id={"current_image"}
                     onClick={() => {
                         setCurrentImage(currentImage);
                         // openLightbox(currentImage);
                         setOpenImages(true);
+                        destroyLazyLoad(document.querySelector("#current_image"))
+                        // updateLazyLoad();
                     }}
                     alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
                     className="lazy cursor-pointer w-full"
@@ -152,10 +162,13 @@ export default function ProductGallery({product}) {
                             })}`}
                             onClick={() => {
                                 setCurrentImage(i);
-                                NProgress.start()
+                                // destroyLazyLoad();
+                                NProgress.start();
                                 setTimeout(() => {
                                     NProgress.done()
-                                }, 500)
+                                }, 500);
+                                destroyLazyLoad(document.querySelector("#current_image"))
+
                             }}
                         />
                         {/*<LazyLoadImage*/}
