@@ -10,26 +10,26 @@ export default function ProductsItem({product = {}}) {
         <div className="w-full">
             {image &&
             <Link href={`/products/${product.slug}`}>
-                <a>
+                <a className="rounded shadow" >
                     <LazyLoadImage
                         placeholderSrc={`${GetImageUrl({
                             publicId: generateUrlPath({
                                 filename: image.filename,
                                 id: image.id
                             }),
-                            height: 10,
+                            height: 20,
                             width: 10,
                             fit: "cover"
                         })}`}
-                        wrapperClassName="cursor-pointer w-full border"
-                        className={"h-64 w-full"}
+                        wrapperClassName="cursor-pointer w-full rounded"
+                        className={"h-80 w-full"}
                         alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}
                         src={`${GetImageUrl({
                             publicId: generateUrlPath({
                                 filename: image.filename,
                                 id: image.id
                             }),
-                            height: 200,
+                            height: 400,
                             width: 200,
                             fit: "cover"
                         })}`}

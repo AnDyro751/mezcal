@@ -58,5 +58,9 @@
 }
 
 body, html {
-    background-color: #f3f4f6 !important;
+    background-color: #f3f4f6;
+}
+
+.main-title {
+    font-family: 'Oswald', sans-serif !important;
 }
