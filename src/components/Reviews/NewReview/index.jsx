@@ -4,20 +4,24 @@ import {useMutation} from "@apollo/client";
 import NEW_REVIEW_MUTATION from "../../../graphql/mutations/cart/newReview";
 import ReactStars from "react-rating-stars-component";
 
-export default function NewReview({open = false}) {
+export default function NewReview({open = false, product}) {
     const [isOpen, setIsOpen] = useState(open);
     const [fields, setFields] = useState({
         name: "",
         title: "",
         review: "",
-        rating: 0
+        rating: 0,
     });
     const [addReview, {data, loading, error}] = useMutation(NEW_REVIEW_MUTATION, {
         onCompleted: () => {
             alert("Tu reseña se ha registrado");
         },
         variables: {
-            productId: ""
+            productId: product.id,
+            review: fields.review,
+            rating: fields.rating,
+            name: fields.name,
+            title: fields.title,
         }
     });
 
@@ -28,9 +32,9 @@ export default function NewReview({open = false}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (fields.name.length > 0 && fields.title.length > 0 && fields.review.length > 0 && fields.rating > 0) {
-            alert("Valido");
-            // addReview()
-        }else{
+            // alert("Valido");
+            addReview()
+        } else {
             console.log(fields)
             alert("Inv")
         }
