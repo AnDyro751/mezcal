@@ -47,7 +47,7 @@ export default function ProductReviews({product = {}}) {
                             <span className="font-medium text-gray-800" >({product.avgRating})</span>
                         </div>
                         <span className="h-4">
-                                        Basado en 4 reseñas
+                                        Basado en {product.reviewsCount} reseñas
                                         </span>
                     </div>
                 </div>
