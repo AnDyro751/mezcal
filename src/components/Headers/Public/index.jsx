@@ -8,8 +8,8 @@ export default function HeadersPublic() {
     const {state} = useContext(OrderContext);
     const {order} = state;
     return (
-        <div className="w-full flex justify-center py-3 border-b bg-white">
-            <div className="w-10/12 flex items-center">
+        <div className="w-full flex justify-center py-5 bg-white sticky top-0 z-50">
+            <div className="w-11/12 flex items-center">
                 <header className="w-full">
                     <div className="grid grid-cols-8 items-center">
                         <div className="col-span-3">

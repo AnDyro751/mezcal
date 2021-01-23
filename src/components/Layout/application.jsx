@@ -15,7 +15,8 @@ export default function LayoutApplication({children, seo = {}, currentOrder = {}
                 {/*TODO: Agregar el SEO y prefetch*/}
             </Head>
             <HeadersPublic publicOrder={currentOrder}/>
-            <main>
+
+            <main className="relative">
                 {children}
             </main>
         </>

@@ -44,8 +44,8 @@ function ComponentsProductShow() {
     }
     return (
         <>
-            <div className="w-10/12 mx-auto flex space-x-6 mt-10">
-                <div className="w-7/12">
+            <div className="w-11/12 mx-auto justify-between flex space-x-12 mt-10 items-start">
+                <div className="w-6/12">
                     {
                         loading ?
                             <ProductLoadingGallery/>
@@ -53,7 +53,7 @@ function ComponentsProductShow() {
                             <ProductGallery product={mainData.productBySlug}/>
                     }
                 </div>
-                <div className="w-5/12">
+                <div className="w-6/12 p-6 bg-gray-100">
                     {loading ?
                         <ProductLoadingData/>
                         :
@@ -62,7 +62,7 @@ function ComponentsProductShow() {
                 </div>
 
             </div>
-            <div className="w-10/12 flex mx-auto">
+            <div className="w-11/12 flex mx-auto">
                 {!loading &&
                 <ProductReviews product={mainData.productBySlug}/>
                 }

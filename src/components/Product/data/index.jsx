@@ -4,12 +4,13 @@ import ButtonsPrimary from "../../Buttons/primary";
 import {useState, useContext, useMemo} from 'react';
 import emptyObject from "../../../lib/emptyObject";
 import {useToasts} from 'react-toast-notifications';
-import {CounterSelector} from "../../Buttons/CounterSelector";
+import CounterSelector from "../../Buttons/CounterSelector";
 import {OrderContext} from "../../../stores/userOrder";
 import ProductProperties from "../properties";
 import ProductTaxons from "../Taxons";
 import CREATE_ORDER_MUTATION from "../../../graphql/mutations/cart/createOrder";
 import setCookie from "../../../lib/setCookie";
+import ProductShareButtons from "../../ProductShareButtons";
 
 function createVariantObject(optionTypes, inArray = false) {
     let newObject = {}
@@ -185,7 +186,7 @@ export default function ProductData({product, variant = null}) {
 
     return (
         <div className="w-full">
-            <h1 className="font-medium text-5xl">{product.name}</h1>
+            <h1 className="font-medium text-3xl">{product.name}</h1>
             {currentVariant.defaultPrice ?
                 <h2 className="font-medium text-gray-900 text-xl mt-4 mb-6">{currentVariant.defaultPrice.displayAmount} {currentVariant.defaultPrice.currency.isoCode}</h2>
                 :
@@ -250,14 +251,14 @@ export default function ProductData({product, variant = null}) {
             />
             {product.description &&
             <>
-                <h3 className="mt-6 mb-2 font-bold text-3xl">Descripción:</h3>
-                <h4 className="font-light text-sm text-gray-600 mb-4 whitespace-pre">
+                <h4 className="font-light text-sm mt-6 text-gray-700 mb-4 whitespace-pre">
                     {product.description}
                 </h4>
             </>
             }
             <ProductProperties product={product}/>
             <ProductTaxons product={product}/>
+            <ProductShareButtons/>
         </div>
     )
 }

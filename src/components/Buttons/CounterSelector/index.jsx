@@ -5,8 +5,7 @@ import {OrderContext} from "../../../stores/userOrder";
 import REMOVE_FROM_CART_MUTATION from "../../../graphql/mutations/cart/removeFromCart";
 import {useToasts} from "react-toast-notifications";
 
-
-export const CounterSelector = ({handleChange, handleUpdateLineItems = null, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
+const CounterSelector = ({handleChange, handleUpdateLineItems = null, defaultValue = 1, big = true, handleBlur = null, lineItem = {}}) => {
     const [defaultCounter, setDefaultCounter] = useState(defaultValue);
     const {state, dispatch} = useContext(OrderContext);
     const [currentLineItem, setCurrentLineItem] = useState(lineItem);
@@ -99,16 +98,23 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
                 <div className="w-4/12">
                     <label htmlFor="add_to_cart[select_quantity]">Cantidad</label>
                 </div>
+                {/*<InputBase*/}
+                {/*    placeholder={"Cantidad"}*/}
+                {/*    value={defaultValue}*/}
+                {/*    onChange={handleChange}*/}
+                {/*    label={null}*/}
+                {/*/>*/}
                 <select
                     id="add_to_cart[select_quantity]"
                     onChange={handleChange}
                     defaultValue={defaultValue}
-                    className="w-8/12 focus:ring-indigo-500 focus:border-indigo-500 h-full py-3 pl-4 font-medium text-black pr-6 border-transparent bg-gray-100 pr-6 select appearance-none rounded-md">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                    className="w-8/12 focus:ring-indigo-500 bg-gray-200 h-full py-3 pl-4 font-medium text-black pr-6 border-transparent bg-gray-100 pr-6 select appearance-none rounded-md">
+                    <option value="1">1 unidad</option>
+                    <option value="2">2 unidades</option>
+                    <option value="3">3 unidades</option>
+                    <option value="4">4 unidades</option>
+                    <option value="5">5 unidades</option>
+                    <option value="6">6 unidades</option>
                 </select>
             </div>
         )
@@ -160,3 +166,5 @@ export const CounterSelector = ({handleChange, handleUpdateLineItems = null, def
         )
     }
 }
+
+export default CounterSelector

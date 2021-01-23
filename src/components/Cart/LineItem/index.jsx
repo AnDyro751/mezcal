@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
-import {CounterSelector} from "../../Buttons/CounterSelector";
+import CounterSelector from "../../Buttons/CounterSelector";
 
 function getSku(lineItem) {
     // if(lineItem){}
@@ -74,8 +74,8 @@ function CartLineItem({lineItem, handleLineItems}) {
                         }
                         {
                             !lineItem.hasSufficientStock &&
-                            <p className="mt-2" >
-                                <span className="bg-red-600 px-2 py-1 rounded text-white text-xs" >Sin stock</span>
+                            <p className="mt-2">
+                                <span className="bg-red-600 px-2 py-1 rounded text-white text-xs">Sin stock</span>
                             </p>
 
                         }

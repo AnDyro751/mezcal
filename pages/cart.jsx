@@ -14,7 +14,7 @@ const PagesCart = () => {
     return (
         <LayoutApplication>
             <div className="w-full flex justify-center">
-                <div className="w-10/12">
+                <div className="w-11/12">
                     <CartShow/>
                 </div>
             </div>
