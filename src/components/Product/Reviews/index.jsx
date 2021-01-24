@@ -38,17 +38,15 @@ export default function ProductReviews({product = {}}) {
             <h3 className="text-4xl text-center text-gray-800 font-medium">
                 Reseñas
             </h3>
-
-
             <div className="w-full flex mt-8 items-center pb-6 border-b border-gray-400">
                 <div className="w-6/12">
                     <div className="text-sm text-gray-800 flex items-center space-x-4">
                         <div className="flex space-x-3 items-center">
-                            <span className="font-medium text-gray-800" >({product.avgRating})</span>
+                            <span className="font-medium text-gray-800">({product.avgRating})</span>
                         </div>
                         <span className="h-4">
                                         Basado en {product.reviewsCount} reseñas
-                                        </span>
+                        </span>
                     </div>
                 </div>
                 <div className="w-6/12 justify-end flex">
@@ -69,11 +67,11 @@ export default function ProductReviews({product = {}}) {
                     <NewReview open={openNewReview} product={product}/>
                 </div>
             }
-            <div className="w-full flex space-x-4 mt-6">
+            <div className="w-full divide-y divide-gray-400">
                 {
                     !loading &&
                     allReviews.map((review, i) => (
-                        <div key={i} className="w-6/12 flex flex-wrap">
+                        <div key={i} className="w-full flex flex-wrap py-6">
                             <div className="w-full">
                                 <ReactStars
                                     className="flex w-full space-x-2"
@@ -91,10 +89,8 @@ export default function ProductReviews({product = {}}) {
                             <div className="w-full mt-3">
                                 <div className="w-full flex space-x-4 items-center">
                                     <div className="w-8/12">
-                                        <p className="uppercase truncate font-bold">{review.title}</p>
-                                    </div>
-                                    <div className="w-4/12 text-right">
-                                        <span className="text-sm text-gray-500">
+                                        <p className="uppercase truncate font-bold mb-1">{review.title}</p>
+                                        <span className="text-xs text-gray-500">
                                         {new Date(review.createdAt).toLocaleDateString()}
                                         </span>
                                     </div>

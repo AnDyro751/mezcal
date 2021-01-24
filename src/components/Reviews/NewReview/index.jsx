@@ -12,6 +12,7 @@ export default function NewReview({open = false, product}) {
         review: "",
         rating: 0,
     });
+
     const [addReview, {data, loading, error}] = useMutation(NEW_REVIEW_MUTATION, {
         onCompleted: () => {
             alert("Tu reseña se ha registrado");
