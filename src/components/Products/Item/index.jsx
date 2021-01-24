@@ -19,8 +19,8 @@ export default function ProductsItem({product = {}}) {
             <Link href={`/products/${product.slug}`}>
                 <a className="rounded shadow">
                     <img
-                        className="lazy h-64 md:h-80 w-full"
-                        data-src={`${GetImageUrl({
+                        className="lazy h-64 md:h-80 w-full bg-white"
+                        src={`${GetImageUrl({
                             publicId: generateUrlPath({
                                 filename: image.filename,
                                 id: image.id
@@ -55,7 +55,7 @@ export default function ProductsItem({product = {}}) {
                             fit: "cover"
                         })} 1512w`}
                         data-sizes="100w"
-                        alt=""/>
+                        alt={`Imagen del producto: ${product.name}, ${product.slug}`}/>
                     {/*<LazyLoadImage*/}
                     {/*    placeholderSrc={`${GetImageUrl({*/}
                     {/*        publicId: generateUrlPath({*/}
@@ -93,7 +93,7 @@ export default function ProductsItem({product = {}}) {
                 {
                     product.masterVariant &&
                     product.masterVariant.defaultPrice &&
-                    <h4 className="text-sm lg:text-xs text-center mt-3 text-gray-500 uppercase">
+                    <h4 className="text-sm lg:text-xs text-center mt-3 text-gray-700 uppercase">
                         <Link href={`/products/${product.slug}`}>
                             <a>{product.masterVariant.defaultPrice.displayAmount} {product.masterVariant.defaultPrice.currency.isoCode}</a>
                         </Link>

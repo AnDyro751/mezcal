@@ -8,6 +8,8 @@ export default function ProductShareButtons({}) {
             <div className="w-4 h-4">
                 <a
                     target="_blank"
+                    rel="noreferrer"
+                    title={"Share on facebook"}
                     href={`https://www.facebook.com/sharer.php?u=${CURRENT_DOMAIN}${router.asPath}`}>
                     <svg
                         className="text-current fill-current"
@@ -19,7 +21,9 @@ export default function ProductShareButtons({}) {
             </div>
             <div className="w-4 h-4">
                 <a
+                    title={"Share on twitter"}
                     target="_blank"
+                    rel="noreferrer"
                     href={`https://twitter.com/share?url=${CURRENT_DOMAIN}${router.asPath}`}>
                     <svg
                         className="text-current fill-current"

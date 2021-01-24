@@ -13,7 +13,7 @@ export default function BannerThree({items = []}) {
                             <LazyLoadImage
                                 placeholderSrc={item.placeholderSrc}
                                 wrapperClassName="w-16 h-16 hover:shadow-lg rounded-full transition duration-150"
-                                alt={item.img}
+                                alt={item.img || "Banner image"}
                                 src={item.src}
                             />
                         </div>
@@ -22,7 +22,7 @@ export default function BannerThree({items = []}) {
                                 <p className="font-medium text-2xl text-gray-900">{item.title}</p>
                             </div>
                             <div className="w-full">
-                                <p className="text-gray-500 font-normal">{item.description}</p>
+                                <p className="text-gray-600 font-normal">{item.description}</p>
                             </div>
                         </div>
                     </div>

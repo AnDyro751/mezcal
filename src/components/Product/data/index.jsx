@@ -194,7 +194,7 @@ export default function ProductData({product, variant = null}) {
             }
             {
                 currentVariant.sku &&
-                <h2 className="text-gray-500 text-sm mt-2 mb-6">SKU: {currentVariant.sku}</h2>
+                <h2 className="text-gray-700 text-sm mt-2 mb-6">SKU: {currentVariant.sku}</h2>
             }
             {
                 depthVariants.length > 0 &&
@@ -251,9 +251,9 @@ export default function ProductData({product, variant = null}) {
             />
             {product.description &&
             <>
-                <h4 className="font-light text-sm mt-6 text-gray-700 mb-4 whitespace-pre">
+                <p className="font-light text-sm mt-6 text-gray-700 mb-4 whitespace-pre">
                     {product.description}
-                </h4>
+                </p>
             </>
             }
             <ProductProperties product={product}/>
