@@ -6,7 +6,7 @@ export default function ComponentsListProducts({products}) {
 
             {
                 products.map((product, i) => (
-                    <div className="w-3/12"
+                    <div className="w-6/12 md:w-6/12 lg:w-3/12"
                          key={i}
                     >
                         <ProductsItem

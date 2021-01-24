@@ -64,7 +64,11 @@ export default function ProductReviews({product = {}}) {
             {
                 openNewReview &&
                 <div className="w-full mt-4">
-                    <NewReview open={openNewReview} product={product}/>
+                    <NewReview
+                        handleClose={(e) => {
+                            setOpenNewReview(e)
+                        }}
+                        open={openNewReview} product={product}/>
                 </div>
             }
             <div className="w-full divide-y divide-gray-400">

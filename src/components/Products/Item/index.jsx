@@ -2,43 +2,88 @@ import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import Link from 'next/link'
 import AddProductToCart from "../../Buttons/AddProductToCart";
+import {useEffect} from "react";
+import updateLazyLoad from "../../../lib/updateLazyLoad";
 
 export default function ProductsItem({product = {}}) {
-    const {masterVariant} = product
+    const {masterVariant} = product;
     const image = masterVariant.images.nodes[0];
+
+    useEffect(() => {
+        updateLazyLoad();
+    }, []);
+
     return (
         <div className="w-full">
             {image &&
             <Link href={`/products/${product.slug}`}>
-                <a className="rounded shadow" >
-                    <LazyLoadImage
-                        placeholderSrc={`${GetImageUrl({
-                            publicId: generateUrlPath({
-                                filename: image.filename,
-                                id: image.id
-                            }),
-                            height: 20,
-                            width: 10,
-                            fit: "cover"
-                        })}`}
-                        wrapperClassName="cursor-pointer w-full rounded"
-                        className={"h-80 w-full"}
-                        alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}
-                        src={`${GetImageUrl({
+                <a className="rounded shadow">
+                    <img
+                        className="lazy h-64 md:h-80 w-full"
+                        data-src={`${GetImageUrl({
                             publicId: generateUrlPath({
                                 filename: image.filename,
                                 id: image.id
                             }),
                             height: 400,
-                            width: 200,
+                            width: 300,
                             fit: "cover"
                         })}`}
-                    />
+                        data-srcset={`${GetImageUrl({
+                            publicId: generateUrlPath({
+                                filename: image.filename,
+                                id: image.id
+                            }),
+                            height: 400,
+                            width: 300,
+                            fit: "cover"
+                        })} 400w, ${GetImageUrl({
+                            publicId: generateUrlPath({
+                                filename: image.filename,
+                                id: image.id
+                            }),
+                            height: 600,
+                            width: 500,
+                            fit: "cover"
+                        })} 800w, ${GetImageUrl({
+                            publicId: generateUrlPath({
+                                filename: image.filename,
+                                id: image.id
+                            }),
+                            height: 1000,
+                            width: 900,
+                            fit: "cover"
+                        })} 1512w`}
+                        data-sizes="100w"
+                        alt=""/>
+                    {/*<LazyLoadImage*/}
+                    {/*    placeholderSrc={`${GetImageUrl({*/}
+                    {/*        publicId: generateUrlPath({*/}
+                    {/*            filename: image.filename,*/}
+                    {/*            id: image.id*/}
+                    {/*        }),*/}
+                    {/*        height: 20,*/}
+                    {/*        width: 10,*/}
+                    {/*        fit: "cover"*/}
+                    {/*    })}`}*/}
+                    {/*    wrapperClassName="cursor-pointer w-full rounded"*/}
+                    {/*    className="h-64 md:h-80 w-full"*/}
+                    {/*    alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}*/}
+                    {/*    src={`${GetImageUrl({*/}
+                    {/*        publicId: generateUrlPath({*/}
+                    {/*            filename: image.filename,*/}
+                    {/*            id: image.id*/}
+                    {/*        }),*/}
+                    {/*        height: 400,*/}
+                    {/*        width: 200,*/}
+                    {/*        fit: "cover"*/}
+                    {/*    })}`}*/}
+                    {/*/>*/}
                 </a>
             </Link>
             }
-            <div className="w-full mt-2">
-                <h3 className="text-center uppercase font-normal text-gray-800">
+            <div className="w-full mt-4">
+                <h3 className="text-center uppercase font-medium md:font-normal text-gray-800">
                     <Link href={`/products/${product.slug}`}>
                         <a>
                             {product.name}
@@ -48,7 +93,7 @@ export default function ProductsItem({product = {}}) {
                 {
                     product.masterVariant &&
                     product.masterVariant.defaultPrice &&
-                    <h4 className="text-sm text-center mt-3 text-gray-500 uppercase">
+                    <h4 className="text-sm lg:text-xs text-center mt-3 text-gray-500 uppercase">
                         <Link href={`/products/${product.slug}`}>
                             <a>{product.masterVariant.defaultPrice.displayAmount} {product.masterVariant.defaultPrice.currency.isoCode}</a>
                         </Link>

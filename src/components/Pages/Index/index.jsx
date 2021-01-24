@@ -5,7 +5,7 @@ import BannerThree from "../../BannerThree";
 export default function ComponentsPagesIndex({taxonomies, products}) {
     return (
         <div className="w-full bg-gray-100">
-            <div className="w-10/12 mx-auto pt-10 space-y-10">
+            <div className="w-11/12 mx-auto pt-8 md:pt-10 space-y-10">
                 {/*<div className="w-3/12">*/}
                 {/*    <ComponentsListTaxons taxonomies={taxonomies}/>*/}
                 {/*</div>*/}

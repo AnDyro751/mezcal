@@ -3,8 +3,10 @@ import InputBase from "../../Inputs/base";
 import {useMutation} from "@apollo/client";
 import NEW_REVIEW_MUTATION from "../../../graphql/mutations/cart/newReview";
 import ReactStars from "react-rating-stars-component";
+import {useToasts} from "react-toast-notifications";
+import ButtonsPrimary from "../../Buttons/primary";
 
-export default function NewReview({open = false, product}) {
+export default function NewReview({open = false, product, handleClose}) {
     const [isOpen, setIsOpen] = useState(open);
     const [fields, setFields] = useState({
         name: "",
@@ -12,10 +14,22 @@ export default function NewReview({open = false, product}) {
         review: "",
         rating: 0,
     });
+    const {addToast} = useToasts();
+
 
     const [addReview, {data, loading, error}] = useMutation(NEW_REVIEW_MUTATION, {
-        onCompleted: () => {
-            alert("Tu reseña se ha registrado");
+        onCompleted: (newData) => {
+            if (newData.addReviewToProduct) {
+                addToast("Se ha publicado la reseña", {
+                    appearance: 'success'
+                });
+                setFields({name: "", title: "", review: "", rating: 0});
+                handleClose(false);
+            } else {
+                addToast("Ha ocurrido un error al registrar la reseña", {
+                    appearance: 'error'
+                });
+            }
         },
         variables: {
             productId: product.id,
@@ -57,7 +71,7 @@ export default function NewReview({open = false, product}) {
         <form
             onSubmit={handleSubmit}
             className="w-full px-4 py-6 bg-gray-100 shadow-lg">
-            <h3 className="mb-4 text-gray-700 font-medium uppercase">Escribir una reseña</h3>
+            <h3 className="mb-4 text-gray-700 font-medium uppercase">Escribe una reseña</h3>
             <div className="w-full space-y-6">
                 <InputBase
                     onChange={handleChange}
@@ -95,14 +109,12 @@ export default function NewReview({open = false, product}) {
             </div>
             <div className="w-full mt-4 flex space-x-4 items-center">
                 <div className="w-auto">
-                    <input
-                        className="text-white bg-black px-8 py-3 rounded focus:outline-none cursor-pointer"
-                        type="submit"
-                        value="Enviar"
-                    />
+                    <ButtonsPrimary disabled={loading} loading={loading} text={"Publicar reseña"}/>
                 </div>
                 <div className="w-auto">
-                    <span>
+                    <span onClick={() => {
+                        handleClose(false)
+                    }}>
                         Cancelar
                     </span>
                 </div>
