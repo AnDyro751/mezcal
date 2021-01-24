@@ -13,6 +13,7 @@ export default function LayoutApplication({children, seo = {}, currentOrder = {}
                 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500&display=swap"
                       rel="stylesheet"/>
                 {/*TODO: Agregar el SEO y prefetch*/}
+                <meta name="theme-color" content="#222222"/>
             </Head>
             <HeadersPublic publicOrder={currentOrder}/>
 

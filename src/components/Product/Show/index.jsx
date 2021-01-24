@@ -44,8 +44,8 @@ function ComponentsProductShow() {
     }
     return (
         <>
-            <div className="w-11/12 mx-auto justify-between flex space-x-12 mt-10 items-start">
-                <div className="w-6/12">
+            <div className="w-11/12 mx-auto justify-between flex space-x-0 md:space-x-12 pt-8 md:pt-10 items-start flex-wrap lg:flex-nowrap space-y-8 md:space-y-0">
+                <div className="w-full lg:w-6/12">
                     {
                         loading ?
                             <ProductLoadingGallery/>
@@ -53,7 +53,7 @@ function ComponentsProductShow() {
                             <ProductGallery product={mainData.productBySlug}/>
                     }
                 </div>
-                <div className="w-6/12 p-6 bg-gray-100">
+                <div className="w-full lg:w-6/12 p-6 bg-gray-100">
                     {loading ?
                         <ProductLoadingData/>
                         :
