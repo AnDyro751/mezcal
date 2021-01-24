@@ -2,7 +2,7 @@ import ProductsItem from "../Products/Item";
 
 export default function ComponentsListProducts({products}) {
     return (
-        <div className="w-full flex space-x-4">
+        <div className="w-full flex space-x-3 lg:space-x-4">
 
             {
                 products.map((product, i) => (

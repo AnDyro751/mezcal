@@ -12,10 +12,10 @@ export default function HeadersPublic() {
             <div className="w-11/12 flex items-center">
                 <header className="w-full">
                     <div className="grid grid-cols-8 items-center">
-                        <div className="col-span-3">
+                        <div className="md:col-span-3 hidden md:block">
                             <HeaderItems/>
                         </div>
-                        <div className="col-span-2 flex justify-center">
+                        <div className="col-span-5 md:col-span-2 flex md:justify-center">
                             <Link href={"/"}>
                                 <a className="text-4xl font-medium main-title">{SITE_TITLE}</a>
                             </Link>
