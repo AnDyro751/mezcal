@@ -86,7 +86,7 @@ export default function ProductGallery({product}) {
                         // updateLazyLoad();
                     }}
                     alt={`${product.masterVariant.images.nodes[currentImage].alt || `Imagen de producto: ${product.masterVariant.images.nodes[currentImage].filename} - ${product.name}`}`}
-                    className="lazy cursor-pointer w-full"
+                    className="lazy cursor-pointer w-full border-2 border-black md:border-0"
                     src={`${GetImageUrl({
                         publicId: generateUrlPath({
                             filename: product.masterVariant.images.nodes[currentImage].filename,
@@ -138,10 +138,10 @@ export default function ProductGallery({product}) {
             <div className="flex space-x-4 mt-4">
                 {product.masterVariant.images.nodes.map((image, i) => (
                     <div key={i}
-                         className="w-36">
+                         className="md:w-36 w-20">
                         <img
                             alt={`${image.alt || `Imagen de producto: ${image.filename} - ${product.name}`}`}
-                            className="lazy cursor-pointer w-full"
+                            className="lazy cursor-pointer w-full md:border-0 border-2 border-black"
                             data-src={`${GetImageUrl({
                                 publicId: generateUrlPath({
                                     filename: image.filename,
