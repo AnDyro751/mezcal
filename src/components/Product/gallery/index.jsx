@@ -63,12 +63,15 @@ export default function ProductGallery({product}) {
                         fit: "cover"
                     })}`}
                     onCloseRequest={() => {
+                        destroyLazyLoad(document.querySelector("#current_image"))
                         setOpenImages(false);
                     }}
                     onMovePrevRequest={() => {
+                        destroyLazyLoad(document.querySelector("#current_image"))
                         setCurrentImage((currentImage + product.masterVariant.images.nodes.length - 1) % product.masterVariant.images.nodes.length)
                     }}
                     onMoveNextRequest={() => {
+                        destroyLazyLoad(document.querySelector("#current_image"))
                         setCurrentImage((currentImage + 1) % product.masterVariant.images.nodes.length)
                     }}
                 />
