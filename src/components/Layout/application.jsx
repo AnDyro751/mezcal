@@ -1,6 +1,7 @@
 import HeadersPublic from "../Headers/Public";
 import Head from "next/head";
 import {SITE_DESCRIPTION, SITE_TITLE} from "../../site/info";
+import Footer from "../Footer";
 
 export default function LayoutApplication({children, seo = {}, currentOrder = {}}) {
 
@@ -21,6 +22,8 @@ export default function LayoutApplication({children, seo = {}, currentOrder = {}
             <main className="relative">
                 {children}
             </main>
+
+            <Footer/>
         </>
     )
 }
