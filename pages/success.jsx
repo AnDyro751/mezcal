@@ -14,10 +14,14 @@ function PagesSuccess() {
     const [completeCheckout, {data, loading, error}] = useMutation(COMPLETE_ORDER_MUTATION, {
         onCompleted: (newData) => {
             console.log("NEWDATA", newData);
-            if (newData.completeOrder.state === "complete") {
-                dispatch({type: "DELETE_ORDER"});
-                console.log("REMOVE")
-                removeCookie("authorization_guest_token");
+            if (newData.completeOrder) {
+                if (newData.completeOrder.state === "complete") {
+                    dispatch({type: "DELETE_ORDER"});
+                    console.log("REMOVE")
+                    removeCookie("authorization_guest_token");
+                }
+            }else{
+                console.log("NO HAY")
             }
         },
         onError: (newError) => {

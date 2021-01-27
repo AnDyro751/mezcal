@@ -2,7 +2,7 @@ import {LazyLoadImage} from "react-lazy-load-image-component";
 
 export default function BannerThree({items = []}) {
     return (
-        <div className="w-full flex md:space-x-4 space-y-10 md:space-y-0 py-6 flex-wrap lg:flex-nowrap">
+        <div className="w-full flex lg:space-x-4 space-y-10 lg:space-y-0 py-6 flex-wrap lg:flex-nowrap">
             {
                 items.map((item, i) => (
                     <div

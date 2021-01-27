@@ -44,7 +44,7 @@ function ComponentsProductShow() {
     }
     return (
         <>
-            <div className="w-11/12 mx-auto justify-between flex space-x-0 md:space-x-12 pt-6 md:pt-10 items-start flex-wrap lg:flex-nowrap space-y-8 md:space-y-0">
+            <div className="w-11/12 mx-auto justify-between flex space-x-0 lg:space-x-12 pt-6 md:pt-10 items-start flex-wrap lg:flex-nowrap space-y-8 lg:space-y-0">
                 <div className="w-full lg:w-6/12">
                     {
                         loading ?

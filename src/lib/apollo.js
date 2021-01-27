@@ -20,7 +20,7 @@ function parseCookies(ctx, options = {}) {
 }
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:3001/graphql',
+    uri: 'http://192.168.8.88:3001/graphql',
 
 });
 
