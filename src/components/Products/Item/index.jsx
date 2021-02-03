@@ -1,5 +1,4 @@
 import GetImageUrl, {generateUrlPath} from "../../../lib/getImageUrl";
-import {LazyLoadImage} from "react-lazy-load-image-component";
 import Link from 'next/link'
 import AddProductToCart from "../../Buttons/AddProductToCart";
 import {useEffect} from "react";
@@ -11,7 +10,7 @@ export default function ProductsItem({product = {}}) {
 
     useEffect(() => {
         updateLazyLoad();
-    }, []);
+    });
 
     return (
         <div className="w-full">
@@ -19,23 +18,14 @@ export default function ProductsItem({product = {}}) {
             <Link href={`/products/${product.slug}`}>
                 <a className="rounded shadow">
                     <img
-                        className="lazy h-64 md:h-80 w-full bg-white"
-                        src={`${GetImageUrl({
+                        className="lazy h-48 md:h-72 rounded lg:h-72 2xl:h-80 w-full bg-white"
+                        srcSet={`${GetImageUrl({
                             publicId: generateUrlPath({
                                 filename: image.filename,
                                 id: image.id
                             }),
                             height: 400,
-                            width: 300,
-                            fit: "cover"
-                        })}`}
-                        data-srcset={`${GetImageUrl({
-                            publicId: generateUrlPath({
-                                filename: image.filename,
-                                id: image.id
-                            }),
-                            height: 400,
-                            width: 300,
+                            width: 400,
                             fit: "cover"
                         })} 400w, ${GetImageUrl({
                             publicId: generateUrlPath({
@@ -43,17 +33,47 @@ export default function ProductsItem({product = {}}) {
                                 id: image.id
                             }),
                             height: 600,
-                            width: 500,
+                            width: 600,
                             fit: "cover"
-                        })} 800w, ${GetImageUrl({
+                        })} 720w, ${GetImageUrl({
                             publicId: generateUrlPath({
                                 filename: image.filename,
                                 id: image.id
                             }),
-                            height: 1000,
-                            width: 900,
+                            height: 600,
+                            width: 600,
                             fit: "cover"
-                        })} 1512w`}
+                        })} 900w,
+                        
+                               ${GetImageUrl({
+                            publicId: generateUrlPath({
+                                filename: image.filename,
+                                id: image.id
+                            }),
+                            height: 800,
+                            width: 800,
+                            fit: "cover",
+                        })} 1280w,
+                               ${GetImageUrl({
+                            publicId: generateUrlPath({
+                                filename: image.filename,
+                                id: image.id
+                            }),
+                            height: 800,
+                            width: 800,
+                            fit: "cover",
+                        })} 1512w
+                               `}
+
+                        src={`${GetImageUrl({
+                            publicId: generateUrlPath({
+                                filename: image.filename,
+                                id: image.id
+                            }),
+                            height: 40,
+                            width: 30,
+                            fit: "cover"
+                        })}`}
                         data-sizes="100w"
                         alt={`Imagen del producto: ${product.name}, ${product.slug}`}/>
                     {/*<LazyLoadImage*/}
@@ -93,7 +113,7 @@ export default function ProductsItem({product = {}}) {
                 {
                     product.masterVariant &&
                     product.masterVariant.defaultPrice &&
-                    <h4 className="text-sm lg:text-xs text-center mt-3 text-gray-700 uppercase">
+                    <h4 className="text-sm lg:text-sm text-center mt-3 text-gray-700 uppercase">
                         <Link href={`/products/${product.slug}`}>
                             <a>{product.masterVariant.defaultPrice.displayAmount} {product.masterVariant.defaultPrice.currency.isoCode}</a>
                         </Link>

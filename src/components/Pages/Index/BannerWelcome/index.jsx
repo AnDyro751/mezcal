@@ -1,6 +1,9 @@
 import GetImageUrl, {generateUrlPath} from "../../../../lib/getImageUrl";
 import Cards from "./Cards";
 
+
+//SRCSET
+// 200, 397, 533,633,728,816,898,974,1053,1117,1187,1200
 export default function BannerWelcome({}) {
     return (
         <div className="w-full">
@@ -27,38 +30,15 @@ export default function BannerWelcome({}) {
                     </div>
                 </div>
             </div>
-            <div className="w-full -mt-10 md:-mt-16 z-40 relative mx-auto mb-12">
+            <div className="w-full -mt-10 md:-mt-16 z-40 relative mx-auto">
                 <div
                     className="w-11/12 mx-auto flex lg:space-x-12 space-y-8 lg:space-y-0 flex flex-wrap lg:flex-nowrap">
                     <div className="w-full lg:w-4/12">
                         <Cards
-                            srcset={`${GetImageUrl({
-                                publicId: "mezcal/DgKg58jWsAAoYoO.jpg",
-                                height: 400,
-                                width: 300,
-                                fit: "cover"
-                            })} 400w, ${GetImageUrl({
-                                publicId: "mezcal/DgKg58jWsAAoYoO.jpg",
-                                height: 800,
-                                width: 700,
-                                fit: "cover"
-                            })} 720w, ${GetImageUrl({
-                                publicId: "mezcal/DgKg58jWsAAoYoO.jpg",
-                                height: 800,
-                                width: 700,
-                                fit: "cover"
-                            })} 900w,
-                               ${GetImageUrl({
-                                publicId: "mezcal/DgKg58jWsAAoYoO.jpg",
-                                height: 1000,
-                                width: 700,
-                                fit: "cover",
-                            })} 1512w
-                               `}
                             imgUrl={GetImageUrl({
-                                publicId: "mezcal/DgKg58jWsAAoYoO.jpg",
-                                height: 600,
-                                width: 400,
+                                publicId: "mezcal/j12bjasyb1j2huas_12jhas.jpg",
+                                height: 400,
+                                width: 600,
                                 fit: "cover"
                             })}
                         />
@@ -66,66 +46,20 @@ export default function BannerWelcome({}) {
                     <div className="w-full lg:w-4/12">
                         {/*//cdn.shopify.com/s/files/1/0261/1973/3329/products/tobala03-w2_360x.jpg?v=1592351243 360w, //cdn.shopify.com/s/files/1/0261/1973/3329/products/tobala03-w2_540x.jpg?v=1592351243 540w, //cdn.shopify.com/s/files/1/0261/1973/3329/products/tobala03-w2_720x.jpg?v=1592351243 720w, //cdn.shopify.com/s/files/1/0261/1973/3329/products/tobala03-w2_900x.jpg?v=1592351243 900w*/}
                         <Cards big={true}
-                               srcset={`${GetImageUrl({
-                                   publicId: "mezcal/BM-2-Llega-a-Nueva-York-mezcal-hecho-por-mujeres-de-Oaxaca.jpg",
-                                   height: 400,
-                                   width: 300,
-                                   fit: "cover"
-                               })} 400w, ${GetImageUrl({
-                                   publicId: "mezcal/BM-2-Llega-a-Nueva-York-mezcal-hecho-por-mujeres-de-Oaxaca.jpg",
-                                   height: 800,
-                                   width: 700,
-                                   fit: "cover"
-                               })} 720w, ${GetImageUrl({
-                                   publicId: "mezcal/BM-2-Llega-a-Nueva-York-mezcal-hecho-por-mujeres-de-Oaxaca.jpg",
-                                   height: 800,
-                                   width: 700,
-                                   fit: "cover"
-                               })} 900w,
-                               ${GetImageUrl({
-                                   publicId: "mezcal/BM-2-Llega-a-Nueva-York-mezcal-hecho-por-mujeres-de-Oaxaca.jpg",
-                                   height: 1000,
-                                   width: 700,
-                                   fit: "cover",
-                               })} 1512w
-                               `}
                                imgUrl={GetImageUrl({
                                    publicId: "mezcal/BM-2-Llega-a-Nueva-York-mezcal-hecho-por-mujeres-de-Oaxaca.jpg",
-                                   height: 600,
-                                   width: 400,
+                                   height: 400,
+                                   width: 600,
                                    fit: "cover",
                                })}
                         />
                     </div>
                     <div className="w-full lg:w-4/12">
                         <Cards
-                            srcset={`${GetImageUrl({
-                                publicId: "mezcal/mezcal.jpg",
-                                height: 400,
-                                width: 300,
-                                fit: "cover"
-                            })} 400w, ${GetImageUrl({
-                                publicId: "mezcal/mezcal.jpg",
-                                height: 800,
-                                width: 700,
-                                fit: "cover"
-                            })} 720w, ${GetImageUrl({
-                                publicId: "mezcal/mezcal.jpg",
-                                height: 800,
-                                width: 700,
-                                fit: "cover"
-                            })} 900w,
-                               ${GetImageUrl({
-                                publicId: "mezcal/mezcal.jpg",
-                                height: 1000,
-                                width: 700,
-                                fit: "cover",
-                            })} 1512w
-                               `}
                             imgUrl={GetImageUrl({
                                 publicId: "mezcal/mezcal.jpg",
-                                height: 600,
-                                width: 400,
+                                height: 400,
+                                width: 600,
                                 fit: "cover",
                             })}
                         />
