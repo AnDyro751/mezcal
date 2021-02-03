@@ -1,4 +1,4 @@
-import {LazyLoadImage} from "react-lazy-load-image-component";
+// import {LazyLoadImage} from "react-lazy-load-image-component";
 
 export default function BannerThree({items = []}) {
     return (
@@ -9,13 +9,11 @@ export default function BannerThree({items = []}) {
                         key={i}
                         className="w-full lg:w-1/3 flex space-x-6 items-center"
                     >
-                        <div className="w-16 h-16 bg-white shadow-lg rounded-full">
-                            <LazyLoadImage
-                                placeholderSrc={item.placeholderSrc}
-                                wrapperClassName="w-16 h-16 hover:shadow-lg rounded-full transition duration-150"
-                                alt={item.img || "Banner image"}
-                                src={item.src}
-                            />
+                        <div className="w-16 h-16 select-none">
+                            <img
+                                draggable={false}
+                                src={item.src} alt={item.alt}
+                                 className="w-16 h-16 max-h-16 max-w-16 items-center flex justify-center rounded"/>
                         </div>
                         <div className="w-full space-y-2">
                             <div className="w-full">

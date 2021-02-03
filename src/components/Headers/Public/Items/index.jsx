@@ -12,7 +12,7 @@ export default function HeaderItems() {
                 header.items.map((item, i) => (
                     <Link href={item.href} key={i}>
                         <a title={item.title}
-                           className={`uppercase pb-1 text-center hover:border-b text-xs font-medium hover:${SITE_COLORS.text} ${router.asPath === item.href ? `${SITE_COLORS.text} border-b` : `${SITE_COLORS.text_light}`} ${SITE_COLORS.border}`}>{item.title}</a>
+                           className={`uppercase pb-1 text-center hover:border-b text-xs font-medium hover:text-white ${router.asPath === item.href ? `text-white border-b` : `text-gray-200`} border-white`}>{item.title}</a>
                     </Link>
                 ))
             }

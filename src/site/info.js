@@ -19,10 +19,10 @@ export const SITE_FOOTER_MENU = [
 ];
 
 export const SITE_COLORS = {
-    bg: "bg-black",
+    bg: "bg-white",
     "bg_light": "",
-    text: "text-white",
-    "text_light": "text-gray-300",
-    border: "border-white",
+    text: "text-black",
+    "text_light": "text-gray-800",
+    border: "border-black",
     border_light: "border-gray-300"
 }

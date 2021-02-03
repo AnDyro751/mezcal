@@ -11,8 +11,11 @@ module.exports = {
             boxShadow: {
                 "input": "0 0 0 1px #e0e0e0, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05)",
                 "input-error": "0 0 0 1px #ef9896, 0 2px 4px 0 rgba(0,0,0,.07), 0 1px 1.5px 0 rgba(0,0,0,.05)"
+            },
+            height: {
+                xxl: "36em"
             }
-        }
+        },
     },
     variants: {},
     depthVariants: {

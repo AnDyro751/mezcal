@@ -14,6 +14,8 @@ import Router from "next/router";
 import {useToasts} from "react-toast-notifications";
 import Link from 'next/link'
 import moreState from "../../../lib/moreState";
+import emptyObject from "../../../lib/emptyObject";
+import EmptyObjects from "../../EmptyObjects";
 
 function CartShow() {
     const {state, dispatch} = useContext(OrderContext);
@@ -55,12 +57,37 @@ function CartShow() {
             <h2>ERROR</h2>
         )
     }
+
+    if (data) {
+        if (!data.currentOrder) {
+            return (
+                <div className="min-h-screen items-center flex"><EmptyObjects message={"Tu carrito está vacío"} withButton={"/products"}
+                                                             withButtonText={"Ver productos"}/></div>)
+        }
+        if (data) {
+            if (data.currentOrder) {
+                if (data.currentOrder.lineItems.nodes.length <= 0) {
+                    return (
+                        <div className="min-h-screen items-center flex"><EmptyObjects message={"Tu carrito está vacío"}
+                                                                     withButton={"/products"}
+                                                                     withButtonText={"Ver productos"}/></div>)
+                }
+            }
+        }
+    }
+
     return (
         <div className="w-full">
-            <CartListLineItems currentOrder={data.currentOrder}/>
-            <CartTotalInfo currentOrder={data.currentOrder}/>
-            <CartCouponsInfo currentOrder={data.currentOrder}/>
             {
+                !emptyObject(state.order) &&
+                <>
+                    <CartListLineItems currentOrder={data.currentOrder}/>
+                    <CartTotalInfo currentOrder={data.currentOrder}/>
+                    <CartCouponsInfo currentOrder={data.currentOrder}/>
+                </>
+            }
+            {
+                !emptyObject(state.order) &&
                 moreState(state.order.state, "cart") ?
                     <ButtonsPrimary
                         onClick={handleClick}

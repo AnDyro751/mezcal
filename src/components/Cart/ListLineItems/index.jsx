@@ -1,13 +1,16 @@
 import {useState, useEffect} from 'react';
 import EmptyObjects from "../../EmptyObjects";
 import CartLineItem from "../LineItem";
+import emptyObject from "../../../lib/emptyObject";
 
 
 const CartListLineItems = ({currentOrder = {}}) => {
-    const [lineItems, setLineItems] = useState(currentOrder.lineItems.nodes || []);
+    const [lineItems, setLineItems] = useState(emptyObject(currentOrder) ? [] : currentOrder.lineItems.nodes || []);
     console.log(currentOrder, "CUR")
     useEffect(() => {
-        setLineItems(currentOrder.lineItems.nodes || [])
+        if (!emptyObject(currentOrder)) {
+            setLineItems(currentOrder.lineItems.nodes || [])
+        }
     }, [currentOrder])
     if (lineItems.length <= 0) {
         return (
