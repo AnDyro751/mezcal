@@ -20,7 +20,7 @@ export default function LayoutApplication({children, seo = {}, currentOrder = {}
             </Head>
             <HeadersPublic publicOrder={currentOrder} transparent={transparentHeader}/>
 
-            <main className="relative">
+            <main className={`${transparentHeader ? "" : "mt-32 lg:mt-44"}`}>
                 {children}
             </main>
 

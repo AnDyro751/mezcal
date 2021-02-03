@@ -33,7 +33,7 @@ export default function HeadersPublic({transparent = true}) {
     return (
         <>
             <div
-                className={`w-full flex flex-wrap fixed top-0 left-0 right-0 justify-center z-50 ${activeHeader ? "bg-black" : "bg-black bg-opacity-20"}`}>
+                className={`w-full flex flex-wrap fixed top-0 left-0 right-0 justify-center z-50 ${transparent ? activeHeader ? "bg-black" : "bg-black bg-opacity-20" : "bg-black"}`}>
                 <MainPromotion/>
                 <div className="w-11/12 flex items-center py-5">
                     <div className="grid grid-cols-12 md:col-span-8 items-center w-full">

@@ -4,7 +4,7 @@ import withApollo from '../../src/lib/apollo'
 
 function ProductsShow() {
     return (
-        <LayoutApplication>
+        <LayoutApplication transparentHeader={false}>
             <ComponentsProductShow/>
         </LayoutApplication>
     )
